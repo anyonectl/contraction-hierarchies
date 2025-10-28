@@ -27,7 +27,7 @@ public class Dijkstra {
         pq.add(new PQElem(0, from)); // add the id of the source vertex (v = 'from') to the PQ with distance 0 (key = 0)
         dists.put(from, 0); // distance to source is 0
         
-        while (!pq.isEmpty() && pq.peek().v != to) { // while the PQ still has elements and the next PQElem isn't the target vertex 'to'
+        while (!pq.isEmpty() && pq.peek().v != to) { // while the PQ still has element(s) and the next PQElem isn't the target vertex 'to'
             PQElem elem = pq.poll(); // get the next element of the MinPQ (the PQElem with the smallest key/distance to the source)
             long u = elem.v; // u is the id of the current vertex being processed
             if (visited.contains(u)) { // if we have already visited this vertex, skip it
