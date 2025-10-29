@@ -75,13 +75,12 @@ public class Dijkstra {
         g.addUndirectedEdge(3, 4, 2);
 
         Result<Integer> test = shortestPath(g, 1, 4);
-        System.out.println(String.format("Shortest path 1→2→3→4 should have total cost 7. Returned: %d", test.result));
-        System.out.println(String.format("Shortest path 1→2→3→4 should have total cost 7 relax 0d: %d", test.result));
-        System.out.println(String.format("Shortest path 1→2→3→4 should relax 3. Returned: %d", test.relaxed));
+        System.out.println(String.format("Shortest path 1→2→3→4 should have total cost 7: %d", test.result));
+        System.out.println(String.format("Shortest path 1→2→3→4 should relax 6. Returned: %d", test.relaxed));
 
         Result<Integer> gResult2 = shortestPath(g, 1, 2);
         System.out.println(String.format("Direct edge 1→2 should cost 4. Returned: %d", gResult2.result));
-        System.out.println(String.format("Direct edge 1→2 should relax 1 or 2???. Returned: %d", gResult2.relaxed));
+        System.out.println(String.format("Direct edge 1→2 should relax 2. Returned: %d", gResult2.relaxed));
 
         Graph disconnected = new Graph();
         disconnected.addVertex(1, new Graph.Vertex(0, 0));
