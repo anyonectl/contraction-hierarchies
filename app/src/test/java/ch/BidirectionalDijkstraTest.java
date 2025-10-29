@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class BidirectionalDijkstraTest {
     private Graph g;
+    
     @Before
     public void setUp() {
         g = new Graph();
@@ -49,11 +50,12 @@ public class BidirectionalDijkstraTest {
         disconnected.addUndirectedEdge(1, 2, 4);
         // no edges between 1 and 3
         Result<Integer> dist = BidirectionalDijkstra.shortestPath(disconnected, 1, 3);
-        assertEquals("Unreachable vertex should return -1",-1, (long) dist.result );
+        assertEquals("Unreachable vertex should return -1",-1, (long) dist.result);
     }
+    
     @Test
     public void testShortestPath_sameNode() {
         Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 1);
         assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
-}
+    }
 }

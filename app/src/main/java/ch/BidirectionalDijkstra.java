@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class BidirectionalDijkstra {
+public class BidirectionalDijkstra extends Dijkstra{
 
     public static Result<Integer> shortestPath(Graph g, long start, long target) {
         long begin = System.nanoTime();
