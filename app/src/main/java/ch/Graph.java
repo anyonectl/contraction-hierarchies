@@ -24,7 +24,7 @@ public class Graph {
     public class Edge {
         long to; // id of destination vertex
         int weight;
-        long contracted; // only used by contraction hierachy, marks the vertex from which this edge resulted.
+        long contracted; // only used by contraction hierarchy, marks the vertex from which this edge resulted.
 
         public Edge(long to, int weight, long contracted) {
             this.to = to;
@@ -33,7 +33,7 @@ public class Graph {
         }
     }
 
-    private Map<Long, List<Edge>> edges; // the long represents the source vertex/the 'from' vertex - where all edges in the given list start
+    private Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
     // Creates an empty graph
@@ -82,7 +82,7 @@ public class Graph {
         return this.edges.get(v).size();
     }
 
-    // TODO Part 4.2: Implement part 4.2 'contract'
+    // TODO Implement part 4.2 'contract'
     // Takes the identifier of a vertex v as argument and carries out the contraction of v in the current graph
     public int contract(long v) {
         // To be filled out
