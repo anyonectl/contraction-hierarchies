@@ -5,11 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DijkstraTest {
+
     private Graph g;
+    
     @Before
     public void setUp() {
         g = new Graph();
-        g.addVertex(1, new   Graph.Vertex(0, 0));
+        g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 1));
         g.addVertex(3, new Graph.Vertex(2, 2));
         g.addVertex(4, new Graph.Vertex(3, 3));
@@ -49,9 +51,10 @@ public class DijkstraTest {
         Result<Integer> dist = Dijkstra.shortestPath(disconnected, 1, 3);
         assertEquals("Unreachable vertex should return -1",-1, (long) dist.result );
     }
+
     @Test
     public void testShortestPath_sameNode() {
         Result<Integer> dist = Dijkstra.shortestPath(g, 1, 1);
         assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
-}
+    }
 }
