@@ -19,15 +19,15 @@ public class BidirectionalDijkstra extends Dijkstra{
         PriorityQueue<PQElem> leftPQ = new PriorityQueue<>(); 
         Map<Long, Integer> leftDists = new HashMap<>();
         Set<Long> leftVisited = new HashSet<>();
-        leftPQ.add(new PQElem(0, start));
         leftDists.put(start, 0);
+        leftPQ.add(new PQElem(0, start));
 
         // Right side: target 
         PriorityQueue<PQElem> rightPQ = new PriorityQueue<>();
         Map<Long, Integer> rightDists = new HashMap<>();
         Set<Long> rightVisited = new HashSet<>(); // settled
-        rightPQ.add(new PQElem(0, target));
         rightDists.put(target, 0);
+        rightPQ.add(new PQElem(0, target));
 
         int relaxed = 0; 
         int d = Integer.MAX_VALUE; // our result value
@@ -56,23 +56,21 @@ public class BidirectionalDijkstra extends Dijkstra{
                     dists.put(v, elementDist + w);
                     PQ.add(new PQElem(elementDist + w, v));
                 }
-
-                // Update min dist between s and t inside loop??
-                // Integer leftDist = leftDists.get(v);
-                // Integer rightDist = rightDists.get(v);
-                // if (leftDist != null && rightDist != null)
-                //     d = Math.min(d, leftDist + rightDist);
-            }
-
-            // Update min dist between s and t outside loop
-            Integer leftDistHere = leftDists.get(elemId);
-            Integer rightDistHere = rightDists.get(elemId);
-            if (leftDistHere != null && rightDistHere != null)
+                
+                // Update minimum distance between s and t (line 21)
+                Integer leftDistHere = leftDists.get(elemId);
+                Integer rightDistHere = rightDists.get(elemId);
+                if (leftDistHere != null && rightDistHere != null)
                 d = Math.min(d, leftDistHere + rightDistHere);
-
+            }
+                
+            // Checks whether further searching can possibly improve the current best distance d.
+            // If that lower bound (leftMin + rightMin) is already ≥ the best known path distance d,
+            // - then no shorter path can exist,
+            // - so we can safely stop early.
             if (!leftPQ.isEmpty() && !rightPQ.isEmpty()) {
-                int leftMin = leftPQ.peek().key;
-                int rightMin = rightPQ.peek().key;
+                int leftMin = leftPQ.peek().key; // smallest distance (so far) from the source.
+                int rightMin = rightPQ.peek().key; // smallest distance (so far) from the target.
                 if (leftMin + rightMin >= d)
                     break;
             }
@@ -89,7 +87,7 @@ public class BidirectionalDijkstra extends Dijkstra{
         return new Result<>(end - begin, relaxed, d);
     }    
 
-    // debugging
+    // // debugging
     // public static void main(String[] args) {
     //     Graph g = new Graph();
     //     g.addVertex(1, new Graph.Vertex(0, 0));
@@ -118,11 +116,9 @@ public class BidirectionalDijkstra extends Dijkstra{
     //     System.out.println(String.format("Direct edge 1→2 should cost 4. Returned: %d", gResult2.result));
     //     System.out.println(String.format("Direct edge 1→2 should relax 2. Returned: %d", gResult2.relaxed));
 
-
     //     Result<Integer> startTargetSame = shortestPath(g, 1, 1);
     //     System.out.println(String.format("Distance from a node to itself should be 0. Returned: %d", startTargetSame.result));
     //     System.out.println(String.format("Distance from a node to itself should relax 0. Returned: %d", startTargetSame.result));
-
 
     //     Graph disconnected = new Graph();
     //     disconnected.addVertex(1, new Graph.Vertex(0, 0));
