@@ -1,9 +1,9 @@
 package ch;
 
 // TODO Part 4.3: Implement the preprocessing phase of Contraction Hierarchies
-public class ContractionHierachy {
+public class ContractionHierarchy {
 
-    public ContractionHierachy() {
+    public ContractionHierarchy() {
       // To be filled out
     }
 
