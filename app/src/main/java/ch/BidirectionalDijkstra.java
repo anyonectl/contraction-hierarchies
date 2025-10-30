@@ -23,6 +23,12 @@ public class BidirectionalDijkstra {
         long start = System.nanoTime();
         int relaxed = 0;
 
+        // special case to handle source == target cases
+        if (source == target) {
+            long end = System.nanoTime();
+            return new Result<>(end - start, 0, 0);
+        }
+
         // the shortest path distance to be updated
         int distance = Integer.MAX_VALUE;
 
