@@ -82,7 +82,7 @@ public class BidirectionalDijkstra {
                 // update distance if new, lower distance between source and target is found
                 if (distsSource.containsKey(to) && distsTarget.containsKey(to)) {
                     int potentialDist = distsSource.get(to) + distsTarget.get(to);
-                    if (distsSource.get(to) + distsTarget.get(to) < distance) distance = potentialDist;
+                    if (potentialDist < distance) distance = potentialDist;
                 }
             }
         }
