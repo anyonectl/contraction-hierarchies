@@ -2,7 +2,6 @@ package ch;
 
 import java.util.Scanner;
 import java.io.File;
-import java.text.Bidi;
 
 class Main {
 
@@ -72,7 +71,6 @@ class Main {
                         s, t, res.result, res.relaxed, res.time);
             }
             queryScanner.close();
-
         }
 
 

@@ -21,14 +21,14 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 # --- Configuration ---
-BIDIRECTIONAL = False
+BIDIRECTIONAL = True
 GRAPH_FILE = Path("denmark.graph")
 JAR_FILE = "app/build/libs/app.jar"
 JAR_ARGS = f"dijkstratest{'_bidirectional' if BIDIRECTIONAL else ''}"
 JAR_CMD = ["java", "-jar", str(JAR_FILE), str(JAR_ARGS), str(GRAPH_FILE)]  # adjust if you use a .jar or different package
-NUM_QUERIES = 1000
-N_VERTICES = 569586
-SEED = 42
+NUM_QUERIES = 10
+#N_VERTICES = 569_586
+SEED = 1
 OUTPUT_CSV = Path(f"experiments/dijkstratest/{'bidirectional_' if BIDIRECTIONAL else ''}dijkstra_results.csv")
 OUTPUT_HIST = Path(f"experiments/dijkstratest/{'bidirectional_' if BIDIRECTIONAL else ''}dijkstra_histogram.png")
 
@@ -36,11 +36,7 @@ OUTPUT_HIST = Path(f"experiments/dijkstratest/{'bidirectional_' if BIDIRECTIONAL
 def get_vertex_ids(graph_file):
     with open(graph_file, "r") as f:
         n, _ = map(int, f.readline().split())
-        ids = []
-        for _ in range(n):
-            parts = f.readline().split()
-            ids.append(int(parts[0]))
-        # skip edges (we don’t need them here)
+        ids = [int(f.readline().split()[0]) for _ in range(n)]
     return np.array(ids, dtype=np.int64)
 
 # --- Generate random (s, t) pairs ---
@@ -90,6 +86,9 @@ def analyze_and_save(results):
     print(f"Avg time:      {avg_time_ms:.3f} ms")
     print(f"Avg relaxed:   {avg_relaxed:.1f}")
 
+    # Make dir if not exist 
+    OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
+
     # Save CSV
     np.savetxt(
         OUTPUT_CSV,
@@ -104,6 +103,7 @@ def analyze_and_save(results):
     # Plot and save histogram
     plt.figure(figsize=(8, 5))
     plt.hist(results[:, 4] / 1e6, bins=50, color="skyblue", edgecolor="black")
+    #plt.xlim(0, np.percentile(results[:, 4] / 1e6, 99))  # focus on 99th percentile
     plt.xlabel("Runtime (ms)")
     plt.ylabel("Frequency")
     plt.title(f"{'Bidirectional ' if BIDIRECTIONAL else ''}Dijkstra Runtime Distribution")
@@ -112,6 +112,17 @@ def analyze_and_save(results):
     plt.savefig(OUTPUT_HIST, dpi=300)
     plt.close()
     print(f"Saved histogram to {OUTPUT_HIST.resolve()}")
+
+def terminal_benchmark(results):
+    avg_time_ms = np.mean(results[:, 4]) / 1e6
+    avg_relaxed = np.mean(results[:, 3])
+    reachable = np.sum(results[:, 2] >= 0)
+
+    print(f"\n=== Benchmark Summary ===")
+    print(f"Queries:       {len(results)}")
+    print(f"Reachable:     {reachable} / {len(results)}")
+    print(f"Avg time:      {avg_time_ms:.3f} ms")
+    print(f"Avg relaxed:   {avg_relaxed:.1f}")
 
 if __name__ == "__main__":
     print(f"Testing {'Bidirectional ' if BIDIRECTIONAL else ''}Dijkstra")
@@ -130,5 +141,6 @@ if __name__ == "__main__":
     print("Running Java program...")
     results = run_queries(pairs)
 
-    print("Analyzing results...")
-    analyze_and_save(results)
+    # print("Analyzing results...")
+    # analyze_and_save(results)
+    terminal_benchmark(results)
