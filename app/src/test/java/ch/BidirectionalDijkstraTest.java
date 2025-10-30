@@ -11,7 +11,7 @@ public class BidirectionalDijkstraTest {
     @Before
     public void setUp() {
         g = new Graph();
-        g.addVertex(1, new   Graph.Vertex(0, 0));
+        g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 1));
         g.addVertex(3, new Graph.Vertex(2, 2));
         g.addVertex(4, new Graph.Vertex(3, 3));
@@ -30,31 +30,31 @@ public class BidirectionalDijkstraTest {
 
     @Test
     public void testShortestPath_basic() {
-        // Result<Integer> dist = Dijkstra.shortestPath(g, 1, 4);
-        // assertEquals("Shortest path 1→2→3→4 should have total cost 7", (long) dist.result, 7);
+        Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 4);
+        assertEquals("Shortest path 1→2→3→4 should have total cost 7", (long) dist.result, 7);
     }
 
     @Test
     public void testShortestPath_directConnection() {
-        // Result<Integer> dist = Dijkstra.shortestPath(g, 1, 2);
-        // assertEquals("Direct edge 1→2 should cost 4", (long) dist.result, 4 );
+        Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 2);
+        assertEquals("Direct edge 1→2 should cost 4", (long) dist.result, 4 );
     }
 
     @Test
     public void testShortestPath_noPathExists() {
-        // Graph disconnected = new Graph();
-        // disconnected.addVertex(1, new Graph.Vertex(0, 0));
-        // disconnected.addVertex(2, new Graph.Vertex(1, 1));
-        // disconnected.addVertex(3, new Graph.Vertex(2, 2));
-        // disconnected.addUndirectedEdge(1, 2, 4);
-        // // no edges between 1 and 3
-        // Result<Integer> dist = Dijkstra.shortestPath(disconnected, 1, 3);
-        // assertEquals("Unreachable vertex should return -1",-1, (long) dist.result );
+        Graph disconnected = new Graph();
+        disconnected.addVertex(1, new Graph.Vertex(0, 0));
+        disconnected.addVertex(2, new Graph.Vertex(1, 1));
+        disconnected.addVertex(3, new Graph.Vertex(2, 2));
+        disconnected.addUndirectedEdge(1, 2, 4);
+        // no edges between 1 and 3
+        Result<Integer> dist = BidirectionalDijkstra.shortestPath(disconnected, 1, 3);
+        assertEquals("Unreachable vertex should return -1",-1, (long) dist.result );
     }
     
     @Test
     public void testShortestPath_sameNode() {
-        // Result<Integer> dist = Dijkstra.shortestPath(g, 1, 1);
-        // assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
+        Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 1);
+        assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
     }
 }
