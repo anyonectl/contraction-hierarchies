@@ -72,6 +72,11 @@ public class Graph {
         return this.edges.get(u);
     }
 
+    // returns false if vertex u has no outgoing edges
+    public boolean hasNeighbours(long u) {
+        return getNeighbours(u) == null ? false : true;
+    }
+
     // returns the Vertex object with the given id
     public Vertex getVertex(long id) {
         return this.vertices.get(id);

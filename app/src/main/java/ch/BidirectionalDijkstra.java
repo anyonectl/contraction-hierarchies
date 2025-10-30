@@ -26,9 +26,6 @@ public class BidirectionalDijkstra {
         // the shortest path distance to be updated
         int distance = Integer.MAX_VALUE;
 
-        // flag to check if there is a path from source to target
-        boolean hasPath = false;
-
         // initialise set to keep track of visited/settled vertices
         Set<Long> visited = new HashSet<>();
 
@@ -49,7 +46,7 @@ public class BidirectionalDijkstra {
             // choose forwards or backwards Dijkstra
             PriorityQueue<PQElem> pq;
             Map<Long, Integer> dists;
-            if (!pqSource.isEmpty() && (pqSource.peek().compareTo(pqTarget.peek()) <= 0)) {
+            if (!pqSource.isEmpty() && (pqTarget.isEmpty() || pqSource.peek().compareTo(pqTarget.peek()) <= 0)) {
                 pq = pqSource;
                 dists = distsSource;
             }
@@ -60,31 +57,31 @@ public class BidirectionalDijkstra {
     
             // settle next vertex
             long current = pq.poll().v;
-            if (visited.contains(current)) { // termination condition!
-                hasPath = true;
-                break;
-            }
+            if (visited.contains(current)) break; // termination condition!
             visited.add(current);
 
             // relax all edges incident on current vertex
+            if (!g.hasNeighbours(current)) continue; // don't relax edges if current vertex has none
             for (Graph.Edge e : g.getNeighbours(current)) {
                 long to = e.to;
                 relaxed++;
-                if ((dists.get(current) + e.weight) < dists.get(to)) {
+                int newDist = dists.get(current) + e.weight;
+                if (!dists.containsKey(to) || newDist < dists.get(to)) {
                     // if shorter path to e.to is found,
                     // update dist to e.to and add it to the PQ
-                    dists.put(to, dists.get(current) + e.weight); 
+                    dists.put(to, newDist); 
                     PQElem elem = new PQElem(dists.get(to), to);
                     pq.add(elem);
                 }
                 // update distance if new, lower distance between source and target is found
-                distance = 
-                    (distance > distsSource.get(to) + distsTarget.get(to)) 
-                    ? distsSource.get(to) + distsTarget.get(to) : distance;
+                if (distsSource.containsKey(to) && distsTarget.containsKey(to)) {
+                    int potentialDist = distsSource.get(to) + distsTarget.get(to);
+                    if (distsSource.get(to) + distsTarget.get(to) < distance) distance = potentialDist;
+                }
             }
         }
         long end = System.nanoTime();
-        if (!hasPath) return new Result<>(end - start, relaxed, -1);
+        if (distance == Integer.MAX_VALUE) return new Result<>(end - start, relaxed, -1);
         return new Result<>(end - start, relaxed, distance);
     }
 }
