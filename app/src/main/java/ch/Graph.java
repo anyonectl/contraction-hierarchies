@@ -101,6 +101,7 @@ public class Graph {
      * @param v The identifier of the vertex to be contracted.
      * @return  The number of shortcut edges added (counting both directions in undirected graph).
      */
+    // https://jlazarsfeld.github.io/ch.150.project/sections/9-adding-shortcuts/
     public int contract(long v) {
         // special case if v has no neighbours
         if (!hasNeighbours(v)) return 0;
@@ -135,6 +136,7 @@ public class Graph {
 
     // TODO Implement part 4.1 'getEdgeDifference'
     // Takes the identifier of a vertex v and returns the edge difference after contraction, i.e., computes the change in edges by contracting v
+    // https://jlazarsfeld.github.io/ch.150.project/sections/12-node-order/
     public int getEdgeDifference(long v) {
         // To be filled out
         return 0; // Should return something
