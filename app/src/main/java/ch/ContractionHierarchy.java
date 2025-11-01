@@ -4,7 +4,11 @@ package ch;
 public class ContractionHierarchy {
 
     public ContractionHierarchy() {
-      // To be filled out
+      preprocess();
+    }
+
+    private void preprocess() {
+        
     }
 
     // not sure about this - seems to have something to do with reporting on the performance of a search??
