@@ -4,14 +4,16 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GraphTest {
+import ch.Graph.Edge;
 
-        Graph simple;
-        Graph triangle;
+public class AugmentedGraphTest {
+
+    AugmentedGraph simple;
+    AugmentedGraph triangle;
 
     @Before
     public void setup() {
-        simple = new Graph();
+        simple = new AugmentedGraph();
         simple.addVertex(1, new Graph.Vertex(0, 0));
         simple.addVertex(2, new Graph.Vertex(1, 0));
         simple.addVertex(3, new Graph.Vertex(0, 1));
@@ -21,7 +23,7 @@ public class GraphTest {
         simple.addUndirectedEdge(2, 4, 4);
         simple.addUndirectedEdge(3, 4, 6);
 
-        triangle = new Graph();
+        triangle = new AugmentedGraph();
         triangle.addVertex(1, new Graph.Vertex(0, 0));
         triangle.addVertex(2, new Graph.Vertex(0, 1));
         triangle.addVertex(3, new Graph.Vertex(1, 1));
@@ -50,7 +52,7 @@ public class GraphTest {
     
     @Test
     public void contract_shortcutNeededNoWitness() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -71,7 +73,8 @@ public class GraphTest {
         // Verify shortcut was added
         boolean foundShortcut = false;
         for (Graph.Edge e : g.getNeighbours(1)) {
-            if (e.to == 3 && e.weight == 8 && e.contracted == 2) {
+            AugmentedGraph.AugmentedEdge ae = (AugmentedGraph.AugmentedEdge) e;
+            if (ae.to == 3 && ae.weight == 8 && ae.contracted == 2) {
                 foundShortcut = true;
                 break;
             }
@@ -81,7 +84,7 @@ public class GraphTest {
     
     @Test
     public void contract_multipleShortcuts() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         // Star graph with center vertex 5
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
@@ -102,7 +105,7 @@ public class GraphTest {
     
     @Test
     public void contract_verifyShortcutContractedField() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -113,16 +116,17 @@ public class GraphTest {
         g.contract(2);
         
         // Check that shortcut has contracted field set to 2
-        for (Graph.Edge e : g.getNeighbours(1)) {
+        for (Edge e : g.getNeighbours(1)) {
             if (e.to == 3) {
-                assertEquals("Shortcut should have contracted=2", 2, e.contracted);
+                AugmentedGraph.AugmentedEdge ae = (AugmentedGraph.AugmentedEdge) e;
+                assertEquals("Shortcut should have contracted=2", 2, ae.contracted);
             }
         }
     }
     
     @Test
     public void contract_isolatedVertex() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         
@@ -133,7 +137,7 @@ public class GraphTest {
     
     @Test
     public void contract_singleNeighbor() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         
@@ -147,7 +151,7 @@ public class GraphTest {
         
     @Test
     public void contract_witnessPathPreventsShortcut() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -169,7 +173,7 @@ public class GraphTest {
     
     @Test
     public void contract_noNeighbours() {
-        Graph g = new Graph();
+        AugmentedGraph g = new AugmentedGraph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         
         // Vertex with no edges
