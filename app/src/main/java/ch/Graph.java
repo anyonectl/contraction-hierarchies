@@ -2,10 +2,8 @@ package ch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class Graph {
@@ -95,45 +93,44 @@ public class Graph {
 
     }
 
-    // TODO Implement part 4.2 'contract'
-    // Takes the identifier of a vertex v as argument and carries out the contraction of v in the current graph
-    // Only works for undirected graph
+    /**
+     * Contracts vertex v from the graph by adding necessary shortcuts and marking it as contracted.
+     * A shortcut from u to w is added if there is a path u→v→w and there is no witness path from u to w
+     * (excluding v) with distance less than or equal to dist(u,v) + dist(v,w).
+     *
+     * @param v The identifier of the vertex to be contracted.
+     * @return  The number of shortcut edges added (counting both directions in undirected graph).
+     */
     public int contract(long v) {
+        // special case if v has no neighbours
+        if (!hasNeighbours(v)) return 0;
 
-        // Get vertices adjacent to v (all u in U)
-        Map<Long, Integer> adjacent = new HashMap<>(); // maps to weight of (v, u)
+        // find neighbours (adjacent vertices) and edge weights
+        Map<Long, Integer> adjacent = new HashMap<>();
         for (Edge e : getNeighbours(v)) {
             adjacent.put(e.to, e.weight);
         }
 
-        // Compute P_w 
-        Map<Long, Map<Long, Integer>> costs = new HashMap<>(); // maybe use different data structure?
+        // for each pair of adjacent vertices (u, w), check if shortcut is needed
+        int shortcutsAdded = 0;
         for (long u : adjacent.keySet()) {
-            Map<Long, Integer> innerCosts = new HashMap<>();
-            costs.put(u, innerCosts);
-            int costVtoU = adjacent.get(u);
+            int distVtoU = adjacent.get(u);
             for (long w : adjacent.keySet()) {
                 if (u == w) continue;
-                int costThroughV = costVtoU + adjacent.get(w);
-                innerCosts.put(w, costThroughV);
-            
-                // Check if there are any witness paths from u to w
-                // Run Dijkstra from u to w excl. v with max distance costThroughV
+                int distVtoW = adjacent.get(w);
+                int distThroughV = distVtoU + distVtoW;
+
+                // find shortest witness path between u and w
+                int witness = Dijkstra.shortestPathOnSubgraph(this, u, w, v, distThroughV);
+
+                // if path through v is a unique shortest path, add shortcut
+                if (witness == -1 || witness > distThroughV) {
+                    addEdge(u, w, v, distThroughV);
+                    shortcutsAdded++;
+                }
             }
         }
-
-        // Find P_max
-        int max = Integer.MIN_VALUE;
-        for (long u : costs.keySet()) {
-            for (long w : costs.get(u).keySet()) {
-            int cost = costs.get(u).get(w);
-            if (cost > max) max = cost;
-            }
-        }
-
-        // now what???
-
-        return 0; // change!
+        return shortcutsAdded;
     }
 
     // TODO Implement part 4.1 'getEdgeDifference'
