@@ -11,9 +11,11 @@ public class ContractionHierarchy {
         
     }
 
-    // not sure about this - seems to have something to do with reporting on the performance of a search??
+    /**
+     * Run a bidirectional Dijkstra search, but only consider edges leading to nodes with a higher importance.
+     */
     public Result<Integer> query(long s, long t) {
-        
+
         // To be filled out
 
         return new Result<Integer>(0,0,0); 
