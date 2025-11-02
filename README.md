@@ -19,8 +19,8 @@ java -jar app/build/libs/app.jar < test.graph
 
 ## Python testing
 
-For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the project `dijkstratest`.
+For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the experiment `dijkstratest`:
 ```
-python3 dijkstratest/main.py 
+python3 experiments/dijkstratest/main.py
 ```
 
