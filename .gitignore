@@ -4,6 +4,8 @@ denmark.graph
 **/build
 ch.graph
 denmark.contracted.graph
+soms-notes.md
+.vscode 
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,linux,macos,git,gradle,python,jupyternotebooks,java,latex
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,windows,linux,macos,git,gradle,python,jupyternotebooks,java,latex

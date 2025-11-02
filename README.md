@@ -17,12 +17,10 @@ java -jar app/build/libs/app.jar < test.graph
 
 (Note that we simulate undirected edges by adding directed edges in both directions, so the count that is printed is twice as large as the number in the graph provided.)
 
-## Code structure
+## Python testing
 
-We have implemented basic functionality such as graph reading, a graph data structure using HashMaps, and a basic Dijkstra implementation that keeps track of visited vertices using HashSets.  Basic unit tests for the Dijkstra implementation are available as well. 
-
-To solve the assignment, you probably need to update the API by changing method signatures to incorporate additional functionality.
-
-
-
+For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the experiment `dijkstratest`:
+```
+python3 experiments/dijkstratest/main.py
+```
 

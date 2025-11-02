@@ -53,5 +53,30 @@ public class DijkstraTest {
     public void testShortestPath_sameNode() {
         Result<Integer> dist = Dijkstra.shortestPath(g, 1, 1);
         assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
-}
+    }
+
+    @Test
+    public void testShortestPath_correctShortestPath() {
+        Graph h = new Graph();
+        h.addVertex(1, new Graph.Vertex(0, 0));
+        h.addVertex(2, new Graph.Vertex(1, 1));
+        h.addVertex(3, new Graph.Vertex(2, 2));
+        h.addVertex(4, new Graph.Vertex(3, 3));
+        h.addVertex(5, new Graph.Vertex(4, 4));
+/* graph as in lecture: https://www.youtube.com/watch?v=CHvQ3q_gJ7E&t=1465s
+         (3)- 2 -(3)- 3 -(3) 
+          |               |
+          1               4
+           \             /
+            (5)       (5)
+              \__ 5 __/
+*/
+        h.addUndirectedEdge(1, 2, 3);
+        h.addUndirectedEdge(2, 3, 3);
+        h.addUndirectedEdge(3, 4, 3);
+        h.addUndirectedEdge(4, 5, 5);
+        h.addUndirectedEdge(5, 1, 5);
+        Result<Integer> dist = Dijkstra.shortestPath(h, 1, 4);
+        assertEquals("Distance from a node to itself should be 9", 9, (long) dist.result);
+    }
 }
