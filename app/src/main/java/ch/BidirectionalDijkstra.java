@@ -15,7 +15,6 @@ public class BidirectionalDijkstra extends Dijkstra{
 
         PriorityQueue<PQElem> leftPQ = new PriorityQueue<>(), rightPQ = new PriorityQueue<>();
         Map<Long, Integer> leftDists = new HashMap<>(), rightDists = new HashMap<>();
-        //Set<Long> leftVisited = new HashSet<>(), rightVisited = new HashSet<>();
 
         leftDists.put(start, 0);
         rightDists.put(target, 0);
@@ -32,14 +31,12 @@ public class BidirectionalDijkstra extends Dijkstra{
 
             Map<Long, Integer> dists = leftHasPriority ? leftDists : rightDists;
             PriorityQueue<PQElem> PQ = leftHasPriority ? leftPQ : rightPQ;
-            //Set<Long> visited = leftHasPriority ? leftVisited : rightVisited;
 
             PQElem elem = PQ.poll();
             long u = elem.v; // local u as in (u,v)
             int distU = elem.key; // distance from root
 
-            //if (leftVisited.contains(u) && rightVisited.contains(u)) break;
-            if (visited.contains(u)) continue; // if set to break the python run fail emensly.. idk why? 
+            if (visited.contains(u)) continue; // TODO Ask TA why this doesn't work if we use break instead of continue?
             visited.add(u);
 
             if (g.getNeighbours(u) == null) continue;
