@@ -1,10 +1,14 @@
 package ch;
 
 // TODO Part 4.3: Implement the preprocessing phase of Contraction Hierarchies
-public class ContractionHierachy {
+public class ContractionHierarchy {
 
-    public ContractionHierachy() {
-      // To be filled out
+    public ContractionHierarchy() {
+      preprocess();
+    }
+
+    private void preprocess() {
+        
     }
 
     // not sure about this - seems to have something to do with reporting on the performance of a search??

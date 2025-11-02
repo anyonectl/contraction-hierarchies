@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class Graph {
     int n; // number of vertices
     int m; // number of edges
+    protected Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
+    private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
     // inner class representing vertices
     public static class Vertex {
@@ -24,17 +25,12 @@ public class Graph {
     public class Edge {
         long to; // id of destination vertex
         int weight;
-        long contracted; // only used by contraction hierachy, marks the vertex from which this edge resulted.
 
-        public Edge(long to, int weight, long contracted) {
+        public Edge(long to, int weight) {
             this.to = to;
             this.weight = weight;
-            this.contracted = contracted;
         }
     }
-
-    private Map<Long, List<Edge>> edges; // the long represents the source vertex/the 'from' vertex - where all edges in the given list start
-    private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
     // Creates an empty graph
     public Graph() {
@@ -49,27 +45,37 @@ public class Graph {
         this.n++; // increment number of vertices
     }
 
-    public void addEdge(long from, long to, long contracted, int weight) {
+    public void addEdge(long from, long to, int weight) {
         if (!this.edges.containsKey(from)) {
             this.edges.put(from, new ArrayList<>()); // only create a new, empty list of outgoing edges if the 'from' vertex isn't already in the map of vertex-edge connections
         }
-        this.edges.get(from).add(new Edge(to, weight, contracted)); // get the source vertex id's list of outgoing edges and add a new edge to it
+        this.edges.get(from).add(new Edge(to, weight)); // get the source vertex id's list of outgoing edges and add a new edge to it
         this.m++; // increment number of edges
     }
 
+    // public void addEdge(long from, long to, int weight) {
+    //     addEdge(from, to, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
+    // }
+
+
     // undirected edges are simulated by adding directed edges in both directions, so the count that is printed is twice as large as the number in the graph provided
-    public void addUndirectedEdge(long u, long v, long contracted, int weight) {
-        addEdge(u, v, contracted, weight);
-        addEdge(v, u, contracted, weight);
+    public void addUndirectedEdge(long u, long v, int weight) {
+        addEdge(u, v, weight);
+        addEdge(v, u, weight);
     }
 
-    public void addUndirectedEdge(long u, long v, int weight) {
-        addUndirectedEdge(u, v, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
-    }
+    // public void addUndirectedEdge(long u, long v, int weight) {
+    //     addUndirectedEdge(u, v, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
+    // }
 
     // returns the list of edges going out from vertex u
     public List<Edge> getNeighbours(long u) {
         return this.edges.get(u);
+    }
+
+    // returns false if vertex u has no outgoing edges
+    public boolean hasNeighbours(long u) {
+        return getNeighbours(u) != null;
     }
 
     // returns the Vertex object with the given id
@@ -77,22 +83,8 @@ public class Graph {
         return this.vertices.get(id);
     }
 
-    // returns the degree of vertex v (number of outgoing edges from v)
+    // returns the outdegree of vertex v (number of outgoing edges from v), 
     public int degree(long v) {
-        return this.edges.get(v).size();
-    }
-
-    // TODO Part 4.2: Implement part 4.2 'contract'
-    // Takes the identifier of a vertex v as argument and carries out the contraction of v in the current graph
-    public int contract(long v) {
-        // To be filled out
-        return 0; // Should return something
-    }
-
-    // TODO Implement part 4.1 'getEdgeDifference'
-    // Takes the identifier of a vertex v and returns the edge difference after contraction, i.e., computes the change in edges by contracting v
-    public int getEdgeDifference(long v) {
-        // To be filled out
-        return 0; // Should return something
+        return getNeighbours(v) == null ? 0 : this.edges.get(v).size();
     }
 }

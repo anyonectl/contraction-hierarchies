@@ -53,4 +53,55 @@ public class Dijkstra {
         }
         return new Result<>(end - start, relaxed, dists.get(to)); // return the time, no. of relaxed edges, shortest path distance to target vertex
     }
+
+    /**
+     * Runs Dijkstra's algorithm from source to target, excluding a specific vertex.
+     * If target is not reached within maxDistance, the search terminates early.
+     *
+     * @param g             The graph to search.
+     * @param from          The starting vertex ID.
+     * @param to            The target vertex ID.
+     * @param exclude       The vertex ID to exclude from the search.
+     * @param maxDistance   The maximum distance to search (to optimise witness path searches).
+     * @return The shortest path distance from 'from' to 'to' in a graph excluding 'exclude', 
+     *         or -1 if no path exists within maxDistance.
+     */
+    public static int shortestPathOnSubgraph(Graph g, long from, long to, long exclude, int maxDistance) {
+        // special case if source or target is excluded
+        if (from == exclude || to == exclude) return -1;
+
+        PriorityQueue<PQElem> pq = new PriorityQueue<>();
+        Map<Long, Integer> dists = new HashMap<>();
+        Set<Long> visited = new HashSet<>();
+        
+        pq.add(new PQElem(0, from));
+        dists.put(from, 0);
+        
+        while (!pq.isEmpty()) {
+            PQElem elem = pq.poll();
+            long u = elem.v;
+            int dist = elem.key;
+            if (u == to) return dist; // if we've reached the target, return the distance
+            if (visited.contains(u)) continue; // skip if already visited
+            visited.add(u);
+            if (dist > maxDistance) continue; // skip if distance exceeds maximum
+            if (!g.hasNeighbours(u)) continue; // skip if u has no neighbours
+            
+            // relax edges
+            for (Graph.Edge e : g.getNeighbours(u)) {
+                long v = e.to;
+                if (v == exclude) continue; // skip excluded vertex
+                int newDist = dist + e.weight;
+                
+                // only consider paths with dist smaller than maxDistance
+                if (newDist <= maxDistance) {
+                    if (!dists.containsKey(v) || dists.get(v) > newDist) {
+                        dists.put(v, newDist);
+                        pq.add(new PQElem(newDist, v));
+                    }
+                }
+            }
+        }
+        return -1; // if no witness path is smaller than maxDistance
+    }
 }

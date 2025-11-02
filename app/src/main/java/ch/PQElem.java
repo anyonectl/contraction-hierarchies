@@ -10,7 +10,7 @@ public class PQElem implements Comparable<PQElem> {
     }
 
     @Override
-    public int compareTo(PQElem o) {
-        return key - o.key;
+    public int compareTo(PQElem that) {
+        return this.key - that.key;
     }
 }
