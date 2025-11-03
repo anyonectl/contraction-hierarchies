@@ -84,10 +84,41 @@ public class AugmentedGraph extends Graph {
     }
 
     // TODO Implement part 4.1 'getEdgeDifference'
+    // BASICALLY: SIMULATE CONTRACTION
     // Takes the identifier of a vertex v and returns the edge difference after contraction, i.e., computes the change in edges by contracting v
+    // From paper: "The change in the number of edges caused by a node contraction 
+    // is called edge difference. It is arguably the most important priority term 
+    // and we calculate it with a simulated contraction of node u."
     // https://jlazarsfeld.github.io/ch.150.project/sections/12-node-order/
     public int getEdgeDifference(long v) {
-        // To be filled out
-        return 0; // Should return something
+        // special case if v has no neighbours
+        if (!hasNeighbours(v)) return 0;
+                
+        // find neighbours (adjacent vertices) and edge weights (same logic as contract)
+        Map<Long, Integer> adjacent = new HashMap<>();
+        for (Edge e : getNeighbours(v)) {
+            adjacent.put(e.to, e.weight);
+        }
+        
+        // for each pair of adjacent vertices (u, w), check if shortcut is needed
+        int shortcutsAdded = 0;
+        for (long u : adjacent.keySet()) {
+            int distVtoU = adjacent.get(u);
+            for (long w : adjacent.keySet()) {
+                if (u == w) continue;
+                int distVtoW = adjacent.get(w);
+                int distThroughV = distVtoU + distVtoW;
+                
+                // find shortest witness path between u and w
+                int witness = Dijkstra.shortestPathOnSubgraph(this, u, w, v, distThroughV);
+                
+                // if path through v is a unique shortest path, increment counter (do not add shortcut)
+                if (witness == -1 || witness > distThroughV) {
+                    shortcutsAdded++;
+                }
+            }
+        }
+        // degree(v) is the number of edges 'removed' (degree(v) counts one direction in undirected graph, but we 'remove' both edges)
+        return shortcutsAdded - degree(v);
     }
 }
