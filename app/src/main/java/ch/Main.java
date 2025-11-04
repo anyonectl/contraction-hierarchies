@@ -1,6 +1,9 @@
 package ch;
 
 import java.util.Scanner;
+
+import ch.AugmentedGraph.AugmentedVertex;
+
 import java.io.File;
 
 class Main {
@@ -39,6 +42,41 @@ class Main {
             g.addUndirectedEdge(from, to, weight); // add the (undirected) edge from this line of input to the graph
         }
         return g; // return the built graph
+    }
+
+    private static AugmentedGraph readAugmentedGraph(Scanner sc) {
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        AugmentedGraph ag = new AugmentedGraph();
+
+        // Read vertices (with rank)
+        long id;
+        float x, y;
+        int rank;
+        long[] ids = new long[n];
+        for (int i = 0; i < n; i++) {
+            id = sc.nextLong();
+
+            ids[i] = id;
+            x = Float.parseFloat(sc.next());
+            y = Float.parseFloat(sc.next());
+            rank = sc.nextInt();
+            ag.addVertex(id, ag.new AugmentedVertex(x, y, rank));
+        }
+
+        // Read edges
+        long from, to, contracted;
+        int weight;
+        for (int i = 0; i < m; i++) {
+            from = sc.nextLong();
+            to = sc.nextLong();
+            weight = sc.nextInt();
+            contracted = sc.nextLong();
+            ag.addEdge(from, to, contracted, weight);
+        }
+
+        return ag;
     }
 
     public static void main(String[] args) throws Exception {

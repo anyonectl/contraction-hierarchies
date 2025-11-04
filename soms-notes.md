@@ -59,3 +59,8 @@ We can compare the amount of relaxed edges Dijkstra and Bidiractional -latter sh
     A single node.
     Graphs with multiple paths having the same length.
     Disconnected graphs.
+
+
+In the final part of the assignment, you will make use of this graph to speed up your shortest path searches by solving the following two tasks:
+
+1. Implement the contraction hierarchies bidirectional search algorithm. The algorithm is similar to Algorithm 1, with the only exception that the forward search from s only ever considers edges (u, v) for which the rank is increasing, and the backward search goes up in rank as well. Make sure to add unit tests and verify that the distance values are identical to your previous implementations.

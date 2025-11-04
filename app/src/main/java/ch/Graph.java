@@ -9,7 +9,7 @@ public class Graph {
     int n; // number of vertices
     int m; // number of edges
     protected Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
-    private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
+    protected Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
     // inner class representing vertices
     public static class Vertex {

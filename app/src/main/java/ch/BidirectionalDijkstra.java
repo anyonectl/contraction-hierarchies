@@ -6,7 +6,79 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import java.util.List;
+
 public class BidirectionalDijkstra extends Dijkstra{
+
+    /**
+     * Searches for the shortest path in an augmented graph (where all vertexes are of type augmented (have ranks)).
+     * Utilizes bidirectional dijkstra. Only goes up in rank from both ends. 
+     * @param ag    The graph we search
+     * @param from  From vertex id
+     * @param to    To vertex id
+     * @return      A Result: The shortest path distance, the number of relaxed edges, and runtime in ns
+     */
+    public static Result<Integer> bidirectionalSearch(AugmentedGraph ag, long from, long to) {
+        long begin = System.nanoTime();
+        int relaxed = 0, best = Integer.MAX_VALUE;
+
+        if (from == to) return new Result<>(0, relaxed, best); // early catch
+
+        PriorityQueue<PQElem> leftPQ = new PriorityQueue<>(), rightPQ = new PriorityQueue<>();
+        Map<Long, Integer> leftDist = new HashMap<>(), rightDist = new HashMap<>();
+        Set<Long> leftVisited = new HashSet<>(), rightVisited = new HashSet<>();
+
+        leftDist.put(from, 0); rightDist.put(to, 0);
+        leftPQ.add(new PQElem(0, from)); rightPQ.add(new PQElem(0, to));
+
+        while(!leftPQ.isEmpty() && !rightPQ.isEmpty()) {
+            PQElem leftElem = leftPQ.peek(), rightElem = rightPQ.peek();
+            boolean leftHasPriority = leftElem.compareTo(rightElem) <= 0;
+
+            Map<Long, Integer> dists = leftHasPriority ? leftDist : rightDist;
+            Map<Long, Integer> otherDists = leftHasPriority ? rightDist : leftDist;
+            PriorityQueue<PQElem> pq = leftHasPriority ? leftPQ : rightPQ;
+            Set<Long> visited = leftHasPriority ? leftVisited : rightVisited;
+
+            PQElem elem = pq.poll();
+            long u = elem.v; // id
+            int dist = elem.key;
+            int uRank = ag.getAugmentedVertex(u).rank;
+
+            if (visited.contains(u)) continue;
+            visited.add(u);
+            if (otherDists.containsKey(u)) {
+                int candidate = dist + otherDists.get(u);
+                if (candidate < best) best = candidate;
+            }
+            if (dist > best) continue; // iscontinue this necessary?
+            if (!ag.hasNeighbours(u)) continue;
+
+            List<Graph.Edge> edges = ag.getNeighbours(u); // for debugging)
+            for (Graph.Edge e : edges) {
+                long v = e.to;
+                int vRank = ag.getAugmentedVertex(v).rank;
+                if (uRank > vRank)  continue; // we only go up in rank
+                int newDist = dist + e.weight;
+                if (!dists.containsKey(v) || dists.get(v) > newDist){
+                    dists.put(v, newDist);
+                    pq.add(new PQElem(newDist, v));
+                }
+            }
+            
+            // peek to check if next seach might be better path
+            if(!leftPQ.isEmpty() && !rightPQ.isEmpty()) {
+                int leftMin = leftPQ.peek().key;
+                int rightMin = rightPQ.peek().key;
+                if (leftMin + rightMin >= best) break;
+            }
+        }
+        long end = System.nanoTime();
+
+        if (best == Integer.MAX_VALUE) return new Result<Integer>(end- begin, relaxed, -1);
+
+        return new Result<>(end - begin, relaxed, best);
+    }
 
     public static Result<Integer> shortestPath(Graph g, long start, long target) {
         long begin = System.nanoTime();
@@ -38,7 +110,7 @@ public class BidirectionalDijkstra extends Dijkstra{
 
             if (visited.contains(u)) continue; // TODO Ask TA why this doesn't work if we use break instead of continue?
             visited.add(u);
-            if (g.getNeighbours(u) == null) continue; 
+            if (!g.hasNeighbours(u)) continue; 
 
             for (Graph.Edge e : g.getNeighbours(u)) {
                 relaxed++;
@@ -131,17 +203,23 @@ public class BidirectionalDijkstra extends Dijkstra{
         return (best == Integer.MAX_VALUE || best > maxDistance) ? -1 : best; // if no witness path is smaller than maxDistance
     }
 
-    public static void main(String[] args) {
-        Graph simple = new Graph();
-        simple.addVertex(1, new Graph.Vertex(0, 0));
-        simple.addVertex(2, new Graph.Vertex(1, 0));
-        simple.addVertex(3, new Graph.Vertex(0, 1));
-        simple.addVertex(4, new Graph.Vertex(1, 1));
-        simple.addUndirectedEdge(1, 2, 5);
-        simple.addUndirectedEdge(1, 3, 3);
-        simple.addUndirectedEdge(2, 4, 4);
-        simple.addUndirectedEdge(3, 4, 6);
-        int distance = BidirectionalDijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 100);
-        System.out.println(distance == 5);
-    }
+    // public static void main(String[] args) {
+    //      AugmentedGraph g = new AugmentedGraph();
+    //     // Star graph with center vertex 5
+    //     g.addVertex(1, new Graph.Vertex(0, 0));
+    //     g.addVertex(2, new Graph.Vertex(1, 0));
+    //     g.addVertex(3, new Graph.Vertex(2, 0));
+    //     g.addVertex(5, new Graph.Vertex(1, 1));
+        
+    //     g.addUndirectedEdge(1, 5, 2);
+    //     g.addUndirectedEdge(2, 5, 3);
+    //     g.addUndirectedEdge(3, 5, 4);
+        
+    //     // Contract center vertex 5
+    //     // Should add shortcuts: 1-2, 1-3, 2-3 (all pairs)
+    //     int shortcutsAdded = g.contract(5);
+        
+    //     // 3 neighbors, so 3*2 = 6 directed edges (or 3 pairs * 2 directions each)
+    //     System.out.println(String.format("expected %d, actual %d",6, shortcutsAdded));
+    // }
 }
