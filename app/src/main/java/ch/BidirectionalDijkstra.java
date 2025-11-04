@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
-
 import java.util.List;
 
 public class BidirectionalDijkstra extends Dijkstra{
@@ -202,24 +201,4 @@ public class BidirectionalDijkstra extends Dijkstra{
         }
         return (best == Integer.MAX_VALUE || best > maxDistance) ? -1 : best; // if no witness path is smaller than maxDistance
     }
-
-    // public static void main(String[] args) {
-    //      AugmentedGraph g = new AugmentedGraph();
-    //     // Star graph with center vertex 5
-    //     g.addVertex(1, new Graph.Vertex(0, 0));
-    //     g.addVertex(2, new Graph.Vertex(1, 0));
-    //     g.addVertex(3, new Graph.Vertex(2, 0));
-    //     g.addVertex(5, new Graph.Vertex(1, 1));
-        
-    //     g.addUndirectedEdge(1, 5, 2);
-    //     g.addUndirectedEdge(2, 5, 3);
-    //     g.addUndirectedEdge(3, 5, 4);
-        
-    //     // Contract center vertex 5
-    //     // Should add shortcuts: 1-2, 1-3, 2-3 (all pairs)
-    //     int shortcutsAdded = g.contract(5);
-        
-    //     // 3 neighbors, so 3*2 = 6 directed edges (or 3 pairs * 2 directions each)
-    //     System.out.println(String.format("expected %d, actual %d",6, shortcutsAdded));
-    // }
 }

@@ -1,9 +1,6 @@
 package ch;
 
 import java.util.Scanner;
-
-import ch.AugmentedGraph.AugmentedVertex;
-
 import java.io.File;
 
 class Main {
