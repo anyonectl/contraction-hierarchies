@@ -6,16 +6,16 @@ import org.junit.Test;
 
 import ch.Graph.Edge;
 
-public class AugmentedGraphTest {
+public class GraphTest {
 
-    AugmentedGraph simple;
-    AugmentedGraph triangle;
-    AugmentedGraph linear;
-    AugmentedGraph star;
+    Graph simple;
+    Graph triangle;
+    Graph linear;
+    Graph star;
 
     @Before
     public void setup() {
-        simple = new AugmentedGraph();
+        simple = new Graph();
         simple.addVertex(1, new Graph.Vertex(0, 0));
         simple.addVertex(2, new Graph.Vertex(1, 0));
         simple.addVertex(3, new Graph.Vertex(0, 1));
@@ -25,7 +25,7 @@ public class AugmentedGraphTest {
         simple.addUndirectedEdge(2, 4, 4);
         simple.addUndirectedEdge(3, 4, 6);
 
-        triangle = new AugmentedGraph();
+        triangle = new Graph();
         triangle.addVertex(1, new Graph.Vertex(0, 0));
         triangle.addVertex(2, new Graph.Vertex(0, 1));
         triangle.addVertex(3, new Graph.Vertex(1, 1));
@@ -33,14 +33,14 @@ public class AugmentedGraphTest {
         triangle.addUndirectedEdge(1, 3, 8);
         triangle.addUndirectedEdge(2, 3, 3);
 
-        linear = new AugmentedGraph();
+        linear = new Graph();
         linear.addVertex(1, new Graph.Vertex(0, 0));
         linear.addVertex(2, new Graph.Vertex(1, 0));
         linear.addVertex(3, new Graph.Vertex(2, 0));
         linear.addUndirectedEdge(1, 2, 5);
         linear.addUndirectedEdge(2, 3, 3);
 
-        star = new AugmentedGraph();
+        star = new Graph();
         star.addVertex(1, new Graph.Vertex(0, 0));
         star.addVertex(2, new Graph.Vertex(1, 0));
         star.addVertex(3, new Graph.Vertex(2, 0));
@@ -72,7 +72,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_shortcutNeededNoWitness() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -93,7 +93,7 @@ public class AugmentedGraphTest {
         // Verify shortcut was added
         boolean foundShortcut = false;
         for (Graph.Edge e : g.getNeighbours(1)) {
-            AugmentedGraph.AugmentedEdge ae = (AugmentedGraph.AugmentedEdge) e;
+            Graph.Edge ae = (Graph.Edge) e;
             if (ae.to == 3 && ae.weight == 8 && ae.contracted == 2) {
                 foundShortcut = true;
                 break;
@@ -104,7 +104,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_multipleShortcuts() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         // Star graph with center vertex 5
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
@@ -125,7 +125,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_verifyShortcutContractedField() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -138,7 +138,7 @@ public class AugmentedGraphTest {
         // Check that shortcut has contracted field set to 2
         for (Edge e : g.getNeighbours(1)) {
             if (e.to == 3) {
-                AugmentedGraph.AugmentedEdge ae = (AugmentedGraph.AugmentedEdge) e;
+                Graph.Edge ae = (Graph.Edge) e;
                 assertEquals("Shortcut should have contracted=2", 2, ae.contracted);
             }
         }
@@ -146,7 +146,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_isolatedVertex() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         
@@ -157,7 +157,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_singleNeighbour() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         
@@ -171,7 +171,7 @@ public class AugmentedGraphTest {
         
     @Test
     public void contract_witnessPathPreventsShortcut() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -193,7 +193,7 @@ public class AugmentedGraphTest {
     
     @Test
     public void contract_noNeighbours() {
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         
         // Vertex with no edges
@@ -300,7 +300,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_vertexWithShorterWitnessPath() {
         // Create graph where witness path is shorter than path through v
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -324,7 +324,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_isolatedVertex() {
         // Isolated vertex with no edges
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         
@@ -336,7 +336,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_singleNeighbour() {
         // Vertex with only one neighbour
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addUndirectedEdge(1, 2, 5);
@@ -352,7 +352,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_fullyConnected() {
         // All vertices are directly connected so no shortcuts are needed
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         g.addVertex(2, new Graph.Vertex(1, 0));
         g.addVertex(3, new Graph.Vertex(2, 0));
@@ -379,7 +379,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_longChainMaximumShortcuts() {
         // Create a long chain where contracting middle adds many shortcuts
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         for (int i = 1; i <= 5; i++) {
             g.addVertex(i, new Graph.Vertex(i, 0));
         }
@@ -401,7 +401,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_nonExistentVertexReturnsZero() {
         // Vertex that doesn't exist or has no neighbours
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(1, new Graph.Vertex(0, 0));
         
         // Vertex 999 doesn't exist (hasNeighbours will return false/null)
@@ -413,7 +413,7 @@ public class AugmentedGraphTest {
     @Test
     public void getEdgeDifference_highDegreeVertex() {
         // High degree vertex should have large positive edge difference
-        AugmentedGraph g = new AugmentedGraph();
+        Graph g = new Graph();
         g.addVertex(0, new Graph.Vertex(0, 0));
         
         // Create star with 5 leaf nodes

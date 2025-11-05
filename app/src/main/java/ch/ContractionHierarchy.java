@@ -6,13 +6,12 @@ import java.util.Set;
 
 public class ContractionHierarchy {
 
-    AugmentedGraph original; // so we can compare before/after
-    AugmentedGraph g;
+    Graph original; // so we can compare before/after
+    Graph g;
     PriorityQueue<PQElem> toBeContracted;
     Set<Long> contracted;
 
-
-    public ContractionHierarchy(AugmentedGraph original) {
+    public ContractionHierarchy(Graph original) {
         this.original = original;
         this.g = original;
         toBeContracted = new PriorityQueue<>();
@@ -43,13 +42,13 @@ public class ContractionHierarchy {
 
             // contract and set rank
             g.contract(current.v);
-            g.getAugVertex(current.v).setRank(rank);
+            g.getVertex(current.v).setRank(rank);
             contracted.add(current.v);
             rank++;
         }
     }
 
-    private void preprocessDebug(AugmentedGraph g) {
+    private void preprocessDebug(Graph g) {
         // for debugging/reporting on progress
         long startTime = System.currentTimeMillis();
         int V = g.n;
@@ -94,7 +93,7 @@ public class ContractionHierarchy {
 
             // contract and set rank
             g.contract(current.v);
-            g.getAugVertex(current.v).setRank(rank);
+            g.getVertex(current.v).setRank(rank);
             contracted.add(current.v);
             rank++;
 
