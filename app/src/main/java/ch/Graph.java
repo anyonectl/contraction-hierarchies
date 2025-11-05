@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Graph {
     int n; // number of vertices
     int m; // number of edges
-    protected Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
+    Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
     // inner class representing vertices
@@ -81,6 +82,14 @@ public class Graph {
     // returns the Vertex object with the given id
     public Vertex getVertex(long id) {
         return this.vertices.get(id);
+    }
+
+    public Set<Long> getVertexIds() {
+        return vertices.keySet();
+    }
+
+    public Map<Long, Vertex> getVertices() {
+        return vertices;
     }
 
     // returns the outdegree of vertex v (number of outgoing edges from v), 

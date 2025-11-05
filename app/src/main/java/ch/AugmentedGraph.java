@@ -6,8 +6,20 @@ import java.util.Map;
 
 public class AugmentedGraph extends Graph {
 
+    public class AugmentedVertex extends Vertex {
+        long rank;
+
+        public AugmentedVertex(float x, float y) {
+            super(x, y);
+        }
+
+        public void setRank(long rank) {
+            this.rank = rank;
+        }
+    }
+
     public class AugmentedEdge extends Edge {
-        public long contracted;  // only used by contraction hierarchy, marks the vertex from which this edge resulted.
+        long contracted;  // only used by contraction hierarchy, marks the vertex from which this edge resulted.
 
         public AugmentedEdge(long to, int weight, long contracted) {
             super(to, weight);
@@ -41,6 +53,12 @@ public class AugmentedGraph extends Graph {
     public void addUndirectedEdge(long u, long v, int weight) {
         addUndirectedEdge(u, v, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
     }
+
+    // TODO test
+    public AugmentedVertex getAugVertex(long id) {
+        return (AugmentedVertex) getVertices().get(id);
+    }
+
 
     /**
      * Contracts vertex v from the graph by adding necessary shortcuts and marking it as contracted.
