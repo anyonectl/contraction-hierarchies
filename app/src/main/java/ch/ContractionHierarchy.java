@@ -6,16 +6,21 @@ import java.util.Set;
 
 public class ContractionHierarchy {
 
-    PriorityQueue<PQElem> toBeContracted; // key is edge difference
+    AugmentedGraph original; // so we can compare before/after
+    AugmentedGraph g;
+    PriorityQueue<PQElem> toBeContracted;
     Set<Long> contracted;
 
 
-    public ContractionHierarchy(AugmentedGraph g) {
+    public ContractionHierarchy(AugmentedGraph original) {
+        this.original = original;
+        this.g = original;
         toBeContracted = new PriorityQueue<>();
         contracted = new HashSet<>();
+        preprocess();
     }
 
-    private void preprocess(AugmentedGraph g) {
+    private void preprocess() {
         // order vertices by edge difference
         for (long v : g.getVertexIds()) {
             int edgeDiff = g.getEdgeDifference(v);
@@ -25,66 +30,91 @@ public class ContractionHierarchy {
         // contract vertices in order - update edge difference along the way
         int rank = 0;
         while (!toBeContracted.isEmpty()) {
-            // contract and set rank
-            long current = toBeContracted.poll().v; // O(log(n))
-            g.contract(current);
-            g.getAugVertex(current).setRank(rank);
-            contracted.add(current);
-            rank++; 
+            // get vertex to be contracted
+            PQElem current = toBeContracted.poll(); // O(log(n))
+            if (contracted.contains(current.v)) continue;
 
-            // update edge difference of next vertex
-            if (toBeContracted.isEmpty()) break;
-            PQElem next = toBeContracted.peek(); // O(1)
-            int edgeDiff = g.getEdgeDifference(next.v);
-            if (next.key > edgeDiff) {
-                next = toBeContracted.poll(); // O(log(n))
-                toBeContracted.add(new PQElem(edgeDiff, next.v)); // O(log(n))
+            // check and update edge difference (lazy updates)
+            int edgeDiff = g.getEdgeDifference(current.v);
+            if (current.key < edgeDiff) {
+                toBeContracted.add(new PQElem(edgeDiff, current.v)); // O(log(n))
+                continue; // edge diff was updated, so skip contraction
             }
+
+            // contract and set rank
+            g.contract(current.v);
+            g.getAugVertex(current.v).setRank(rank);
+            contracted.add(current.v);
+            rank++;
         }
     }
 
     private void preprocessDebug(AugmentedGraph g) {
-        // order vertices by edge difference
-        System.out.println("=== ORDERING VERTICES BY EDGE DIFFERENCE ===");
-        for (long v : g.getVertexIds()) {
-            System.out.println(String.format("Processing vertex id: %d ...", v));
-            int edgeDiff = g.getEdgeDifference(v);
-            System.out.println(String.format("Computed edge difference: %d ...", edgeDiff));
-            toBeContracted.add(new PQElem(edgeDiff, v)); // O(log(n))
-            System.out.println(String.format("Vertex %d with edge difference %d added to the PQ!", v, edgeDiff));
-        }
+        // for debugging/reporting on progress
+        long startTime = System.currentTimeMillis();
+        int V = g.n;
+        int skippedDuplicates = 0;
+        int lazyUpdates = 0;
 
-        // contract vertices in order - update edge difference along the way
+        System.err.println("=== ORDERING VERTICES BY EDGE DIFFERENCE ===");
+        System.out.println();
+        System.out.println("Processing...");
+        // order vertices by edge difference
+        for (long v : g.getVertexIds()) {
+            int edgeDiff = g.getEdgeDifference(v);
+            toBeContracted.add(new PQElem(edgeDiff, v)); // O(log(n))
+        }
+        long orderingElapsed = System.currentTimeMillis() - startTime;
+        System.out.println();
+        System.out.println("Initial ordering complete!");
+        System.out.println("Time spent so far: " + orderingElapsed / 1000.0);
+        System.out.println();
+
         System.out.println("=== CONTRACTING VERTICES ===");
+        System.out.println("Total vertices: " + V);
+        System.out.println();
+        System.out.println("Processing...");
+        // contract vertices in order - update edge difference along the way
         int rank = 0;
         while (!toBeContracted.isEmpty()) {
-            System.out.println();
-            System.out.println(String.format("CURRENT RANK: %d", rank));
-            // contract and set rank
-            long current = toBeContracted.poll().v; // O(log(n))
-            System.out.println(String.format("Contracting vertex %d ...", current));
-            g.contract(current);
-            System.out.println("Contracted!");
-            g.getAugVertex(current).setRank(rank);
-            System.out.println(String.format("Rank set to %d", rank));
-            contracted.add(current);
-            rank++;
-            System.out.println(String.format("Number of vertices left in PQ: %d", toBeContracted.size()));
+            // get vertex to be contracted
+            PQElem current = toBeContracted.poll(); // O(log(n))
+            if (contracted.contains(current.v)) {
+                skippedDuplicates++;
+                continue;
+            }
 
-            // update edge difference of next vertex
-            if (toBeContracted.isEmpty()) break;
-            System.out.println();
-            PQElem next = toBeContracted.peek(); // O(1)
-            System.out.println(String.format("Checking new edge difference of vertex %d with edge diff %d ...", next.v, next.key));
-            int edgeDiff = g.getEdgeDifference(next.v);
-            System.out.println(String.format("New edge diff: %d ...", edgeDiff));
-            if (next.key > edgeDiff) {
-                next = toBeContracted.poll(); // O(log(n))
-                System.out.println(String.format("Vertex %d removed from PQ", next.v));
-                toBeContracted.add(new PQElem(edgeDiff, next.v)); // O(log(n))
-                System.out.println(String.format("Vertex %d added from PQ with new edge diff!", next.v));
+            // check and update edge difference (lazy updates)
+            int edgeDiff = g.getEdgeDifference(current.v);
+            if (current.key < edgeDiff) {
+                toBeContracted.add(new PQElem(edgeDiff, current.v)); // O(log(n))
+                lazyUpdates++;
+                continue; // edge diff was updated, so skip contraction
+            }
+
+            // contract and set rank
+            g.contract(current.v);
+            g.getAugVertex(current.v).setRank(rank);
+            contracted.add(current.v);
+            rank++;
+
+            // only for reporting on progress / debugging
+            if (rank % 1000 == 0 || rank == V - 1) {
+                long elapsed = System.currentTimeMillis() - startTime;
+                double progress = (rank * 100.0) / V;
+                int queueSize = toBeContracted.size();
+
+                System.out.printf("Progress: %d/%d (%.1f%%) | Time: %.2fs | Queue size: %d\n",
+                    rank, V, progress, elapsed / 1000.0, queueSize);
             }
         }
+        long endTime = System.currentTimeMillis();
+        double totalTime = (endTime - startTime) / 1000.0;
+        System.out.println("\n=== PREPROCESSING COMPLETE ===");
+        System.out.printf("Total time: %.2f seconds\n", totalTime);
+        System.out.printf("Vertices contracted: %d\n", rank);
+        System.out.printf("Lazy updates: %d\n", lazyUpdates);
+        System.out.printf("Skipped duplicates: %d\n", skippedDuplicates);
     }
 
     // not sure about this - seems to have something to do with reporting on the performance of a search??
