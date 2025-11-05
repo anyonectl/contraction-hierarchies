@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -158,7 +159,7 @@ public class ContractionHierarchy {
                 long id = entry.getKey(), rank = entry.getValue().getRank();
                 float x = entry.getValue().x, y = entry.getValue().y;
                 w.newLine();
-                w.write(String.format("%d %f %f %d", id, x, y, rank));
+                w.write(String.format(Locale.US, "%d %f %f %d", id, x, y, rank));
             }
             for(Map.Entry<Long, List<Edge>> entry : g.edges.entrySet()) {
                 long from = entry.getKey();
