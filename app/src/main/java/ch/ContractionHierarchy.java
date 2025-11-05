@@ -236,8 +236,8 @@ public class ContractionHierarchy {
         System.out.println();
 
         System.out.println("Storing graph...");
-        storeGraph(ch.original, "testGraphOriginalStored.graph");
-        storeGraph(ch.augmented, "testGraphAugmentedStored.graph");
+        storeGraph(ch.original, "output/original.graph");
+        storeGraph(ch.augmented, "output/augmented.graph");
         System.out.println("Graph stored!");
     }
 }
