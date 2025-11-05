@@ -23,8 +23,8 @@ public class ContractionHierarchy {
     Set<Long> contracted;
 
     public ContractionHierarchy(Graph original, boolean debug) {
-        this.original = original;
         this.augmented = original;
+        this.original = original.copy();
         toBeContracted = new PriorityQueue<>();
         contracted = new HashSet<>();
         if (debug)
@@ -216,10 +216,10 @@ public class ContractionHierarchy {
     
     public static void main(String[] args) throws FileNotFoundException {
         // read graph from file
-        File file = new File("test.graph");
+        File file = new File("denmark.graph");
         Scanner sc = new Scanner(file);
         Graph g = readGraph(sc);
-        sc.close();
+        sc.close();        
 
         // run preprocessing phase
         ContractionHierarchy ch = new ContractionHierarchy(g, true);

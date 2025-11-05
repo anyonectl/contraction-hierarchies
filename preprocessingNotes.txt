@@ -1,0 +1,10 @@
+=== PREPROCESSING COMPLETE ===
+
+Total time: 48,92 seconds
+Vertices contracted: 569586
+Lazy updates: 530339
+Skipped duplicates: 0
+
+Number of edges in original graph: 1175286
+Number of edges in new graph: 3411448
+Shortcuts added: 2236162

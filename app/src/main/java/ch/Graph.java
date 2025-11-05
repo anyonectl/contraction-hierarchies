@@ -195,4 +195,21 @@ public class Graph {
         // degree(v) is the number of edges 'removed' (degree(v) counts one direction in undirected graph, but we 'remove' both edges)
         return shortcutsAdded - degree(v);
     }
+
+    public Graph copy() {
+        Graph g = new Graph();
+        // Copy vertices
+        for (Map.Entry<Long, Vertex> entry : this.vertices.entrySet()) {
+            Vertex v = entry.getValue();
+            g.addVertex(entry.getKey(), new Vertex(v.x, v.y));
+        }
+        // Copy edges
+        for (Map.Entry<Long, List<Edge>> entry : this.edges.entrySet()) {
+            long from = entry.getKey();
+            for (Edge e : entry.getValue()) {
+                g.addEdge(from, e.to, e.weight);
+            }
+        }
+        return g;
+    }
 }
