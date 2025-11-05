@@ -9,6 +9,7 @@ import java.util.Set;
 public class Graph {
     int n; // number of vertices
     int m; // number of edges
+
     Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
@@ -51,6 +52,14 @@ public class Graph {
         this.m = 0;
         this.edges = new HashMap<>();
         this.vertices = new HashMap<>();
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public int getM() {
+        return m;
     }
 
     public void addVertex(long id, Vertex v) {
