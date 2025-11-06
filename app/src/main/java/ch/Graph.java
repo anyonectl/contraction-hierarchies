@@ -9,6 +9,7 @@ import java.util.Set;
 public class Graph {
     int n; // number of vertices
     int m; // number of edges
+
     Map<Long, List<Edge>> edges; // the long represents the 'from' vertex - and it is the key to a list of outgoing edges
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
 
@@ -51,6 +52,14 @@ public class Graph {
         this.m = 0;
         this.edges = new HashMap<>();
         this.vertices = new HashMap<>();
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public int getM() {
+        return m;
     }
 
     public void addVertex(long id, Vertex v) {
@@ -185,5 +194,22 @@ public class Graph {
         }
         // degree(v) is the number of edges 'removed' (degree(v) counts one direction in undirected graph, but we 'remove' both edges)
         return shortcutsAdded - degree(v);
+    }
+
+    public Graph copy() {
+        Graph g = new Graph();
+        // Copy vertices
+        for (Map.Entry<Long, Vertex> entry : this.vertices.entrySet()) {
+            Vertex v = entry.getValue();
+            g.addVertex(entry.getKey(), new Vertex(v.x, v.y));
+        }
+        // Copy edges
+        for (Map.Entry<Long, List<Edge>> entry : this.edges.entrySet()) {
+            long from = entry.getKey();
+            for (Edge e : entry.getValue()) {
+                g.addEdge(from, e.to, e.weight);
+            }
+        }
+        return g;
     }
 }
