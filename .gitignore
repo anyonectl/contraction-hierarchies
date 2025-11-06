@@ -5,7 +5,11 @@ denmark.graph
 ch.graph
 denmark.contracted.graph
 soms-notes.md
-.vscode 
+.vscode
+
+# exclude produced graph data, except for pngs
+output/* 
+!output/visualisations/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,linux,macos,git,gradle,python,jupyternotebooks,java,latex
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,windows,linux,macos,git,gradle,python,jupyternotebooks,java,latex
