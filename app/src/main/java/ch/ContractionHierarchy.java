@@ -60,18 +60,6 @@ public class ContractionHierarchy {
             augmented.getVertex(current.v).setRank(rank);
             contracted.add(current.v);
             rank++;
-
-            // // update neighbours (is this necessary though?)
-            // if (augmented.hasNeighbours(current.v)) {
-            //     for (Graph.Edge e : augmented.getNeighbours(current.v)) {
-            //         long neighbour = e.to;
-            //         if (!contracted.contains(neighbour)) {
-            //             PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
-            //             // should at least have check here!
-            //             toBeContracted.add(elem);
-            //         }
-            //     }
-            // }
         }
     }
 
@@ -125,18 +113,6 @@ public class ContractionHierarchy {
             augmented.getVertex(current.v).setRank(rank);
             contracted.add(current.v);
             rank++;
-
-            // // update neighbours (is this necessary though?)
-            // if (augmented.hasNeighbours(current.v)) {
-            //     for (Graph.Edge e : augmented.getNeighbours(current.v)) {
-            //         long neighbour = e.to;
-            //         if (!contracted.contains(neighbour)) {
-            //             PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
-            //             // should at least have check here!
-            //             toBeContracted.add(elem);
-            //         }
-            //     }
-            // }
 
             // for reporting on progress / debugging
             if (rank % 1000 == 0 || rank == V - 1) {
@@ -245,9 +221,9 @@ public class ContractionHierarchy {
         int shortcutsAdded = augmentedEdges - originalEdges;
 
         System.out.println();
-        System.out.println(String.format("Number of edges in original graph: %d", originalEdges));
-        System.out.println(String.format("Number of edges in new graph: %d", augmentedEdges));
-        System.out.println(String.format("Shortcuts added: %d", shortcutsAdded));
+        System.out.println(String.format("Number of edges in original graph: %d", originalEdges / 2));
+        System.out.println(String.format("Number of edges in new graph: %d", augmentedEdges / 2));
+        System.out.println(String.format("Shortcuts added: %d", shortcutsAdded / 2));
         System.out.println();
 
         System.out.println("Storing graph...");

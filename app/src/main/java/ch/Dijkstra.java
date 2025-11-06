@@ -85,23 +85,23 @@ public class Dijkstra {
             if (u == to) return dist; // if we've reached the target, return the distance
             if (visited.contains(u)) continue; // skip if already visited
             visited.add(u);
-            if (dist > maxDistance) continue; // skip if distance exceeds maximum
+            if (dist > maxDistance) break; // skip if distance exceeds maximum
             if (!g.hasNeighbours(u)) continue; // skip if u has no neighbours
             
             // relax edges
             for (Graph.Edge e : g.getNeighbours(u)) {
-                if (e.contracted != -1) continue; // skip if e is a shortcut (but are we supposed to do that?)
+                // if (e.contracted != -1) continue; // skip if e is a shortcut (but are we supposed to do that?)
                 long v = e.to;
                 if (v == exclude) continue; // skip excluded vertex 
                 if (g.getVertex(v).getRank() != -1) continue; // skip vertices that have already been contracted
 
                 int newDist = dist + e.weight;
                 // only consider paths with dist smaller than maxDistance
-                if (newDist <= maxDistance) {
-                    if (!dists.containsKey(v) || dists.get(v) > newDist) {
+                if (newDist <= maxDistance && newDist < dists.getOrDefault(v, Integer.MAX_VALUE)) {
+                    // if (!dists.containsKey(v) || dists.get(v) > newDist) { // redundant
                         dists.put(v, newDist);
                         pq.add(new PQElem(newDist, v));
-                    }
+                    // }
                 }
             }
         }
