@@ -43,7 +43,7 @@ public class ContractionHierarchy {
 
         // contract vertices in order - update edge difference along the way
         int rank = 0;
-        while (!toBeContracted.isEmpty()) {
+        while (!toBeContracted.isEmpty()) { // maybe this should be while contracted.size() < original.n or something?
             // get vertex to be contracted
             PQElem current = toBeContracted.poll(); // O(log(n))
             if (contracted.contains(current.v)) continue;
@@ -61,16 +61,17 @@ public class ContractionHierarchy {
             contracted.add(current.v);
             rank++;
 
-            // update neighbours (is this necessary though?)
-            if (augmented.hasNeighbours(current.v)) {
-                for (Graph.Edge e : augmented.getNeighbours(current.v)) {
-                    long neighbour = e.to;
-                    if (!contracted.contains(neighbour)) {
-                        PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
-                        toBeContracted.add(elem);
-                    }
-                }
-            }
+            // // update neighbours (is this necessary though?)
+            // if (augmented.hasNeighbours(current.v)) {
+            //     for (Graph.Edge e : augmented.getNeighbours(current.v)) {
+            //         long neighbour = e.to;
+            //         if (!contracted.contains(neighbour)) {
+            //             PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
+            //             // should at least have check here!
+            //             toBeContracted.add(elem);
+            //         }
+            //     }
+            // }
         }
     }
 
@@ -83,8 +84,8 @@ public class ContractionHierarchy {
         int V = augmented.n;
         int skippedDuplicates = 0;
         int lazyUpdates = 0;
-        System.out.printf("\n%d\n", title);
-        System.out.printf("Total vertices to order and contract: %d\n", V);
+        System.out.printf("\n%s\n", title);
+        System.out.printf("Total vertices to order and contract: %d\n\n", V);
         System.err.println("=== ORDERING VERTICES ===\n");
         System.out.println("Processing...");
         long startTime = System.currentTimeMillis();
@@ -97,13 +98,13 @@ public class ContractionHierarchy {
 
         // for debugging/progress reporting
         long orderingElapsed = System.currentTimeMillis() - startTime;
-        System.out.printf("\nInitial ordering complete! Time spent: %d\n", orderingElapsed / 1000.0);
-        System.out.println("=== CONTRACTING VERTICES ===\n");
-        System.out.println("Processing...");
+        System.out.printf("\nInitial ordering complete! Time spent: %f\n", orderingElapsed / 1000.0);
+        System.out.println("\n=== CONTRACTING VERTICES ===\n");
+        System.out.println("Processing...\n");
 
         // contract vertices in order - update edge difference along the way
         int rank = 0;
-        while (!toBeContracted.isEmpty()) {
+        while (!toBeContracted.isEmpty()) { // maybe this should be while contracted.size() < original.n or something?
             // get vertex to be contracted
             PQElem current = toBeContracted.poll(); // O(log(n))
             if (contracted.contains(current.v)) {
@@ -125,29 +126,31 @@ public class ContractionHierarchy {
             contracted.add(current.v);
             rank++;
 
-            // update neighbours (is this necessary though?)
-            if (augmented.hasNeighbours(current.v)) {
-                for (Graph.Edge e : augmented.getNeighbours(current.v)) {
-                    long neighbour = e.to;
-                    if (!contracted.contains(neighbour)) {
-                        PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
-                        toBeContracted.add(elem);
-                    }
-                }
-            }
+            // // update neighbours (is this necessary though?)
+            // if (augmented.hasNeighbours(current.v)) {
+            //     for (Graph.Edge e : augmented.getNeighbours(current.v)) {
+            //         long neighbour = e.to;
+            //         if (!contracted.contains(neighbour)) {
+            //             PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
+            //             // should at least have check here!
+            //             toBeContracted.add(elem);
+            //         }
+            //     }
+            // }
 
             // for reporting on progress / debugging
             if (rank % 1000 == 0 || rank == V - 1) {
                 long elapsed = System.currentTimeMillis() - startTime;
                 double progress = (rank * 100.0) / V;
                 int queueSize = toBeContracted.size();
-                System.out.printf("Progress: %d/%d (%.1f%%) | Time: %.2fs | Queue size: %d\n",
-                    rank, V, progress, elapsed / 1000.0, queueSize);
+                int shortcutsAdded = (augmented.getM() - original.getM()) / 2;
+                System.out.printf("Progress: %d/%d (%.1f%%) | Time: %.2fs | Queue size: %d | Shortcuts added: %d\n",
+                    rank, V, progress, elapsed / 1000.0, queueSize, shortcutsAdded);
             }
         }
         long endTime = System.currentTimeMillis();
         double totalTime = (endTime - startTime) / 1000.0;
-        System.out.printf("\n=== PREPROCESSING COMPLETE ===\n");
+        System.out.printf("\n=== PREPROCESSING COMPLETE ===\n\n");
         System.out.printf("Total time: %.2f seconds\n", totalTime);
         System.out.printf("Vertices contracted: %d\n", rank);
         System.out.printf("Lazy updates: %d\n", lazyUpdates);
@@ -248,8 +251,7 @@ public class ContractionHierarchy {
         System.out.println();
 
         System.out.println("Storing graph...");
-        storeGraph(ch.original, "output/original.graph");
-        storeGraph(ch.augmented, "output/augmented.graph");
+        storeGraph(ch.augmented, "output/augmentedWithoutNeighbour.graph");
         System.out.println("Graph stored!");
     }
 }
