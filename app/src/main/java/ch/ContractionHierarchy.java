@@ -60,50 +60,54 @@ public class ContractionHierarchy {
             augmented.getVertex(current.v).setRank(rank);
             contracted.add(current.v);
             rank++;
+
+            // update neighbours (is this necessary though?)
+            if (augmented.hasNeighbours(current.v)) {
+                for (Graph.Edge e : augmented.getNeighbours(current.v)) {
+                    long neighbour = e.to;
+                    if (!contracted.contains(neighbour)) {
+                        PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
+                        toBeContracted.add(elem);
+                    }
+                }
+            }
         }
     }
 
     private void preprocessDebug() {
+        // for debugging/reporting on progress
         String title =
             "╔════════════════════════════════════╗\n" +
             "║         PREPROCESSING PHASE        ║\n" +
             "╚════════════════════════════════════╝";
-
-        // for debugging/reporting on progress
         int V = augmented.n;
         int skippedDuplicates = 0;
         int lazyUpdates = 0;
+        System.out.printf("\n%d\n", title);
+        System.out.printf("Total vertices to order and contract: %d\n", V);
+        System.err.println("=== ORDERING VERTICES ===\n");
+        System.out.println("Processing...");
         long startTime = System.currentTimeMillis();
 
-        System.out.println();
-        System.out.println(title);
-        System.out.println();
-        System.out.println("Total vertices to order and contract: " + V);
-        System.out.println();
-
-        System.err.println("=== ORDERING VERTICES ===");
-        System.out.println();
-        System.out.println("Processing...");
         // order vertices by edge difference
         for (long v : augmented.getVertexIds()) {
             int edgeDiff = augmented.getEdgeDifference(v);
             toBeContracted.add(new PQElem(edgeDiff, v)); // O(log(n))
         }
-        long orderingElapsed = System.currentTimeMillis() - startTime;
-        System.out.println();
-        System.out.println("Initial ordering complete! Time spent: " + orderingElapsed / 1000.0);
-        System.out.println();
 
-        System.out.println("=== CONTRACTING VERTICES ===");
-        System.out.println();
+        // for debugging/progress reporting
+        long orderingElapsed = System.currentTimeMillis() - startTime;
+        System.out.printf("\nInitial ordering complete! Time spent: %d\n", orderingElapsed / 1000.0);
+        System.out.println("=== CONTRACTING VERTICES ===\n");
         System.out.println("Processing...");
+
         // contract vertices in order - update edge difference along the way
         int rank = 0;
         while (!toBeContracted.isEmpty()) {
             // get vertex to be contracted
             PQElem current = toBeContracted.poll(); // O(log(n))
             if (contracted.contains(current.v)) {
-                skippedDuplicates++;
+                skippedDuplicates++; // for debugging
                 continue;
             }
 
@@ -111,7 +115,7 @@ public class ContractionHierarchy {
             int edgeDiff = augmented.getEdgeDifference(current.v);
             if (current.key < edgeDiff) {
                 toBeContracted.add(new PQElem(edgeDiff, current.v)); // O(log(n))
-                lazyUpdates++;
+                lazyUpdates++; // for debugging
                 continue; // edge diff was updated, so skip contraction
             }
 
@@ -121,25 +125,33 @@ public class ContractionHierarchy {
             contracted.add(current.v);
             rank++;
 
-            // only for reporting on progress / debugging
+            // update neighbours (is this necessary though?)
+            if (augmented.hasNeighbours(current.v)) {
+                for (Graph.Edge e : augmented.getNeighbours(current.v)) {
+                    long neighbour = e.to;
+                    if (!contracted.contains(neighbour)) {
+                        PQElem elem = new PQElem(augmented.getEdgeDifference(neighbour), neighbour);
+                        toBeContracted.add(elem);
+                    }
+                }
+            }
+
+            // for reporting on progress / debugging
             if (rank % 1000 == 0 || rank == V - 1) {
                 long elapsed = System.currentTimeMillis() - startTime;
                 double progress = (rank * 100.0) / V;
                 int queueSize = toBeContracted.size();
-
                 System.out.printf("Progress: %d/%d (%.1f%%) | Time: %.2fs | Queue size: %d\n",
                     rank, V, progress, elapsed / 1000.0, queueSize);
             }
         }
         long endTime = System.currentTimeMillis();
         double totalTime = (endTime - startTime) / 1000.0;
-        System.out.println("\n=== PREPROCESSING COMPLETE ===");
-        System.out.println();
+        System.out.printf("\n=== PREPROCESSING COMPLETE ===\n");
         System.out.printf("Total time: %.2f seconds\n", totalTime);
         System.out.printf("Vertices contracted: %d\n", rank);
         System.out.printf("Lazy updates: %d\n", lazyUpdates);
         System.out.printf("Skipped duplicates: %d\n", skippedDuplicates);
-        System.out.println();
     }
 
     // not sure about this - seems to have something to do with reporting on the performance of a search??

@@ -56,6 +56,7 @@ public class Dijkstra {
 
     /**
      * Runs Dijkstra's algorithm from source to target, excluding a specific vertex.
+     * Vertices already contracted and edges added as shortcuts are also excluded from the search.
      * If target is not reached within maxDistance, the search terminates early.
      *
      * @param g             The graph to search.
@@ -89,10 +90,12 @@ public class Dijkstra {
             
             // relax edges
             for (Graph.Edge e : g.getNeighbours(u)) {
+                if (e.contracted != -1) continue; // skip if e is a shortcut (but are we supposed to do that?)
                 long v = e.to;
-                if (v == exclude) continue; // skip excluded vertex
+                if (v == exclude) continue; // skip excluded vertex 
+                if (g.getVertex(v).getRank() != -1) continue; // skip vertices that have already been contracted
+
                 int newDist = dist + e.weight;
-                
                 // only consider paths with dist smaller than maxDistance
                 if (newDist <= maxDistance) {
                     if (!dists.containsKey(v) || dists.get(v) > newDist) {
@@ -102,6 +105,6 @@ public class Dijkstra {
                 }
             }
         }
-        return -1; // if no witness path is smaller than maxDistance
+        return -1; // if no witness path is found / is smaller than maxDistance
     }
 }
