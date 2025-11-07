@@ -46,7 +46,6 @@ public class ContractionHierarchy {
             "║         PREPROCESSING PHASE        ║\n" +
             "╚════════════════════════════════════╝";
         int V = augmented.getN();
-        int skippedDuplicates = 0;
         int lazyUpdates = 0;
         System.out.printf("\n%s\n", title);
         System.out.printf("Input graph has %d vertices and %d edges\n\n", V, augmented.getM());
@@ -84,10 +83,7 @@ public class ContractionHierarchy {
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).getRank() != -1) {
-                skippedDuplicates++; // for debugging
-                continue;
-            }
+            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
             
             // check and update edge difference (lazy updates)
             int newEdgeDiff = augmented.getEdgeDifference(v);
@@ -119,8 +115,8 @@ public class ContractionHierarchy {
         System.out.printf("Total time: %.2f seconds\n", totalTime);
         System.out.printf("Vertices contracted: %d\n", rank);
         System.out.printf("Lazy updates: %d\n", lazyUpdates);
-        System.out.printf("Skipped duplicates: %d\n", skippedDuplicates);
-        System.out.printf("Final graph has %d edges (including shortcuts)\n", augmented.getM());        
+        System.out.printf("Shortcuts added: %d\n", (augmented.getM() - original.getM()) / 2);
+        System.out.printf("Total (undirected) edges in final graph: %d\n\n", augmented.getM() / 2);        
     }
     
     /**
@@ -137,17 +133,8 @@ public class ContractionHierarchy {
         if (unranked > 0) {
             System.err.println("WARNING: " + unranked + " vertices were not assigned a rank!");
         } else {
-            System.out.println("All vertices successfully ranked.");
+            System.out.println("All vertices were successfully ranked.");
         }
-    }
-
-    /**
-     * Gets the preprocessed graph.
-     * 
-     * @return the graph with contraction hierarchy
-     */
-    public Graph getAugmentedGraph() {
-        return augmented;
     }
 
     public static Graph readGraph(Scanner sc) {
@@ -238,8 +225,8 @@ public class ContractionHierarchy {
 
             // store graph
             if (g.getN() > 100) {
-                System.out.println("Storing graph...");
-                storeGraph(g, "output/testJustDelete.graph");
+                System.out.println("\nStoring graph...");
+                storeGraph(g, "output/augmented.graph");
                 System.out.println("Graph stored!");
             }
             

@@ -1,3 +1,32 @@
+=== RUN 12 - Nov 7, 14:50 ===
+(now total edges shown in statistics are correctly divided by 2)
+
+Progress: 560000/569586 (98,3%) | Time: 13,31s | Queue size: 9586 | Shortcuts added: 556737 | Current edgediff: -4
+Progress: 561000/569586 (98,5%) | Time: 13,74s | Queue size: 8586 | Shortcuts added: 558704 | Current edgediff: -2
+Progress: 562000/569586 (98,7%) | Time: 14,22s | Queue size: 7586 | Shortcuts added: 560670 | Current edgediff: -2
+Progress: 563000/569586 (98,8%) | Time: 14,81s | Queue size: 6586 | Shortcuts added: 562553 | Current edgediff: -2
+Progress: 564000/569586 (99,0%) | Time: 15,35s | Queue size: 5586 | Shortcuts added: 564567 | Current edgediff: -4
+Progress: 565000/569586 (99,2%) | Time: 16,12s | Queue size: 4586 | Shortcuts added: 567414 | Current edgediff: -4
+Progress: 566000/569586 (99,4%) | Time: 17,31s | Queue size: 3586 | Shortcuts added: 570535 | Current edgediff: 4
+Progress: 567000/569586 (99,5%) | Time: 18,81s | Queue size: 2586 | Shortcuts added: 573652 | Current edgediff: 2
+Progress: 568000/569586 (99,7%) | Time: 20,47s | Queue size: 1586 | Shortcuts added: 576756 | Current edgediff: -6
+Progress: 569000/569586 (99,9%) | Time: 22,91s | Queue size: 586 | Shortcuts added: 580148 | Current edgediff: -2
+Progress: 569585/569586 (100,0%) | Time: 25,32s | Queue size: 1 | Shortcuts added: 582507 | Current edgediff: -2
+
+=== PREPROCESSING COMPLETE ===
+
+Total time: 25,32 seconds
+Vertices contracted: 569586
+Lazy updates: 31963
+Shortcuts added: 582507
+Total (undirected) edges in final graph: 1170150
+
+All vertices were successfully ranked.
+
+Storing graph...
+Graph stored!
+
+
 === RUN 11 - Nov 7, 14:20 ===
 (now with witness search in Dijkstra.java instead of Graph.java)
 
