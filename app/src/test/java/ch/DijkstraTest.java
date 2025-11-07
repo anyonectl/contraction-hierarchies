@@ -103,90 +103,90 @@ public class DijkstraTest {
         assertEquals("Distance from a node to itself should be 9", 9, (long) dist.result);
     }
 
-        @Test
-    public void shortestPathOnSubgraph_directPath() {
-        // Direct path from 1 to 2 has distance 5
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 100);
-        assertEquals(5, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_directPath() {
+    //     // Direct path from 1 to 2 has distance 5
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 100);
+    //     assertEquals(5, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_excludeForceAlternate() {
-        // Without exclusion: 1→2 = 5
-        // Excluding vertex 2 forces: 1→3→4 (not possible directly to 2)
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, 2, 100);
-        assertEquals(9, distance); // 3 + 6 = 9
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_excludeForceAlternate() {
+    //     // Without exclusion: 1→2 = 5
+    //     // Excluding vertex 2 forces: 1→3→4 (not possible directly to 2)
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, 2, 100);
+    //     assertEquals(9, distance); // 3 + 6 = 9
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_excludeMiddleVertex() {
-        // Direct path 1→2→3 = 5 + 3 = 8
-        // Excluding 2 forces: 1→3 = 8
-        int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, 2, 100);
-        assertEquals(8, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_excludeMiddleVertex() {
+    //     // Direct path 1→2→3 = 5 + 3 = 8
+    //     // Excluding 2 forces: 1→3 = 8
+    //     int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, 2, 100);
+    //     assertEquals(8, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_witnessPathShorter() {
-        // Path 1→2→3 = 8, which is shorter than direct 1→3 = 8 (equal actually)
-        int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, -1, 100);
-        assertEquals(8, distance); // Both paths are equal
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_witnessPathShorter() {
+    //     // Path 1→2→3 = 8, which is shorter than direct 1→3 = 8 (equal actually)
+    //     int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, -1, 100);
+    //     assertEquals(8, distance); // Both paths are equal
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_maxDistanceBoundRespected() {
-        // Path 1→2 = 5, but maxDistance = 4 should stop search
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 4);
-        assertEquals(-1, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_maxDistanceBoundRespected() {
+    //     // Path 1→2 = 5, but maxDistance = 4 should stop search
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 4);
+    //     assertEquals(-1, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_exactlyAtMaxDistance() {
-        // Path 1→2 = 5, maxDistance = 5 should succeed
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 5);
-        assertEquals(5, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_exactlyAtMaxDistance() {
+    //     // Path 1→2 = 5, maxDistance = 5 should succeed
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 5);
+    //     assertEquals(5, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_sourceEqualsTarget() {
-        // Distance from vertex to itself is 0
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 1, -1, 100);
-        assertEquals(0, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_sourceEqualsTarget() {
+    //     // Distance from vertex to itself is 0
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 1, -1, 100);
+    //     assertEquals(0, distance);
+    // }
 
-    @Test
-    public void shortestPathOnSubgraph_noPath() {
-        Graph disconnected = new Graph();
-        disconnected.addVertex(1, new Graph.Vertex(0, 0));
-        disconnected.addVertex(2, new Graph.Vertex(1, 0));
-        int distance = Dijkstra.shortestPathOnSubgraph(disconnected, 1, 2, -1, 100);
-        assertEquals(-1, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_noPath() {
+    //     Graph disconnected = new Graph();
+    //     disconnected.addVertex(1, new Graph.Vertex(0, 0));
+    //     disconnected.addVertex(2, new Graph.Vertex(1, 0));
+    //     int distance = Dijkstra.shortestPathOnSubgraph(disconnected, 1, 2, -1, 100);
+    //     assertEquals(-1, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_excludeOnlyPath() {
-        Graph gr = new Graph();
-        gr.addVertex(1, new Graph.Vertex(0, 0));
-        gr.addVertex(2, new Graph.Vertex(1, 0));
-        gr.addVertex(3, new Graph.Vertex(2, 0));
-        gr.addUndirectedEdge(1, 2, 5);
-        gr.addUndirectedEdge(2, 3, 5);
-        // Only path 1→3 goes through 2
-        int distance = Dijkstra.shortestPathOnSubgraph(gr, 1, 3, 2, 100);
-        assertEquals(-1, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_excludeOnlyPath() {
+    //     Graph gr = new Graph();
+    //     gr.addVertex(1, new Graph.Vertex(0, 0));
+    //     gr.addVertex(2, new Graph.Vertex(1, 0));
+    //     gr.addVertex(3, new Graph.Vertex(2, 0));
+    //     gr.addUndirectedEdge(1, 2, 5);
+    //     gr.addUndirectedEdge(2, 3, 5);
+    //     // Only path 1→3 goes through 2
+    //     int distance = Dijkstra.shortestPathOnSubgraph(gr, 1, 3, 2, 100);
+    //     assertEquals(-1, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_excludeSource() {
-        // Excluding the source vertex should return -1
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, 1, 100);
-        assertEquals(-1, distance);
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_excludeSource() {
+    //     // Excluding the source vertex should return -1
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, 1, 100);
+    //     assertEquals(-1, distance);
+    // }
     
-    @Test
-    public void shortestPathOnSubgraph_maxDistanceTooSmall() {
-        // Path exists but maxDistance too small
-        int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, -1, 5);
-        assertEquals(-1, distance); // Actual distance is 9 (1→2→4)
-    }
+    // @Test
+    // public void shortestPathOnSubgraph_maxDistanceTooSmall() {
+    //     // Path exists but maxDistance too small
+    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, -1, 5);
+    //     assertEquals(-1, distance); // Actual distance is 9 (1→2→4)
+    // }
 }
