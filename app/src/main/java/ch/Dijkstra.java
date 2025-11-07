@@ -2,9 +2,12 @@ package ch;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import ch.Graph.Edge;
 
 public class Dijkstra {
 
@@ -55,53 +58,48 @@ public class Dijkstra {
     }
 
     /**
-     * Runs Dijkstra's algorithm from source to target, excluding a specific vertex.
-     * If target is not reached within maxDistance, the search terminates early.
-     *
-     * @param g             The graph to search.
-     * @param from          The starting vertex ID.
-     * @param to            The target vertex ID.
-     * @param exclude       The vertex ID to exclude from the search.
-     * @param maxDistance   The maximum distance to search (to optimise witness path searches).
-     * @return The shortest path distance from 'from' to 'to' in a graph excluding 'exclude', 
-     *         or -1 if no path exists within maxDistance.
+     * Performs a search for witness paths using limited Dijkstra from u to w avoiding v
+     * and determines if a shortcut is needed from u to w when contracting v.
+     * A shortcut is needed if there's no path from u to w (avoiding v) that is
+     * shorter than or equal to maxDist (witness path).
+     * 
+     * @param g         The graph to search.
+     * @param u         The starting vertex ID.
+     * @param w        The target vertex ID.
+     * @param v         The vertex ID to exclude from the search.
+     * @param maxDist   The maximum distance to search (to optimise witness path searches).
+     * @return True if the path from u to w through v (u->v->w) is a unique shortest, or False if a witness path was found.
      */
-    public static int shortestPathOnSubgraph(Graph g, long from, long to, long exclude, int maxDistance) {
-        // special case if source or target is excluded
-        if (from == exclude || to == exclude) return -1;
-
+    public static boolean localSearch(Graph g, long u, long w, long v, int maxDist) {
         PriorityQueue<PQElem> pq = new PriorityQueue<>();
         Map<Long, Integer> dists = new HashMap<>();
-        Set<Long> visited = new HashSet<>();
         
-        pq.add(new PQElem(0, from));
-        dists.put(from, 0);
+        dists.put(u, 0);
+        pq.offer(new PQElem(0, u));
         
         while (!pq.isEmpty()) {
-            PQElem elem = pq.poll();
-            long u = elem.v;
-            int dist = elem.key;
-            if (u == to) return dist; // if we've reached the target, return the distance
-            if (visited.contains(u)) continue; // skip if already visited
-            visited.add(u);
-            if (dist > maxDistance) continue; // skip if distance exceeds maximum
-            if (!g.hasNeighbours(u)) continue; // skip if u has no neighbours
+            PQElem current = pq.poll();
+            long node = current.v;
+            int dist = current.key;
+            if (dist > maxDist) break; // maxDist reached, next dists will be larger, so no need to search further
+            if (node == w) return false; // we found a witness path, stop search
+            if (dists.get(node) < dist) continue; // skip if we already found a shorter path to the current node
+            List<Edge> neighbours = g.getNeighbours(node);
+            if (neighbours == null) continue; // skip if current node has no neighbours
             
             // relax edges
-            for (Graph.Edge e : g.getNeighbours(u)) {
-                long v = e.to;
-                if (v == exclude) continue; // skip excluded vertex
-                int newDist = dist + e.weight;
+            for (Edge e : neighbours) {
+                if (e.to == v) continue; // exclude the vertex being contracted
+                if (g.getVertex(e.to).getRank() != -1) continue; // exclude vertices that have already been contracted
                 
+                int newDist = dist + e.weight;
                 // only consider paths with dist smaller than maxDistance
-                if (newDist <= maxDistance) {
-                    if (!dists.containsKey(v) || dists.get(v) > newDist) {
-                        dists.put(v, newDist);
-                        pq.add(new PQElem(newDist, v));
-                    }
+                if (newDist <= maxDist && (!dists.containsKey(e.to) || newDist < dists.get(e.to))) {
+                    dists.put(e.to, newDist);
+                    pq.offer(new PQElem(newDist, e.to));
                 }
             }
         }
-        return -1; // if no witness path is smaller than maxDistance
+        return true; // no witness path found, shortcut needed
     }
 }
