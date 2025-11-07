@@ -36,7 +36,7 @@ public class Dijkstra {
                 int w = e.weight; // weight of the current edge
                 long rankV = g.getVertex(v).rank;
 
-                if (rankU < rankV) continue;
+                if (rankU > rankV) continue;
 
                 if (!dists.containsKey(v) || dists.get(v) > dist + w) { // if we haven't recorded the distance to v before OR if the new distance to v is shorter than previously known distance:
                     pq.add(new PQElem(dist + w, v)); // add v to the PQ with the updated shorter distance

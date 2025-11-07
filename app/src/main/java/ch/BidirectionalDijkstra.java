@@ -154,6 +154,8 @@ public class BidirectionalDijkstra extends Dijkstra{
         return new Result<>(end - begin, relaxed, best);
     }
 
+
+    // TODO decide if we should remove this or not
     public static int shortestPathOnSubgraph(Graph g, long from, long to, long exclude, int maxDistance) {
         // special case if source or target is excluded
         if (from == exclude || to == exclude) return -1;

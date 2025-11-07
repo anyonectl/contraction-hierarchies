@@ -1,17 +1,13 @@
 package ch;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 import ch.Graph.Edge;
 import ch.Graph.Vertex;
@@ -159,7 +155,7 @@ public class ContractionHierarchy {
      * Run a bidirectional Dijkstra search, but only consider edges leading to nodes with a higher importance.
      */
     public Result<Integer> query(long s, long t) {
-        // TODO
+        // TODO call bidirectional from here or just bidirectional directly - should this class act as interface for bidirectional?
         return new Result<Integer>(0, 0, null);
     }
     
@@ -208,79 +204,4 @@ public class ContractionHierarchy {
             e.printStackTrace(); // Print error details
         }
     }
-    
-    // // TODO remove from this (should only be in main)
-    // public static Graph readGraph(Scanner sc) {
-    //     int n = sc.nextInt(); // number of vertices from input
-    //     int m = sc.nextInt(); // number of edges from input
-
-    //     Graph g = new Graph(); // create empty graph
-
-    //     long id;
-    //     float x, y;
-    //     long[] ids = new long[n]; // array to store vertex ids
-
-    //     // read vertices from input
-    //     // the following n lines each represents a vertex and contains 3 numbers: vertex id (long), vertex longitude (float) and vertex latitude (float)
-    //     for (int i = 0; i < n; i++) { 
-    //         id = sc.nextLong(); // vertex id
-
-    //         ids[i] = id; // store id in the array of vertex ids at the current index
-    //         x = Float.parseFloat(sc.next()); // longitude of this vertex
-    //         y = Float.parseFloat(sc.next()); // latitude of this vertex
-
-    //         g.addVertex(id, new Graph.Vertex(x, y)); // add the vertex from this line of input to the graph
-    //     }
-
-    //     long from, to;
-    //     int weight;
-
-    //     // read edges from input
-    //     // the following m lines each represents an edge and contains 3 numbers: id of source vertex (long), id of destination vertex (long) and weight/cost of the edge (integer)
-    //     for (int i = 0; i < m; i++) {
-    //         from = sc.nextLong(); // id of source vertex
-    //         to = sc.nextLong(); // id of destination vertex
-    //         weight = sc.nextInt(); // weight/cost of the edge
-    //         g.addUndirectedEdge(from, to, weight); // add the (undirected) edge from this line of input to the graph
-    //     }
-    //     return g; // return the built graph
-    // }
-
-    // public static void main(String[] args) {
-    //     try {
-    //         // read graph from file
-    //         File file = new File("denmark.graph");
-    //         Scanner sc = new Scanner(file);
-    //         Graph g = readGraph(sc);
-    //         sc.close();        
-                        
-    //         // run contraction hierarchy preprocessing and check all vertices have ranks
-    //         ContractionHierarchy ch = new ContractionHierarchy(g);
-    //         ch.verifyRanks();
-                                    
-    //         // show ranks of first few vertices (for small test graphs)
-    //         if (g.getN() <= 20) {
-    //             System.out.println("\nVertex Ranks:");
-    //             List<Long> vertexIds = new ArrayList<>(g.getVertexIds());
-    //             Collections.sort(vertexIds);
-    //             for (long v : vertexIds) {
-    //                 System.out.println("  Vertex " + v + ": rank = " + g.getVertex(v).getRank());
-    //             }
-    //         }
-
-    //         // store graph
-    //         if (g.getN() > 100) {
-    //             System.out.println("\nStoring graph...");
-    //             storeGraph(g, "output/testDelete.graph");
-    //             System.out.println("Graph stored!");
-    //         }
-            
-    //     } catch (IOException e) {
-    //         System.err.println("Error reading input: " + e.getMessage());
-    //         e.printStackTrace();
-    //     } catch (Exception e) {
-    //         System.err.println("Error during preprocessing: " + e.getMessage());
-    //         e.printStackTrace();
-    //     }
-    //}
 }
