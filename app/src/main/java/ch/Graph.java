@@ -136,6 +136,18 @@ public class Graph {
         return getInNeighbours(u) == null ? 0 : this.inEdges.get(u).size();
     }
 
+    // gets the weight of the edge from u to v, or -1 if no such edge exists.
+    private int getEdgeWeight(long u, long v) {
+        List<Edge> neighbours = getNeighbours(u);
+        if (neighbours == null) return -1;
+        for (Edge e : neighbours) {
+            if (e.to == v) {
+                return e.weight;
+            }
+        }
+        return -1;
+    }
+
     public Graph copy() {
         Graph g = new Graph();
         // Copy vertices
@@ -161,17 +173,17 @@ public class Graph {
      * @return the edge difference after contracting v
      */
     public int getEdgeDifference(long v) {
-        List<Edge> outEdges = getNeighbours(v);
+        List<Edge> outEdges = getNeighbours(v); 
         List<Edge> inEdges = getInNeighbours(v);
-        
+
+        // special case if v has no neighbours
         if ((outEdges == null || outEdges.isEmpty()) && (inEdges == null || inEdges.isEmpty())) {
             return 0;
         }
         
-        // Get incoming and outgoing neighbours (excluding contracted vertices)
-        List<Long> inNeighbours = new ArrayList<>();
+        // find neighbours that aren't contracted yet
         List<Long> outNeighbours = new ArrayList<>();
-        
+        List<Long> inNeighbours = new ArrayList<>();
         if (outEdges != null) {
             for (Edge e : outEdges) {
                 if (getVertex(e.to).getRank() == -1) { // not yet contracted
@@ -179,100 +191,71 @@ public class Graph {
                 }
             }
         }
-        
         if (inEdges != null) {
             for (Edge e : inEdges) {
                 if (getVertex(e.to).getRank() == -1) { // not yet contracted
                     inNeighbours.add(e.to);
                 }
             }
-        }
+        }        
         
-        // Count edges that will be removed (edges incident to v)
+        // for each pair of v-adjacent vertices (u, w), check if shortcut is needed
         int edgesRemoved = inNeighbours.size() + outNeighbours.size();
-        
-        // Count shortcuts needed
         int shortcutsAdded = 0;
-        
         for (long u : inNeighbours) {
             for (long w : outNeighbours) {
                 if (u == w) continue;
+                int distUtoV = getEdgeWeight(u, v); // TODO should this be in the outer loop?
+                int distVtoW = getEdgeWeight(v, w);
+                if (distUtoV == -1 || distVtoW == -1) continue; // skip if one of the edges don't exist
+                int distThroughV = distUtoV + distVtoW;
                 
-                // Find distance u -> v -> w
-                int distUV = getEdgeWeight(u, v);
-                int distVW = getEdgeWeight(v, w);
-                
-                if (distUV == -1 || distVW == -1) continue;
-                
-                int distThroughV = distUV + distVW;
-                
-                // Check if there's a shorter path from u to w without using v
+                // check if there's a shorter path from u to w without using v (witness path search)
                 if (needsShortcut(u, w, v, distThroughV)) {
                     shortcutsAdded++;
                 }
             }
         }
-        
         return shortcutsAdded - edgesRemoved;
     }
     
     /**
-     * Gets the weight of the edge from u to v, or -1 if no such edge exists.
-     */
-    private int getEdgeWeight(long u, long v) {
-        List<Edge> neighbours = getNeighbours(u);
-        if (neighbours == null) return -1;
-        
-        for (Edge e : neighbours) {
-            if (e.to == v) {
-                return e.weight;
-            }
-        }
-        return -1;
-    }
-    
-    /**
-     * Determines if a shortcut is needed from u to w when contracting v.
+     * Performs a search for witness paths using limited Dijkstra from to w avoiding v
+     * and thereby determines if a shortcut is needed from u to w when contracting v.
      * A shortcut is needed if there's no path from u to w (avoiding v) that is
-     * shorter than or equal to maxDist.
+     * shorter than or equal to maxDist (witness path).
      */
     private boolean needsShortcut(long u, long w, long v, int maxDist) {
-        // Witness search: limited Dijkstra from u to w avoiding v
         PriorityQueue<PQElem> pq = new PriorityQueue<>();
-        Map<Long, Integer> dist = new HashMap<>();
+        Map<Long, Integer> dists = new HashMap<>();
         
-        dist.put(u, 0);
+        dists.put(u, 0);
         pq.offer(new PQElem(0, u));
         
         while (!pq.isEmpty()) {
             PQElem current = pq.poll();
             long node = current.v;
-            int d = current.key;
-            
-            if (d > maxDist) break; // No need to search further
-            
-            if (node == w) {
-                return false; // Found a witness path
-            }
-            
-            if (dist.get(node) < d) continue;
-            
+            int dist = current.key;
+            if (dist > maxDist) break; // maxDist reached, next dists will be larger, so no need to search further
+            if (node == w) return false; // we found a witness path, stop search
+            if (dists.get(node) < dist) continue; // TODO what happens here
             List<Edge> neighbours = getNeighbours(node);
-            if (neighbours == null) continue;
+            if (neighbours == null) continue; // skip if current node has no neighbours
             
+            // relax edges
             for (Edge e : neighbours) {
-                if (e.to == v) continue; // Avoid the vertex being contracted
-                if (getVertex(e.to).getRank() != -1) continue; // Avoid already contracted vertices
+                if (e.to == v) continue; // exclude the vertex being contracted
+                if (getVertex(e.to).getRank() != -1) continue; // exclude vertices that have already been contracted
                 
-                int newDist = d + e.weight;
-                if (newDist <= maxDist && (!dist.containsKey(e.to) || newDist < dist.get(e.to))) {
-                    dist.put(e.to, newDist);
+                int newDist = dist + e.weight;
+                // only consider paths with dist smaller than maxDistance
+                if (newDist <= maxDist && (!dists.containsKey(e.to) || newDist < dists.get(e.to))) {
+                    dists.put(e.to, newDist);
                     pq.offer(new PQElem(newDist, e.to));
                 }
             }
         }
-        
-        return true; // No witness path found, shortcut needed
+        return true; // no witness path found, shortcut needed
     }
     
     /**
@@ -287,51 +270,46 @@ public class Graph {
         List<Edge> outEdges = getNeighbours(v);
         List<Edge> inEdges = getInNeighbours(v);
         
+        // special case if v has no neighbours 
         if ((outEdges == null || outEdges.isEmpty()) && (inEdges == null || inEdges.isEmpty())) {
             getVertex(v).setRank(rank);
             return;
         }
         
-        // Get incoming and outgoing neighbours
+        // find neighbours that aren't contracted yet
         List<Long> inNeighbours = new ArrayList<>();
         List<Long> outNeighbours = new ArrayList<>();
-        
         if (outEdges != null) {
             for (Edge e : outEdges) {
-                if (getVertex(e.to).getRank() == -1) {
+                if (getVertex(e.to).getRank() == -1) { // not yet contracted
                     outNeighbours.add(e.to);
                 }
             }
         }
-        
         if (inEdges != null) {
             for (Edge e : inEdges) {
-                if (getVertex(e.to).getRank() == -1) {
+                if (getVertex(e.to).getRank() == -1) { // not yet contracted
                     inNeighbours.add(e.to);
                 }
             }
         }
         
-        // Add shortcuts
+        // search for witness paths and add shortcut if needed
         for (long u : inNeighbours) {
             for (long w : outNeighbours) {
                 if (u == w) continue;
+                int distUtoV = getEdgeWeight(u, v); // TODO should this be in the outer loop?
+                int distVtoW = getEdgeWeight(v, w);
+                if (distUtoV == -1 || distVtoW == -1) continue; // skip if one of the edges don't exist
+                int distThroughV = distUtoV + distVtoW;
                 
-                int distUV = getEdgeWeight(u, v);
-                int distVW = getEdgeWeight(v, w);
-                
-                if (distUV == -1 || distVW == -1) continue;
-                
-                int distThroughV = distUV + distVW;
-                
+                // witness path search
                 if (needsShortcut(u, w, v, distThroughV)) {
-                    // Add shortcut edge from u to w
-                    addEdge(u, w, v, distThroughV);
+                    addEdge(u, w, v, distThroughV); // only add shortcut if u->v->w (path through v) is a unique shortest path
                 }
             }
         }
-        
-        // Mark vertex as contracted
+        // mark v as contracted by setting the rank
         getVertex(v).setRank(rank);
     }
 }
