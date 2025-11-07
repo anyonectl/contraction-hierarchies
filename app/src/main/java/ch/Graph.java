@@ -202,9 +202,9 @@ public class Graph {
         int edgesRemoved = inNeighbours.size() + outNeighbours.size();
         int shortcutsAdded = 0;
         for (long u : inNeighbours) {
+            int distUtoV = getEdgeWeight(u, v);
             for (long w : outNeighbours) {
                 if (u == w) continue;
-                int distUtoV = getEdgeWeight(u, v); // TODO should this be in the outer loop?
                 int distVtoW = getEdgeWeight(v, w);
                 if (distUtoV == -1 || distVtoW == -1) continue; // skip if one of the edges don't exist
                 int distThroughV = distUtoV + distVtoW;
@@ -256,9 +256,9 @@ public class Graph {
         
         // search for witness paths and add shortcut if needed
         for (long u : inNeighbours) {
+            int distUtoV = getEdgeWeight(u, v);
             for (long w : outNeighbours) {
                 if (u == w) continue;
-                int distUtoV = getEdgeWeight(u, v); // TODO should this be in the outer loop?
                 int distVtoW = getEdgeWeight(v, w);
                 if (distUtoV == -1 || distVtoW == -1) continue; // skip if one of the edges don't exist
                 int distThroughV = distUtoV + distVtoW;

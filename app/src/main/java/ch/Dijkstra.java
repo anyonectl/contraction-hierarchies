@@ -83,7 +83,7 @@ public class Dijkstra {
             int dist = current.key;
             if (dist > maxDist) break; // maxDist reached, next dists will be larger, so no need to search further
             if (node == w) return false; // we found a witness path, stop search
-            if (dists.get(node) < dist) continue; // TODO what happens here
+            if (dists.get(node) < dist) continue; // skip if we already found a shorter path to the current node
             List<Edge> neighbours = g.getNeighbours(node);
             if (neighbours == null) continue; // skip if current node has no neighbours
             
