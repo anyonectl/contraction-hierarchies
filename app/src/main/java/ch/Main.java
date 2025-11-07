@@ -1,22 +1,11 @@
 package ch;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Scanner;
+import java.io.File;
 
-import ch.Graph.Edge;
-import ch.Graph.Vertex;
+class Main {
 
-public class Main {
-
-    public static Graph readGraph(Scanner sc) {
+    private static Graph readGraph(Scanner sc) {
         int n = sc.nextInt(); // number of vertices from input
         int m = sc.nextInt(); // number of edges from input
 
@@ -52,77 +41,38 @@ public class Main {
         return g; // return the built graph
     }
 
-    public static void storeGraph(Graph g, String fileName) {
-        try {
-            BufferedWriter w = new BufferedWriter(new FileWriter(fileName));
-            int n = g.n, m = g.m;
-            w.write( n + " " + m ); // number of vertices and edges
-            for(Map.Entry<Long,Vertex> entry : g.getVertices().entrySet()){
-                long id = entry.getKey(), rank = entry.getValue().getRank();
-                float x = entry.getValue().x, y = entry.getValue().y;
-                w.newLine();
-                w.write(String.format(Locale.US, "%d %f %f %d", id, x, y, rank));
-            }
-            for(Map.Entry<Long, List<Edge>> entry : g.edges.entrySet()) {
-                long from = entry.getKey();
-                for (Edge e : entry.getValue()) {
-                    long to = e.to, contracted = e.contracted;
-                    int weight = e.weight;
-                    w.newLine();
-                    w.write(String.format("%d %d %d %d", from, to, weight, contracted));
-                }
-            }
-            w.close();
-        }
-        catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace(); // Print error details
-        }
-    }
+    public static void main(String[] args) throws Exception {
 
-    public static void main(String[] args) {
-        try {
-            // read graph from file
-            File file = new File("denmark.graph");
-            Scanner sc = new Scanner(file);
-            Graph g = readGraph(sc);
-            sc.close();        
-            
-            System.out.println("\n" + "=".repeat(60));
-            
-            // Create and run contraction hierarchy preprocessing
-            ContractionHierarchy ch = new ContractionHierarchy(g);
-            ch.preprocess();
-            
-            System.out.println("=".repeat(60));
-            
-            // Display some statistics about the final graph
-            System.out.println("\nFinal Statistics:");
-            System.out.println("  Original + Shortcut edges: " + g.getM());
-            
-            // Show ranks of first few vertices (for small test graphs)
-            if (g.getN() <= 20) {
-                System.out.println("\nVertex Ranks:");
-                List<Long> vertexIds = new ArrayList<>(g.getVertexIds());
-                Collections.sort(vertexIds);
-                for (long v : vertexIds) {
-                    System.out.println("  Vertex " + v + ": rank = " + g.getVertex(v).getRank());
-                }
-            }
-
-            // Store graph
-            if (g.getN() > 100) {
-                System.out.println("Storing graph...");
-                storeGraph(g, "output/denmarkAugmented.graph");
-                System.out.println("Graph stored!");
-            }
-            
-        } catch (IOException e) {
-            System.err.println("Error reading input: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Error during preprocessing: " + e.getMessage());
-            e.printStackTrace();
+        if (args.length < 2) {
+            System.err.println("Usage: java -jar app.jar <mode> <graphfile>");
+            System.exit(1);
         }
+        
+        String mode = args[0];
+        String graphFile = args[1];
+
+        if (mode.startsWith("dijkstratest")) {
+            // Read graph from file
+            File file = new File(graphFile);
+            Scanner graphScanner = new Scanner(file);
+            Graph g = readGraph(graphScanner);
+            graphScanner.close();
+
+            // Read (s, t) pairs from stdin
+            Scanner queryScanner = new Scanner(System.in);
+            while (queryScanner.hasNextLong()) {
+                long s = queryScanner.nextLong();
+                if (!queryScanner.hasNextLong()) break;
+                long t = queryScanner.nextLong();
+
+                Result<Integer> res = mode.endsWith("_bidirectional") ? BidirectionalDijkstra.shortestPath(g, s, t) : Dijkstra.shortestPath(g, s, t);
+
+                System.out.printf("%d %d %d %d %d%n",
+                        s, t, res.result, res.relaxed, res.time);
+            }
+            queryScanner.close();
+        }
+
+
     }
 }

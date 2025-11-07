@@ -8,11 +8,11 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Graph {
-    int n; // number of vertices
-    int m; // number of edges
-    Map<Long, List<Edge>> edges; // outgoing edges
-    Map<Long, List<Edge>> incomingEdges; // incoming edges (NEW!)
+    private int n; // number of vertices
+    private int m; // number of edges
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
+    private Map<Long, List<Edge>> outEdges; // maps vertex id to all its outgoing edges
+    private Map<Long, List<Edge>> inEdges; // maps vertex id to all its incoming edges
     
     // inner class representing vertices
     public static class Vertex {
@@ -51,8 +51,8 @@ public class Graph {
     public Graph() {
         this.n = 0;
         this.m = 0;
-        this.edges = new HashMap<>();
-        this.incomingEdges = new HashMap<>();
+        this.outEdges = new HashMap<>();
+        this.inEdges = new HashMap<>();
         this.vertices = new HashMap<>();
     }
     
@@ -70,22 +70,23 @@ public class Graph {
     }
     
     public void addEdge(long from, long to, long contracted, int weight) {
-        if (!this.edges.containsKey(from)) {
-            this.edges.put(from, new ArrayList<>());
+        // outgoing
+        if (!this.outEdges.containsKey(from)) {
+            this.outEdges.put(from, new ArrayList<>()); // only create a new, empty list of outgoing edges if the 'from' vertex isn't already in the map
         }
-        this.edges.get(from).add(new Edge(to, weight, contracted));
+        this.outEdges.get(from).add(new Edge(to, weight, contracted));
         
-        // Also add to incoming edges
-        if (!this.incomingEdges.containsKey(to)) {
-            this.incomingEdges.put(to, new ArrayList<>());
+        // incoming
+        if (!this.inEdges.containsKey(to)) {
+            this.inEdges.put(to, new ArrayList<>()); // only create a new, empty list of incoming edges if the 'to' vertex isn't already in the map
         }
-        this.incomingEdges.get(to).add(new Edge(from, weight, contracted));
+        this.inEdges.get(to).add(new Edge(from, weight, contracted));
         
         this.m++;
     }
     
     public void addEdge(long from, long to, int weight) {
-        addEdge(from, to, -1, weight);
+        addEdge(from, to, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
     }
     
     public void addUndirectedEdge(long u, long v, long contracted, int weight) {
@@ -94,15 +95,15 @@ public class Graph {
     }
     
     public void addUndirectedEdge(long u, long v, int weight) {
-        addUndirectedEdge(u, v, -1, weight);
+        addUndirectedEdge(u, v, -1, weight); // -1 indicates that the edge is part of the original graph and not a shortcut created during contraction
     }
     
     public List<Edge> getNeighbours(long u) {
-        return this.edges.get(u);
+        return this.outEdges.get(u);
     }
     
-    public List<Edge> getIncomingNeighbours(long u) {
-        return this.incomingEdges.get(u);
+    public List<Edge> getInNeighbours(long u) {
+        return this.inEdges.get(u);
     }
     
     public boolean hasNeighbours(long u) {
@@ -121,12 +122,18 @@ public class Graph {
         return vertices;
     }
     
-    public int degree(long v) {
-        return getNeighbours(v) == null ? 0 : this.edges.get(v).size();
+    // returns the outdegree of vertex v (number of outgoing edges from u)
+    public int outdegree(long u) {
+        return !hasNeighbours(u) ? 0 : this.outEdges.get(u).size();
+    }
+
+    // returns the indegree of vertex v (number of incoming edges to u)
+    public int indegree(long u) {
+        return getInNeighbours(u) == null ? 0 : this.inEdges.get(u).size();
     }
     
     /**
-     * Computes the edge difference for contracting vertex v.
+     * Computes the edge difference (change in edges) by contracting vertex v.
      * Edge difference = (number of shortcuts added) - (number of edges removed)
      * 
      * @param v the vertex id to compute edge difference for
@@ -134,20 +141,20 @@ public class Graph {
      */
     public int getEdgeDifference(long v) {
         List<Edge> outEdges = getNeighbours(v);
-        List<Edge> inEdges = getIncomingNeighbours(v);
+        List<Edge> inEdges = getInNeighbours(v);
         
         if ((outEdges == null || outEdges.isEmpty()) && (inEdges == null || inEdges.isEmpty())) {
             return 0;
         }
         
-        // Get incoming and outgoing neighbors (excluding contracted vertices)
-        List<Long> inNeighbors = new ArrayList<>();
-        List<Long> outNeighbors = new ArrayList<>();
+        // Get incoming and outgoing neighbours (excluding contracted vertices)
+        List<Long> inNeighbours = new ArrayList<>();
+        List<Long> outNeighbours = new ArrayList<>();
         
         if (outEdges != null) {
             for (Edge e : outEdges) {
                 if (getVertex(e.to).getRank() == -1) { // not yet contracted
-                    outNeighbors.add(e.to);
+                    outNeighbours.add(e.to);
                 }
             }
         }
@@ -155,19 +162,19 @@ public class Graph {
         if (inEdges != null) {
             for (Edge e : inEdges) {
                 if (getVertex(e.to).getRank() == -1) { // not yet contracted
-                    inNeighbors.add(e.to);
+                    inNeighbours.add(e.to);
                 }
             }
         }
         
         // Count edges that will be removed (edges incident to v)
-        int edgesRemoved = inNeighbors.size() + outNeighbors.size();
+        int edgesRemoved = inNeighbours.size() + outNeighbours.size();
         
         // Count shortcuts needed
         int shortcutsAdded = 0;
         
-        for (long u : inNeighbors) {
-            for (long w : outNeighbors) {
+        for (long u : inNeighbours) {
+            for (long w : outNeighbours) {
                 if (u == w) continue;
                 
                 // Find distance u -> v -> w
@@ -192,10 +199,10 @@ public class Graph {
      * Gets the weight of the edge from u to v, or -1 if no such edge exists.
      */
     private int getEdgeWeight(long u, long v) {
-        List<Edge> neighbors = getNeighbours(u);
-        if (neighbors == null) return -1;
+        List<Edge> neighbours = getNeighbours(u);
+        if (neighbours == null) return -1;
         
-        for (Edge e : neighbors) {
+        for (Edge e : neighbours) {
             if (e.to == v) {
                 return e.weight;
             }
@@ -229,10 +236,10 @@ public class Graph {
             
             if (dist.get(node) < d) continue;
             
-            List<Edge> neighbors = getNeighbours(node);
-            if (neighbors == null) continue;
+            List<Edge> neighbours = getNeighbours(node);
+            if (neighbours == null) continue;
             
-            for (Edge e : neighbors) {
+            for (Edge e : neighbours) {
                 if (e.to == v) continue; // Avoid the vertex being contracted
                 if (getVertex(e.to).getRank() != -1) continue; // Avoid already contracted vertices
                 
@@ -249,7 +256,7 @@ public class Graph {
     
     /**
      * Contracts vertex v by:
-     * 1. Adding shortcut edges for all pairs of neighbors that need them
+     * 1. Adding shortcut edges for all pairs of neighbours that need them
      * 2. Marking v as contracted by setting its rank
      * 
      * @param v the vertex id to contract
@@ -257,21 +264,21 @@ public class Graph {
      */
     public void contract(long v, long rank) {
         List<Edge> outEdges = getNeighbours(v);
-        List<Edge> inEdges = getIncomingNeighbours(v);
+        List<Edge> inEdges = getInNeighbours(v);
         
         if ((outEdges == null || outEdges.isEmpty()) && (inEdges == null || inEdges.isEmpty())) {
             getVertex(v).setRank(rank);
             return;
         }
         
-        // Get incoming and outgoing neighbors
-        List<Long> inNeighbors = new ArrayList<>();
-        List<Long> outNeighbors = new ArrayList<>();
+        // Get incoming and outgoing neighbours
+        List<Long> inNeighbours = new ArrayList<>();
+        List<Long> outNeighbours = new ArrayList<>();
         
         if (outEdges != null) {
             for (Edge e : outEdges) {
                 if (getVertex(e.to).getRank() == -1) {
-                    outNeighbors.add(e.to);
+                    outNeighbours.add(e.to);
                 }
             }
         }
@@ -279,14 +286,14 @@ public class Graph {
         if (inEdges != null) {
             for (Edge e : inEdges) {
                 if (getVertex(e.to).getRank() == -1) {
-                    inNeighbors.add(e.to);
+                    inNeighbours.add(e.to);
                 }
             }
         }
         
         // Add shortcuts
-        for (long u : inNeighbors) {
-            for (long w : outNeighbors) {
+        for (long u : inNeighbours) {
+            for (long w : outNeighbours) {
                 if (u == w) continue;
                 
                 int distUV = getEdgeWeight(u, v);

@@ -290,9 +290,9 @@ public class GraphTest {
     @Test
     public void getEdgeDifference_doesNotModifyGraph() {
         // getEdgeDifference should not modify the graph
-        int initialEdges = linear.m;
+        int initialEdges = linear.getM();
         linear.getEdgeDifference(2);
-        int finalEdges = linear.m;
+        int finalEdges = linear.getM();
         
         assertEquals(initialEdges, finalEdges);
     }
