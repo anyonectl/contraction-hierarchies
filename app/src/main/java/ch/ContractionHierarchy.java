@@ -21,7 +21,8 @@ import ch.Graph.Vertex;
  * edge difference heuristic with lazy updates.
  */
 public class ContractionHierarchy {
-    private Graph graph;
+    private Graph augmented;
+    private Graph original; // so we can compare
     
     /**
      * Constructs a ContractionHierarchy for the given graph.
@@ -29,7 +30,9 @@ public class ContractionHierarchy {
      * @param graph the road network graph to preprocess
      */
     public ContractionHierarchy(Graph graph) {
-        this.graph = graph;
+        this.augmented = graph;
+        this.original = graph.copy();
+        preprocess();
     }
     
     /**
@@ -37,80 +40,87 @@ public class ContractionHierarchy {
      * Contracts all vertices in order of their edge difference using lazy updates.
      */
     public void preprocess() {
-        System.out.println("Starting Contraction Hierarchy preprocessing...");
-        System.out.println("Graph has " + graph.getN() + " vertices and " + graph.getM() + " edges");
-        
+        // for debugging/reporting on progress
+        String title =
+            "╔════════════════════════════════════╗\n" +
+            "║         PREPROCESSING PHASE        ║\n" +
+            "╚════════════════════════════════════╝";
+        int V = augmented.getN();
+        int skippedDuplicates = 0;
+        int lazyUpdates = 0;
+        System.out.printf("\n%s\n", title);
+        System.out.printf("Input graph has %d vertices and %d edges\n\n", V, augmented.getM());
+        System.err.println("=== ORDERING VERTICES ===\n");
+        System.out.println("Processing...");
         long startTime = System.currentTimeMillis();
-        
-        // Initialize priority queue with all vertices and their edge differences
+                
+        // initialise priority queue with all vertices and their edge differences
         PriorityQueue<PQElem> pq = new PriorityQueue<>();
         Map<Long, Integer> edgeDifferences = new HashMap<>();
         
-        System.out.println("Computing initial edge differences...");
-        int progress = 0;
-        int totalVertices = graph.getN();
-        
-        for (long v : graph.getVertexIds()) {
-            int edgeDiff = graph.getEdgeDifference(v);
+        // order vertices by edge difference
+        int progress = 0; // debugging
+        for (long v : augmented.getVertexIds()) {
+            int edgeDiff = augmented.getEdgeDifference(v);
             edgeDifferences.put(v, edgeDiff);
             pq.offer(new PQElem(edgeDiff, v));
-            
-            progress++;
+            progress++; // debugging
             if (progress % 10000 == 0) {
-                System.out.println("  Computed edge differences for " + progress + "/" + totalVertices + " vertices");
+                System.out.println("  Computed edge differences for " + progress + "/" + V + " vertices");
             }
         }
+
+        // for debugging/reporting on progress
+        long orderingElapsed = System.currentTimeMillis() - startTime;
+        System.out.printf("\nInitial ordering complete! Time spent: %f\n", orderingElapsed / 1000.0);
+        System.out.println("\n=== CONTRACTING VERTICES ===\n");
+        System.out.println("Processing...\n");
         
-        System.out.println("Initial edge differences computed.");
-        System.out.println("Beginning contraction phase...");
-        
+        // contract vertices in order - update edge difference along the way
         long rank = 0;
-        int contracted = 0;
-        
         while (!pq.isEmpty()) {
+
+            // get vertex to be contracted
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            
-            // Check if vertex is already contracted
-            if (graph.getVertex(v).getRank() != -1) {
+            if (augmented.getVertex(v).getRank() != -1) {
+                skippedDuplicates++; // for debugging
                 continue;
             }
             
-            // Lazy update: recompute edge difference
-            int newEdgeDiff = graph.getEdgeDifference(v);
-            
-            // If edge difference has changed significantly, re-insert into queue
+            // check and update edge difference (lazy updates)
+            int newEdgeDiff = augmented.getEdgeDifference(v);
             if (newEdgeDiff > oldEdgeDiff) {
                 edgeDifferences.put(v, newEdgeDiff);
                 pq.offer(new PQElem(newEdgeDiff, v));
-                continue;
+                lazyUpdates++; // for debugging
+                continue; // edge diff was updated, so skip contraction
             }
             
-            // Contract the vertex
-            graph.contract(v, rank);
+            // contract and set rank
+            augmented.contract(v, rank);
             rank++;
-            contracted++;
             
-            // Progress update
-            if (contracted % 1000 == 0) {
+            // for debugging/reporting on progress
+            if (rank % 1000 == 0 || rank == V - 1) {
                 long elapsed = System.currentTimeMillis() - startTime;
-                double percent = (contracted * 100.0) / totalVertices;
-                System.out.printf("  Contracted %d/%d vertices (%.2f%%) - Time: %.2fs - Current edge diff: %d%n",
-                    contracted, totalVertices, percent, elapsed / 1000.0, newEdgeDiff);
+                double percent = (rank * 100.0) / V;
+                int queueSize = pq.size();
+                int shortcutsAdded = (augmented.getM() - original.getM()) / 2;
+                System.out.printf("Progress: %d/%d (%.1f%%) | Time: %.2fs | Queue size: %d | Shortcuts added: %d | Current edgediff: %d\n",
+                    rank, V, percent, elapsed / 1000.0, queueSize, shortcutsAdded, newEdgeDiff);
             }
         }
         
         long endTime = System.currentTimeMillis();
         double totalTime = (endTime - startTime) / 1000.0;
-        
-        System.out.println("\nPreprocessing complete!");
-        System.out.println("Total vertices contracted: " + contracted);
-        System.out.println("Final graph has " + graph.getM() + " edges (including shortcuts)");
-        System.out.println("Total preprocessing time: " + String.format("%.2f", totalTime) + " seconds");
-        
-        // Verify all vertices have ranks
-        verifyRanks();
+        System.out.printf("\n=== PREPROCESSING COMPLETE ===\n\n");
+        System.out.printf("Total time: %.2f seconds\n", totalTime);
+        System.out.printf("Vertices contracted: %d\n", rank);
+        System.out.printf("Lazy updates: %d\n", lazyUpdates);
+        System.out.printf("Skipped duplicates: %d\n", skippedDuplicates);
+        System.out.printf("Final graph has %d edges (including shortcuts)\n", augmented.getM());        
     }
     
     /**
@@ -118,8 +128,8 @@ public class ContractionHierarchy {
      */
     private void verifyRanks() {
         int unranked = 0;
-        for (long v : graph.getVertexIds()) {
-            if (graph.getVertex(v).getRank() == -1) {
+        for (long v : augmented.getVertexIds()) {
+            if (augmented.getVertex(v).getRank() == -1) {
                 unranked++;
             }
         }
@@ -127,7 +137,7 @@ public class ContractionHierarchy {
         if (unranked > 0) {
             System.err.println("WARNING: " + unranked + " vertices were not assigned a rank!");
         } else {
-            System.out.println("Verification: All vertices successfully ranked.");
+            System.out.println("All vertices successfully ranked.");
         }
     }
 
@@ -136,8 +146,8 @@ public class ContractionHierarchy {
      * 
      * @return the graph with contraction hierarchy
      */
-    public Graph getGraph() {
-        return graph;
+    public Graph getAugmentedGraph() {
+        return augmented;
     }
 
     public static Graph readGraph(Scanner sc) {
@@ -211,20 +221,12 @@ public class ContractionHierarchy {
             Scanner sc = new Scanner(file);
             Graph g = readGraph(sc);
             sc.close();        
-            
-            System.out.println("\n" + "=".repeat(60));
-            
-            // Create and run contraction hierarchy preprocessing
+                        
+            // run contraction hierarchy preprocessing and check all vertices have ranks
             ContractionHierarchy ch = new ContractionHierarchy(g);
-            ch.preprocess();
-            
-            System.out.println("=".repeat(60));
-            
-            // Display some statistics about the final graph
-            System.out.println("\nFinal Statistics:");
-            System.out.println("  Original + Shortcut edges: " + g.getM());
-            
-            // Show ranks of first few vertices (for small test graphs)
+            ch.verifyRanks();
+                                    
+            // show ranks of first few vertices (for small test graphs)
             if (g.getN() <= 20) {
                 System.out.println("\nVertex Ranks:");
                 List<Long> vertexIds = new ArrayList<>(g.getVertexIds());
@@ -234,10 +236,10 @@ public class ContractionHierarchy {
                 }
             }
 
-            // Store graph
+            // store graph
             if (g.getN() > 100) {
                 System.out.println("Storing graph...");
-                storeGraph(g, "output/denmarkAugmented.graph");
+                storeGraph(g, "output/augmented.graph");
                 System.out.println("Graph stored!");
             }
             

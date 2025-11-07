@@ -64,6 +64,10 @@ public class Graph {
         return m;
     }
     
+    public Map<Long, List<Edge>> getOutEdges() {
+        return outEdges;
+    }
+
     public void addVertex(long id, Vertex v) {
         this.vertices.put(id, v);
         this.n++;
@@ -130,6 +134,23 @@ public class Graph {
     // returns the indegree of vertex v (number of incoming edges to u)
     public int indegree(long u) {
         return getInNeighbours(u) == null ? 0 : this.inEdges.get(u).size();
+    }
+
+    public Graph copy() {
+        Graph g = new Graph();
+        // Copy vertices
+        for (Map.Entry<Long, Vertex> entry : this.vertices.entrySet()) {
+            Vertex v = entry.getValue();
+            g.addVertex(entry.getKey(), new Vertex(v.x, v.y));
+        }
+        // Copy edges
+        for (Map.Entry<Long, List<Edge>> entry : this.outEdges.entrySet()) {
+            long from = entry.getKey();
+            for (Edge e : entry.getValue()) {
+                g.addEdge(from, e.to, e.weight);
+            }
+        }
+        return g;
     }
     
     /**

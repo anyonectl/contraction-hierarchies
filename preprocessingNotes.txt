@@ -1,3 +1,22 @@
+=== RUN 9 - Nov 7, 12:10 ===
+Progress: 563000/569586 (98,8%) | Time: 8,83s | Queue size: 6586 | Shortcuts added: 562553 | Current edgediff: -2
+Progress: 564000/569586 (99,0%) | Time: 9,17s | Queue size: 5586 | Shortcuts added: 564567 | Current edgediff: -4
+Progress: 565000/569586 (99,2%) | Time: 9,64s | Queue size: 4586 | Shortcuts added: 567414 | Current edgediff: -4
+Progress: 566000/569586 (99,4%) | Time: 10,32s | Queue size: 3586 | Shortcuts added: 570535 | Current edgediff: 4
+Progress: 567000/569586 (99,5%) | Time: 11,21s | Queue size: 2586 | Shortcuts added: 573652 | Current edgediff: 2
+Progress: 568000/569586 (99,7%) | Time: 12,25s | Queue size: 1586 | Shortcuts added: 576756 | Current edgediff: -6
+Progress: 569000/569586 (99,9%) | Time: 13,70s | Queue size: 586 | Shortcuts added: 580148 | Current edgediff: -2
+Progress: 569585/569586 (100,0%) | Time: 15,14s | Queue size: 1 | Shortcuts added: 582507 | Current edgediff: -2
+
+=== PREPROCESSING COMPLETE ===
+
+Total time: 15,14 seconds
+Vertices contracted: 569586
+Lazy updates: 31963
+Skipped duplicates: 0
+Final graph has 2340301 edges (including shortcuts)
+Verification: All vertices successfully ranked.
+
 === RUN 8 - Nov 6, 18:14 ===
 Beginning contraction phase...
   Contracted 1000/569586 vertices (0,18%) - Time: 3,33s - Current edge diff: -4
