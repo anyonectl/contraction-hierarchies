@@ -9,11 +9,11 @@ from compare import plot_comparison
 
 
 # --- Configuration ---
-GRAPH_FILE = Path("denmark.graph")
+GRAPH_FILE = Path("output/augmentedDenmark.graph")
 JAR_FILE = Path("app/build/libs/app.jar")
 NUM_QUERIES = 1000
 SEED = 42
-OUTPUT_DIR = Path("experiments/dijkstratest/results")
+OUTPUT_DIR = Path("experiments/dijkstratest/results_augmented")
 
 
 # --- Helpers ---
@@ -33,13 +33,20 @@ def generate_random_pairs(vertex_ids: np.ndarray, num_pairs: int) -> np.ndarray:
     ])
 
 
-def build_jar_command(bidirectional: bool) -> list[str]:
-    """Construct the Java command for running the Dijkstra test."""
-    jar_args = f"dijkstratest{'_bidirectional' if bidirectional else ''}"
-    return ["java", "-jar", str(JAR_FILE), jar_args, str(GRAPH_FILE)]
+def build_jar_command(contracted: bool, bidirectional: bool) -> list[str]:
+    """
+    Construct the Java command for running the Dijkstra test.
+    Usage: java -jar app.jar <use> <augmented> <bidirectional> <graphfile>
+    """
+    return [
+        "java", "-jar", str(JAR_FILE),
+        "run_queries",
+        "augmented" if contracted else "original",
+        "bidirectional" if bidirectional else "standard",
+        str(GRAPH_FILE),
+    ]
 
-
-def run_experiment(bidirectional: bool, vertex_ids: np.ndarray) -> Path:
+def run_experiment(contracted: bool, bidirectional: bool, vertex_ids: np.ndarray) -> Path:
     """Run Dijkstra or Bidirectional Dijkstra experiment and return path to CSV."""
     algo = "bidirectional" if bidirectional else "standard"
     print(f"\n=== Running {algo.capitalize()} Dijkstra ===")
@@ -48,7 +55,7 @@ def run_experiment(bidirectional: bool, vertex_ids: np.ndarray) -> Path:
     print(f"Generated {NUM_QUERIES} random (s, t) pairs")
 
     # Run Java experiment
-    results = run_queries(pairs, build_jar_command(bidirectional))
+    results = run_queries(pairs, build_jar_command(contracted, bidirectional))
 
     # Prepare output paths
     csv_path = OUTPUT_DIR / f"{algo}_{NUM_QUERIES}_results.csv"
@@ -83,7 +90,7 @@ def update_comparison_plot():
     plot_comparison(NUM_QUERIES, results_standard, results_bidirectional)
 
 
-def run_complete_test() -> None:
+def run_complete_test(contracted: bool = False) -> None:
     """Run both Dijkstra and Bidirectional Dijkstra experiments and compare results."""
     random.seed(SEED)
     np.random.seed(SEED)
@@ -93,8 +100,8 @@ def run_complete_test() -> None:
     vertex_ids = get_vertex_ids(GRAPH_FILE)
 
     # Run both experiments
-    csv_standard = run_experiment(bidirectional=False, vertex_ids=vertex_ids)
-    csv_bidirectional = run_experiment(bidirectional=True, vertex_ids=vertex_ids)
+    csv_standard = run_experiment(contracted, bidirectional=False, vertex_ids=vertex_ids)
+    csv_bidirectional = run_experiment(contracted, bidirectional=True, vertex_ids=vertex_ids)
 
     # Compare and plot
     print("\nGenerating comparison plot...")
@@ -103,7 +110,7 @@ def run_complete_test() -> None:
     plot_comparison(NUM_QUERIES, results_standard, results_bidirectional)
 
 
-def run_terminal_benchmark_test(bidirectional: bool = False) -> None:
+def run_terminal_benchmark_test(contracted: bool = False, bidirectional: bool = False) -> None:
     """Run a simplified terminal benchmark (no file output)."""
     random.seed(SEED)
     np.random.seed(SEED)
@@ -115,7 +122,7 @@ def run_terminal_benchmark_test(bidirectional: bool = False) -> None:
     print(f"\n=== Running {algo.capitalize()} Dijkstra (Benchmark Mode) ===")
 
     pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
-    results = run_queries(pairs, build_jar_command(bidirectional))
+    results = run_queries(pairs, build_jar_command(contracted, bidirectional))
 
     summary = summarize_results(results)
     print_summary(summary)
@@ -124,9 +131,8 @@ def run_terminal_benchmark_test(bidirectional: bool = False) -> None:
 # --- Main entry point ---
 if __name__ == "__main__":
     # Uncomment if you want to regenerate plots without re-running experiments
-    run_terminal_benchmark_test(True)
-    run_terminal_benchmark_test(False)
-    # run_complete_test()
+    run_terminal_benchmark_test(contracted=True, bidirectional=True)
+    # run_complete_test(contracted=True)
     # update_plots(bidirectional=True)
     # update_plots(bidirectional=False)
     # update_comparison_plot()

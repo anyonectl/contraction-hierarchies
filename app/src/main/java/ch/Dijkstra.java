@@ -11,6 +11,46 @@ import ch.Graph.Edge;
 
 public class Dijkstra {
 
+    public static Result<Integer> search(Graph g, long from, long to) {
+        long start = System.nanoTime(); // to keep track of the duration (in ns) of running Dijkstra
+        PriorityQueue<PQElem> pq = new PriorityQueue<>();
+        Set<Long> visited = new HashSet<>(); // set to keep track of visited vertices
+        Map<Long, Integer> dists = new HashMap<>(); // map of shortest known distance to each vertex
+        int relaxed = 0; // counter for number of relaxed edges
+
+        pq.add(new PQElem(0, from)); // add the id of the source vertex (v = 'from') to the PQ with distance 0 (key = 0)
+        dists.put(from, 0); // distance to source is 0
+        
+        while (!pq.isEmpty() && pq.peek().v != to) { // while the PQ still has element(s) and the next PQElem isn't the target vertex 'to'
+            PQElem elem = pq.poll(); // get the next element of the MinPQ (the PQElem with the smallest key/distance to the source)
+            long u = elem.v; // u is the id of the current vertex being processed
+            long rankU = g.getVertex(u).rank;
+
+            if (visited.contains(u)) continue;
+            visited.add(u); // mark the current vertex as visited
+
+            int dist = elem.key; // dist is the shortest known distance to the current vertex u
+            for (Graph.Edge e : g.getNeighbours(u)) { // for each outgoing edge from the current vertex u:
+                relaxed++; // increment the number of relaxed edges
+                long v = e.to;  // v is the id of the destination vertex of the current edge
+                int w = e.weight; // weight of the current edge
+                long rankV = g.getVertex(v).rank;
+
+                if (rankU < rankV) continue;
+
+                if (!dists.containsKey(v) || dists.get(v) > dist + w) { // if we haven't recorded the distance to v before OR if the new distance to v is shorter than previously known distance:
+                    pq.add(new PQElem(dist + w, v)); // add v to the PQ with the updated shorter distance
+                    dists.put(v, dist + w); // add/update the shortest known distance map with the new shorter distance
+                }
+            }
+        }
+        long end = System.nanoTime();
+        if (!dists.containsKey(to)) { // if there is no path from 'from' to 'to'
+            return new Result<>(end - start, relaxed, -1);
+        }
+        return new Result<>(end - start, relaxed, dists.get(to)); // return the time, no. of relaxed edges, shortest path distance to target vertex
+    }
+
     /**
      * Computes the shortest path distance between two vertices using Dijkstra's algorithm.
      * Returns -1 if there is no path.

@@ -7,7 +7,8 @@ import numpy as np
 def run_queries(pairs, jar_cmd) -> np.array:
     """Run Java Dijkstra or bidirectional Dijkstra on (s,t) pairs."""
     input_data = "\n".join(f"{s} {t}" for s, t in pairs) + "\n"
-    
+    print(f"Running: {' '.join(jar_cmd)}")
+
     proc = subprocess.run(
         jar_cmd,
         input=input_data,
