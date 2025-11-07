@@ -25,37 +25,36 @@ def get_vertex_ids(graph_file: Path) -> np.ndarray:
     return np.array(ids, dtype=np.int64)
 
 
+def generate_random_pairs(vertex_ids: np.ndarray, num_pairs: int) -> np.ndarray:
+    """Generate random (source, target) vertex ID pairs."""
+    return np.column_stack([
+        np.random.choice(vertex_ids, num_pairs),
+        np.random.choice(vertex_ids, num_pairs)
+    ])
+
+
+def build_jar_command(bidirectional: bool) -> list[str]:
+    """Construct the Java command for running the Dijkstra test."""
+    jar_args = f"dijkstratest{'_bidirectional' if bidirectional else ''}"
+    return ["java", "-jar", str(JAR_FILE), jar_args, str(GRAPH_FILE)]
+
+
 def run_experiment(bidirectional: bool, vertex_ids: np.ndarray) -> Path:
-    """
-    Run Dijkstra or Bidirectional Dijkstra experiment and return path to CSV.
-
-    Args:
-        bidirectional: Whether to use the bidirectional implementation.
-        vertex_ids: Array of vertex IDs.
-
-    Returns:
-        Path to the saved CSV results file.
-    """
+    """Run Dijkstra or Bidirectional Dijkstra experiment and return path to CSV."""
     algo = "bidirectional" if bidirectional else "standard"
     print(f"\n=== Running {algo.capitalize()} Dijkstra ===")
 
-    jar_args = f"dijkstratest{'_bidirectional' if bidirectional else ''}"
-    jar_cmd = ["java", "-jar", str(JAR_FILE), jar_args, str(GRAPH_FILE)]
-
-    pairs = np.column_stack([
-        np.random.choice(vertex_ids, NUM_QUERIES),
-        np.random.choice(vertex_ids, NUM_QUERIES)
-    ])
+    pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
     print(f"Generated {NUM_QUERIES} random (s, t) pairs")
 
-    # Run the Java program
-    results = run_queries(pairs, jar_cmd)
+    # Run Java experiment
+    results = run_queries(pairs, build_jar_command(bidirectional))
 
-    # Output paths
+    # Prepare output paths
     csv_path = OUTPUT_DIR / f"{algo}_{NUM_QUERIES}_results.csv"
     hist_path = OUTPUT_DIR / f"{algo}_{NUM_QUERIES}_histogram.png"
 
-    # Summarize + save + plot
+    # Summarize and save results
     summary = summarize_results(results)
     print_summary(summary)
     save_to_csv(results, csv_path)
@@ -65,7 +64,7 @@ def run_experiment(bidirectional: bool, vertex_ids: np.ndarray) -> Path:
 
 
 def update_plots(bidirectional: bool):
-    """ Update the plots without running new experiment"""
+    """Regenerate the plot using existing CSVs."""
     algo = "bidirectional" if bidirectional else "standard"
     csv_path = OUTPUT_DIR / f"{algo}_{NUM_QUERIES}_results.csv"
     hist_path = OUTPUT_DIR / f"{algo}_{NUM_QUERIES}_histogram.png"
@@ -73,8 +72,9 @@ def update_plots(bidirectional: bool):
 
 
 def update_comparison_plot():
-    """ Update the comparison plot without running new experiment """
+    """Regenerate the comparison plot using existing CSVs."""
     print("\nGenerating comparison plot...")
+
     csv_standard_path = OUTPUT_DIR / f"standard_{NUM_QUERIES}_results.csv"
     csv_bidirectional_path = OUTPUT_DIR / f"bidirectional_{NUM_QUERIES}_results.csv"
 
@@ -83,7 +83,8 @@ def update_comparison_plot():
     plot_comparison(NUM_QUERIES, results_standard, results_bidirectional)
 
 
-def run_complete_test():
+def run_complete_test() -> None:
+    """Run both Dijkstra and Bidirectional Dijkstra experiments and compare results."""
     random.seed(SEED)
     np.random.seed(SEED)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -95,19 +96,37 @@ def run_complete_test():
     csv_standard = run_experiment(bidirectional=False, vertex_ids=vertex_ids)
     csv_bidirectional = run_experiment(bidirectional=True, vertex_ids=vertex_ids)
 
-    # --- Compare results ---
+    # Compare and plot
     print("\nGenerating comparison plot...")
-    
-    # Load CSVs for comparison
     results_standard = np.loadtxt(csv_standard, delimiter=",", skiprows=1)
     results_bidirectional = np.loadtxt(csv_bidirectional, delimiter=",", skiprows=1)
     plot_comparison(NUM_QUERIES, results_standard, results_bidirectional)
 
 
+def run_terminal_benchmark_test(bidirectional: bool = False) -> None:
+    """Run a simplified terminal benchmark (no file output)."""
+    random.seed(SEED)
+    np.random.seed(SEED)
+
+    print(f"Loading vertex IDs from {GRAPH_FILE} ...")
+    vertex_ids = get_vertex_ids(GRAPH_FILE)
+
+    algo = "bidirectional" if bidirectional else "standard"
+    print(f"\n=== Running {algo.capitalize()} Dijkstra (Benchmark Mode) ===")
+
+    pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
+    results = run_queries(pairs, build_jar_command(bidirectional))
+
+    summary = summarize_results(results)
+    print_summary(summary)
+
+
 # --- Main entry point ---
 if __name__ == "__main__":
-    run_complete_test()
-
-    #update_plots(bidirectional=True)
-    #update_plots(bidirectional=False)
-    #update_comparison_plot()
+    # Uncomment if you want to regenerate plots without re-running experiments
+    run_terminal_benchmark_test(True)
+    run_terminal_benchmark_test(False)
+    # run_complete_test()
+    # update_plots(bidirectional=True)
+    # update_plots(bidirectional=False)
+    # update_comparison_plot()

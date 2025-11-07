@@ -1,6 +1,9 @@
 package ch;
 
 import java.util.Scanner;
+
+import ch.Graph.Vertex;
+
 import java.io.File;
 
 class Main {
@@ -41,11 +44,11 @@ class Main {
         return g; // return the built graph
     }
 
-    private static AugmentedGraph readAugmentedGraph(Scanner sc) {
+    private static Graph readAugmentedGraph(Scanner sc) {
         int n = sc.nextInt();
         int m = sc.nextInt();
 
-        AugmentedGraph ag = new AugmentedGraph();
+        Graph ag = new Graph();
 
         // Read vertices (with rank)
         long id;
@@ -59,7 +62,7 @@ class Main {
             x = Float.parseFloat(sc.next());
             y = Float.parseFloat(sc.next());
             rank = sc.nextInt();
-            ag.addVertex(id, ag.new AugmentedVertex(x, y, rank));
+            ag.addVertex(id, new Graph.Vertex(x, y, rank));
         }
 
         // Read edges

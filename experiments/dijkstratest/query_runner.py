@@ -1,7 +1,10 @@
+from pathlib import Path
+from typing import Dict, Any
 import subprocess
 import numpy as np
 
-def run_queries(pairs, jar_cmd):
+
+def run_queries(pairs, jar_cmd) -> np.array:
     """Run Java Dijkstra or bidirectional Dijkstra on (s,t) pairs."""
     input_data = "\n".join(f"{s} {t}" for s, t in pairs) + "\n"
     
@@ -27,11 +30,6 @@ def run_queries(pairs, jar_cmd):
         results.append((s, t, dist, relaxed, time_ns))
     
     return np.array(results, dtype=np.int64)
-
-from pathlib import Path
-import numpy as np
-from typing import Dict, Any
-
 
 def summarize_results(results: np.ndarray) -> Dict[str, Any]:
     """ Compute summary statistics for Dijkstra experiment results. """

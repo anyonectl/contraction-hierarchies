@@ -76,6 +76,8 @@ public class Dijkstra {
         
         pq.add(new PQElem(0, from));
         dists.put(from, 0);
+
+        int best = Integer.MAX_VALUE; 
         
         while (!pq.isEmpty()) {
             PQElem elem = pq.poll();
@@ -100,6 +102,13 @@ public class Dijkstra {
                         pq.add(new PQElem(newDist, v));
                     }
                 }
+            }
+
+            //Checks whether further searching can possibly improve the current best distance. If not, break.
+            if (!pq.isEmpty()) {
+                int min = pq.peek().key;
+                if (min >= best)
+                    break;
             }
         }
         return -1; // if no witness path is smaller than maxDistance
