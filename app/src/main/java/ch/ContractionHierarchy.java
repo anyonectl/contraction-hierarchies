@@ -239,7 +239,7 @@ public class ContractionHierarchy {
             // store graph
             if (g.getN() > 100) {
                 System.out.println("Storing graph...");
-                storeGraph(g, "output/augmented.graph");
+                storeGraph(g, "output/testJustDelete.graph");
                 System.out.println("Graph stored!");
             }
             

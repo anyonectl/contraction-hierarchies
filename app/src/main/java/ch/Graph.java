@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Graph {
@@ -211,51 +210,12 @@ public class Graph {
                 int distThroughV = distUtoV + distVtoW;
                 
                 // check if there's a shorter path from u to w without using v (witness path search)
-                if (needsShortcut(u, w, v, distThroughV)) {
+                if (Dijkstra.localSearch(this, u, w, v, distThroughV)) {
                     shortcutsAdded++;
                 }
             }
         }
         return shortcutsAdded - edgesRemoved;
-    }
-    
-    /**
-     * Performs a search for witness paths using limited Dijkstra from to w avoiding v
-     * and thereby determines if a shortcut is needed from u to w when contracting v.
-     * A shortcut is needed if there's no path from u to w (avoiding v) that is
-     * shorter than or equal to maxDist (witness path).
-     */
-    private boolean needsShortcut(long u, long w, long v, int maxDist) {
-        PriorityQueue<PQElem> pq = new PriorityQueue<>();
-        Map<Long, Integer> dists = new HashMap<>();
-        
-        dists.put(u, 0);
-        pq.offer(new PQElem(0, u));
-        
-        while (!pq.isEmpty()) {
-            PQElem current = pq.poll();
-            long node = current.v;
-            int dist = current.key;
-            if (dist > maxDist) break; // maxDist reached, next dists will be larger, so no need to search further
-            if (node == w) return false; // we found a witness path, stop search
-            if (dists.get(node) < dist) continue; // TODO what happens here
-            List<Edge> neighbours = getNeighbours(node);
-            if (neighbours == null) continue; // skip if current node has no neighbours
-            
-            // relax edges
-            for (Edge e : neighbours) {
-                if (e.to == v) continue; // exclude the vertex being contracted
-                if (getVertex(e.to).getRank() != -1) continue; // exclude vertices that have already been contracted
-                
-                int newDist = dist + e.weight;
-                // only consider paths with dist smaller than maxDistance
-                if (newDist <= maxDist && (!dists.containsKey(e.to) || newDist < dists.get(e.to))) {
-                    dists.put(e.to, newDist);
-                    pq.offer(new PQElem(newDist, e.to));
-                }
-            }
-        }
-        return true; // no witness path found, shortcut needed
     }
     
     /**
@@ -304,7 +264,7 @@ public class Graph {
                 int distThroughV = distUtoV + distVtoW;
                 
                 // witness path search
-                if (needsShortcut(u, w, v, distThroughV)) {
+                if (Dijkstra.localSearch(this, u, w, v, distThroughV)) {
                     addEdge(u, w, v, distThroughV); // only add shortcut if u->v->w (path through v) is a unique shortest path
                 }
             }
