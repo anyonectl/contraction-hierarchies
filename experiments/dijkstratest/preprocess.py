@@ -1,12 +1,6 @@
 from pathlib import Path
+from main import JAR_FILE, ORIGINAL_GRAPH_FILE, AUGMENTED_GRAPH_FILE
 import subprocess
-
-
-# --- Configuration ---
-GRAPH_FILE = Path("denmark.graph")
-JAR_FILE = Path("app/build/libs/app.jar")
-OUTPUT_FILE = Path("output/augmentedDenmark.graph")
-
 
 def build_jar_command() -> list[str]:
     """
@@ -18,14 +12,14 @@ def build_jar_command() -> list[str]:
         "-jar",
         str(JAR_FILE),
         "process_graph",
-        str(GRAPH_FILE),
-        str(OUTPUT_FILE)
+        str(ORIGINAL_GRAPH_FILE),
+        str(AUGMENTED_GRAPH_FILE)
     ]
 
 
 def run_preprocess() -> None:
     # Ensure output directory exists
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    AUGMENTED_GRAPH_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     jar_cmd = build_jar_command()
     print(f"Running: {' '.join(jar_cmd)}")
@@ -46,5 +40,7 @@ def run_preprocess() -> None:
     print(proc.stdout)
 
 
+# --- Main entry point ---
 if __name__ == "__main__":
+    # Takes the original graph and preprocesses it
     run_preprocess()
