@@ -52,7 +52,7 @@ public class BidirectionalDijkstra extends Dijkstra{
                 if (candidate < best) best = candidate;
             }
 
-//            if (!g.hasNeighbours(u)) continue;
+            if (!g.hasNeighbours(u)) continue;
 
             List<Graph.Edge> edges = g.getNeighbours(u); // for debugging)
             for (Graph.Edge e : edges) {
@@ -123,7 +123,7 @@ public class BidirectionalDijkstra extends Dijkstra{
                 if (totalDist < best) best = totalDist;
             }
 
-            // if (!g.hasNeighbours(u)) continue; 
+            if (!g.hasNeighbours(u)) continue; 
 
             for (Graph.Edge e : g.getNeighbours(u)) {
                 relaxed++;
@@ -153,7 +153,6 @@ public class BidirectionalDijkstra extends Dijkstra{
 
         return new Result<>(end - begin, relaxed, best);
     }
-
 
     // TODO decide if we should remove this or not
     public static int shortestPathOnSubgraph(Graph g, long from, long to, long exclude, int maxDistance) {

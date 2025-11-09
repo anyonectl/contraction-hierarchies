@@ -3,6 +3,7 @@ package ch;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -26,11 +27,15 @@ public class ContractionHierarchy {
      * @param graph the road network graph to preprocess
      */
     public ContractionHierarchy(Graph graph) {
-        this.augmented = graph;
-        this.original = graph.copy();
+        this.augmented = graph.copy(); // copy and ready for manipulation 
+        this.original = graph; // original points to passed graph (not manipulated)
         preprocess();
     }
-    
+
+    // getters return copies
+    public Graph getAugmented() { return augmented.copy(); }
+    public Graph getOriginal() { return original.copy(); }
+
     /**
      * Performs the preprocessing phase of Contraction Hierarchies.
      * Contracts all vertices in order of their edge difference using lazy updates.

@@ -1,7 +1,15 @@
 package ch;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
+
+import ch.Graph.Edge;
+import ch.Graph.Vertex;
+
 import java.io.File;
+import java.io.PrintWriter;
 
 class Main {
 
@@ -22,6 +30,34 @@ class Main {
                 System.out.printf("%d %d %d %d %d%n",
                                   s, t, res.result, res.relaxed, res.time);
             }
+    }
+
+    // prints graph in terminal (accessible from all classes)
+    public static void printGraph(Graph g) {
+        PrintWriter w = new PrintWriter(System.out, true);
+        int n = g.getN(), m = g.getM();
+
+        w.printf("%d %d%n", n, m);
+
+        for (Map.Entry<Long, Vertex> entry : g.getVertices().entrySet()) {
+            long id = entry.getKey();
+            Vertex v = entry.getValue();
+            long rank = v.getRank();
+            float x = v.x, y = v.y;
+
+            w.printf(Locale.US, "%d %f %f %d%n", id, x, y, rank);
+        }
+
+        for (Map.Entry<Long, List<Edge>> entry : g.getOutEdges().entrySet()) {
+            long from = entry.getKey();
+            for (Edge e : entry.getValue()) {
+                long to = e.to, contracted = e.contracted;
+                int weight = e.weight;
+                w.printf("%d %d %d %d%n", from, to, weight, contracted);
+            }
+        }
+
+        w.flush();
     }
 
     public static void main(String[] args) throws Exception {
