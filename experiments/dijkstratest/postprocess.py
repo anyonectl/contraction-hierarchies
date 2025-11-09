@@ -1,4 +1,4 @@
-from main import NUM_QUERIES, ORIGINAL_OUTPUT_DIR, AUGMENTED_OUTPUT_DIR
+from config import NUM_QUERIES, ORIGINAL_OUTPUT_DIR, AUGMENTED_OUTPUT_DIR
 from plot_results import plot_runtime_histogram
 from compare import plot_comparison
 import numpy as np

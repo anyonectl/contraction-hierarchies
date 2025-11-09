@@ -1,5 +1,5 @@
 from pathlib import Path
-from main import JAR_FILE, ORIGINAL_GRAPH_FILE, AUGMENTED_GRAPH_FILE
+from config import JAR_FILE, ORIGINAL_GRAPH_FILE, AUGMENTED_GRAPH_FILE
 import subprocess
 
 def build_jar_command() -> list[str]:

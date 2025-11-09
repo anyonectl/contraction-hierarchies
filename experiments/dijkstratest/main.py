@@ -4,21 +4,8 @@ from pathlib import Path
 
 # --- Local imports ---
 from query_runner import run_queries, summarize_results, print_summary, save_to_csv
-from plot_results import plot_runtime_histogram
-from compare import plot_comparison
 from preprocess import run_preprocess
-
-
-# --- Configuration ---
-JAR_FILE = Path("app/build/libs/app.jar")
-NUM_QUERIES = 1000
-SEED = 42
-
-AUGMENTED_GRAPH_FILE = Path("output/augmentedDenmark.graph")
-ORIGINAL_GRAPH_FILE = Path("denmark.graph")
-
-AUGMENTED_OUTPUT_DIR = Path("experiments/dijkstratest/results_augmented")
-ORIGINAL_OUTPUT_DIR = Path("experiments/dijkstratest/results")
+from config import JAR_FILE, NUM_QUERIES, SEED, AUGMENTED_GRAPH_FILE, ORIGINAL_GRAPH_FILE, AUGMENTED_OUTPUT_DIR, ORIGINAL_OUTPUT_DIR
 
 
 # --- Helpers ---
