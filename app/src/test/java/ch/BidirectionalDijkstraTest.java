@@ -16,7 +16,6 @@ public class BidirectionalDijkstraTest {
         g.addVertex(2, new Graph.Vertex(1, 1));
         g.addVertex(3, new Graph.Vertex(2, 2));
         g.addVertex(4, new Graph.Vertex(3, 3));
-
         // Graph structure:
         // 1 -(4)- 2 -(1)- 3
         //  \             /
@@ -35,6 +34,13 @@ public class BidirectionalDijkstraTest {
         simple.addVertex(2, new Graph.Vertex(1, 0));
         simple.addVertex(3, new Graph.Vertex(0, 1));
         simple.addVertex(4, new Graph.Vertex(1, 1));
+/*  simple:
+        1 --(5)-- 2
+        |         |
+        (3)      (4)
+        |         |
+        3 --(6)-- 4 
+*/
         simple.addUndirectedEdge(1, 2, 5);
         simple.addUndirectedEdge(1, 3, 3);
         simple.addUndirectedEdge(2, 4, 4);
@@ -44,25 +50,37 @@ public class BidirectionalDijkstraTest {
         triangle.addVertex(1, new Graph.Vertex(0, 0));
         triangle.addVertex(2, new Graph.Vertex(0, 1));
         triangle.addVertex(3, new Graph.Vertex(1, 1));
+/* triangle:
+        1 --(5)-- 2
+         \       /
+          (8)  (3) 
+            \ /
+             3
+ */
         triangle.addUndirectedEdge(1, 2, 5);
         triangle.addUndirectedEdge(1, 3, 8);
         triangle.addUndirectedEdge(2, 3, 3);
     }
 
+
+    //
+    // Shortest Path
+    //
+
     @Test
-    public void testShortestPath_basic() {
+    public void shortestPath_basic() {
         Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 4);
         assertEquals("Shortest path 1→2→3→4 should have total cost 7", (long) dist.result, 7);
     }
 
     @Test
-    public void testShortestPath_directConnection() {
+    public void shortestPath_directConnection() {
         Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 2);
         assertEquals("Direct edge 1→2 should cost 4", (long) dist.result, 4 );
     }
 
     @Test
-    public void testShortestPath_noPathExists() {
+    public void shortestPath_noPathExists() {
         Graph disconnected = new Graph();
         disconnected.addVertex(1, new Graph.Vertex(0, 0));
         disconnected.addVertex(2, new Graph.Vertex(1, 1));
@@ -74,27 +92,30 @@ public class BidirectionalDijkstraTest {
     }
     
     @Test
-    public void testShortestPath_sameNode() {
+    public void shortestPath_sameNode() {
         Result<Integer> dist = BidirectionalDijkstra.shortestPath(g, 1, 1);
         assertEquals("Distance from a node to itself should be 0", 0, (long) dist.result);
     }
 
     @Test
-    public void testShortestPath_correctShortestPath() {
+    public void shortestPath_correctShortestPath() {
         Graph h = new Graph();
         h.addVertex(1, new Graph.Vertex(0, 0));
         h.addVertex(2, new Graph.Vertex(1, 1));
         h.addVertex(3, new Graph.Vertex(2, 2));
         h.addVertex(4, new Graph.Vertex(3, 3));
         h.addVertex(5, new Graph.Vertex(4, 4));
-/* graph as in lecture: https://www.youtube.com/watch?v=CHvQ3q_gJ7E&t=1465s
-         (3)- 2 -(3)- 3 -(3) 
-          |               |
-   source 1               4 target
-           \             /
-            (5)       (5)
-              \__ 5 __/
-*/
+/* 
+graph as in lecture: https://www.youtube.com/watch?v=CHvQ3q_gJ7E&t=1465s
+
+            (3)-- 2 --(3)-- 3 --(3) 
+              \                 /
+        source 1               4 target
+                \             /
+                 (5)-- 5 --(5)
+we assess if the search ends when both queues first meet 1>5>4, or 
+if the search continues and finds the correct shortest path 1>2>3>4.
+*/ 
         h.addUndirectedEdge(1, 2, 3);
         h.addUndirectedEdge(2, 3, 3);
         h.addUndirectedEdge(3, 4, 3);
@@ -105,14 +126,13 @@ public class BidirectionalDijkstraTest {
     }
 
     @Test
-    public void testShortestPath_fromBlog() {
+    public void shortestPath_fromBlog() {
         Graph h = new Graph();
         h.addVertex(1, new Graph.Vertex(0, 0));
         h.addVertex(2, new Graph.Vertex(1, 1));
         h.addVertex(3, new Graph.Vertex(2, 2));
         h.addVertex(4, new Graph.Vertex(3, 3));
 /* graph as in lecture: https://www.youtube.com/watch?v=CHvQ3q_gJ7E&t=1465s
-
 
                 (12)-- 2 --(8)
                 /             \
@@ -128,7 +148,12 @@ public class BidirectionalDijkstraTest {
         assertEquals("Distance from a node to itself should be 19", 19, (long) dist.result);
     }
 
-    
+
+    //
+    // Shortest Path On Subgraph (maybe obsolete)
+    //
+
+
     @Test
     public void shortestPathOnSubgraph_directPath() {
         // Direct path from 1 to 2 has distance 5
@@ -215,4 +240,20 @@ public class BidirectionalDijkstraTest {
         int distance = BidirectionalDijkstra.shortestPathOnSubgraph(simple, 1, 4, -1, 5);
         assertEquals(-1, distance); // Actual distance is 9 (1→2→4)
     }
+
+    // 
+    // Bidirectional Search using ranks in augmented graph
+    //
+
+    // @Test
+    // void bidirectionalSearch_ranksOnlyGoDown_returnsNotFound() {
+    //     Graph g = new Graph();
+    //     g.addVertex(1, new Graph.Vertex(0, 0, -1));
+    //     g.addVertex(2, new Graph.Vertex(0, 0, -1));
+    //     g.addVertex(3, new Graph.Vertex(0, 0, -1));
+    //     g.addVertex(4, new Graph.Vertex(0, 0, -1));
+
+
+    // }
+
 }
