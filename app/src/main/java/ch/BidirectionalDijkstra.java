@@ -67,7 +67,7 @@ public class BidirectionalDijkstra extends Dijkstra{
                 }
 
                 if (otherDists.containsKey(v)) {
-                    int candidate = dist + otherDists.get(v);
+                    int candidate = newDist + otherDists.get(v);
                     if (candidate < best) best = candidate;
                 }
             }
