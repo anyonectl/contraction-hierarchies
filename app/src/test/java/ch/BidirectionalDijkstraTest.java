@@ -126,16 +126,23 @@ if the search continues and finds the correct shortest path 1>2>3>4.
     //
 
 
-    // @Test
-    // void bidirectionalSearch_ranksOnlyGoDown_returnsNotFound() {
-    //     Graph g = new Graph();
-    //     g.addVertex(1, new Graph.Vertex(0, 0, 1));
-    //     g.addVertex(2, new Graph.Vertex(0, 0, 2));
-    //     g.addVertex(3, new Graph.Vertex(0, 0, 3));
-    //     g.addVertex(4, new Graph.Vertex(0, 0, 0));
-    
+    @Test
+    public void bidirectionalSearch_basicCorrectness() {
+        Graph g = new Graph();
+        g.addVertex(1, new Graph.Vertex(0, 0, 1));
+        g.addVertex(2, new Graph.Vertex(0, 0, 2));
+        g.addVertex(3, new Graph.Vertex(0, 0, 3));
+        g.addVertex(4, new Graph.Vertex(0, 0, 2));
+        g.addVertex(5, new Graph.Vertex(0, 0, 1));
+        g.addUndirectedEdge(1, 2, 1);
+        g.addUndirectedEdge(2, 3, 1);
+        g.addUndirectedEdge(3, 4, 1);
+        g.addUndirectedEdge(4, 5, 1);
+        /*
+        source 1,1 --(1)-- 2,2 --(1)-- 3,3 --(1)-- 4,2 --(1)-- 5,1 target
+         */
 
-
-    // }
-
+        Result<Integer> res = BidirectionalDijkstra.bidirectionalSearch(g, 1, 5);
+        assertEquals(4, (int)res.result);
+    }
 }
