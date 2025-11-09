@@ -7,6 +7,10 @@ denmark.contracted.graph
 soms-notes.md
 .vscode
 
+# Ignore compiled binaries
+*/bin/
+*/build/
+
 # exclude produced graph data, except for pngs
 output/* 
 !output/visualisations/
