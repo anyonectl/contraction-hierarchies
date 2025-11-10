@@ -1,78 +1,102 @@
 package ch;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
+
+import ch.Graph.Edge;
+import ch.Graph.Vertex;
+
 import java.io.File;
+import java.io.PrintWriter;
 
 class Main {
 
-    private static Graph readGraph(Scanner sc) {
-        int n = sc.nextInt(); // number of vertices from input
-        int m = sc.nextInt(); // number of edges from input
-
-        Graph g = new Graph(); // create empty graph
-
-        long id;
-        float x, y;
-        long[] ids = new long[n]; // array to store vertex ids
-
-        // read vertices from input
-        // the following n lines each represents a vertex and contains 3 numbers: vertex id (long), vertex longitude (float) and vertex latitude (float)
-        for (int i = 0; i < n; i++) { 
-            id = sc.nextLong(); // vertex id
-
-            ids[i] = id; // store id in the array of vertex ids at the current index
-            x = Float.parseFloat(sc.next()); // longitude of this vertex
-            y = Float.parseFloat(sc.next()); // latitude of this vertex
-
-            g.addVertex(id, new Graph.Vertex(x, y)); // add the vertex from this line of input to the graph
-        }
-
-        long from, to;
-        int weight;
-
-        // read edges from input
-        // the following m lines each represents an edge and contains 3 numbers: id of source vertex (long), id of destination vertex (long) and weight/cost of the edge (integer)
-        for (int i = 0; i < m; i++) {
-            from = sc.nextLong(); // id of source vertex
-            to = sc.nextLong(); // id of destination vertex
-            weight = sc.nextInt(); // weight/cost of the edge
-            g.addUndirectedEdge(from, to, weight); // add the (undirected) edge from this line of input to the graph
-        }
-        return g; // return the built graph
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        if (args.length < 2) {
-            System.err.println("Usage: java -jar app.jar <mode> <graphfile>");
-            System.exit(1);
-        }
-        
-        String mode = args[0];
-        String graphFile = args[1];
-
-        if (mode.startsWith("dijkstratest")) {
-            // Read graph from file
-            File file = new File(graphFile);
-            Scanner graphScanner = new Scanner(file);
-            Graph g = readGraph(graphScanner);
-            graphScanner.close();
-
-            // Read (s, t) pairs from stdin
-            Scanner queryScanner = new Scanner(System.in);
+    // Read (s, t) pairs from stdin
+    private static void query(Scanner queryScanner, boolean bidirectional, boolean augmented, Graph g) {
             while (queryScanner.hasNextLong()) {
                 long s = queryScanner.nextLong();
                 if (!queryScanner.hasNextLong()) break;
                 long t = queryScanner.nextLong();
+                Result<Integer> res = null;
 
-                Result<Integer> res = mode.endsWith("_bidirectional") ? BidirectionalDijkstra.shortestPath(g, s, t) : Dijkstra.shortestPath(g, s, t);
+                if (augmented) {
+                    res = BidirectionalDijkstra.bidirectionalSearch(g, s, t);
+                } else {
+                    res = bidirectional ? BidirectionalDijkstra.shortestPath(g, s, t) : Dijkstra.shortestPath(g, s, t);
+                }
 
                 System.out.printf("%d %d %d %d %d%n",
-                        s, t, res.result, res.relaxed, res.time);
+                                  s, t, res.result, res.relaxed, res.time);
             }
-            queryScanner.close();
+    }
+
+    // prints graph in terminal (accessible from all classes)
+    public static void printGraph(Graph g) {
+        PrintWriter w = new PrintWriter(System.out, true);
+        int n = g.getN(), m = g.getM();
+
+        w.printf("%d %d%n", n, m);
+
+        for (Map.Entry<Long, Vertex> entry : g.getVertices().entrySet()) {
+            long id = entry.getKey();
+            Vertex v = entry.getValue();
+            long rank = v.getRank();
+            float x = v.x, y = v.y;
+
+            w.printf(Locale.US, "%d %f %f %d%n", id, x, y, rank);
         }
 
+        for (Map.Entry<Long, List<Edge>> entry : g.getOutEdges().entrySet()) {
+            long from = entry.getKey();
+            for (Edge e : entry.getValue()) {
+                long to = e.to, contracted = e.contracted;
+                int weight = e.weight;
+                w.printf("%d %d %d %d%n", from, to, weight, contracted);
+            }
+        }
 
+        w.flush();
+    }
+
+    public static void main(String[] args) throws Exception {
+        
+        // Gather args 
+        String use = args[0]; // run_queries, process_graph 
+        
+        if (use.equals("run_queries")) { // Usage: java -jar app.jar <use> <augmented> <bidirectional> <graphfile>
+            boolean augmented = args[1].equals("augmented"); // augmented or not ("original")
+            boolean bidirectional = args[2].equals("bidirectional");
+            File graphFile = new File(args[3]);
+    
+            // Scan graph
+            Scanner graphScanner = new Scanner(graphFile);
+            Graph g = augmented ? GraphReader.readAugmentedGraph(graphScanner) : GraphReader.readGraph(graphScanner);
+            graphScanner.close();
+    
+            // Query graph
+            Scanner queryScanner = new Scanner(System.in);
+            query(queryScanner, bidirectional, augmented, g);
+            queryScanner.close();
+        } 
+        else if (use.equals("process_graph")) { // Usage: java -jar app.jar <use> <graphfile> <outputpath>
+            File graphFile = new File(args[1]);
+            String outputPath = args[2];
+
+            Scanner graphScanner = new Scanner(graphFile);
+            Graph g = GraphReader.readGraph(graphScanner);
+            graphScanner.close();
+
+            System.out.println("Starting preprocess...");
+            ContractionHierarchy ch = new ContractionHierarchy(g);
+            System.out.println("Finished preprocessing!\n");
+
+            System.out.println("\nStoring graph...");
+            ch.storeGraph(g, outputPath);
+            System.out.println("Graph stored!");
+        } else {
+            System.out.println("Argument not recognised.");
+        }
     }
 }

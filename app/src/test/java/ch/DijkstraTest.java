@@ -7,8 +7,10 @@ import org.junit.Test;
 public class DijkstraTest {
 
         Graph g;
-        Graph simple;
+        Graph square;
         Graph triangle;
+        Graph linear;
+        Graph disconnected;
     
     @Before
     public void setup() {
@@ -17,35 +19,66 @@ public class DijkstraTest {
         g.addVertex(2, new Graph.Vertex(1, 1));
         g.addVertex(3, new Graph.Vertex(2, 2));
         g.addVertex(4, new Graph.Vertex(3, 3));
-
-        // Graph structure:
-        // 1 --(4)-- 2 --(1)-- 3
-        //  \                /
-        //   (8)          (2)
-        //     \          /
-        //          4
+/* g:
+        1 -(4)- 2 -(1)- 3
+         \             /
+          (8)-- 4 --(2)
+*/
         g.addUndirectedEdge(1, 2, 4);
         g.addUndirectedEdge(2, 3, 1);
         g.addUndirectedEdge(1, 4, 8);
         g.addUndirectedEdge(3, 4, 2);
 
-        simple = new Graph();
-        simple.addVertex(1, new Graph.Vertex(0, 0));
-        simple.addVertex(2, new Graph.Vertex(1, 0));
-        simple.addVertex(3, new Graph.Vertex(0, 1));
-        simple.addVertex(4, new Graph.Vertex(1, 1));
-        simple.addUndirectedEdge(1, 2, 5);
-        simple.addUndirectedEdge(1, 3, 3);
-        simple.addUndirectedEdge(2, 4, 4);
-        simple.addUndirectedEdge(3, 4, 6);
+        square = new Graph();
+        square.addVertex(1, new Graph.Vertex(0, 0));
+        square.addVertex(2, new Graph.Vertex(1, 0));
+        square.addVertex(3, new Graph.Vertex(0, 1));
+        square.addVertex(4, new Graph.Vertex(1, 1));
+/*  square:
+        1 --(5)-- 2
+        |         |
+        (3)      (4)
+        |         |
+        3 --(6)-- 4 
+*/
+        square.addUndirectedEdge(1, 2, 5);
+        square.addUndirectedEdge(1, 3, 3);
+        square.addUndirectedEdge(2, 4, 4);
+        square.addUndirectedEdge(3, 4, 6);
 
         triangle = new Graph();
         triangle.addVertex(1, new Graph.Vertex(0, 0));
         triangle.addVertex(2, new Graph.Vertex(0, 1));
         triangle.addVertex(3, new Graph.Vertex(1, 1));
+/* triangle:
+        1 --(5)-- 2
+         \       /
+          (8)  (3) 
+            \ /
+             3
+ */
         triangle.addUndirectedEdge(1, 2, 5);
         triangle.addUndirectedEdge(1, 3, 8);
-        triangle.addUndirectedEdge(2, 3, 3);
+        triangle.addUndirectedEdge(2, 3, 3); 
+
+        linear = new Graph();
+        linear.addVertex(1, new Graph.Vertex(0, 0));
+        linear.addVertex(2, new Graph.Vertex(1, 0));
+        linear.addVertex(3, new Graph.Vertex(2, 0));
+        linear.addVertex(4, new Graph.Vertex(3, 0));
+/* linear: 
+        1 --(5)-- 2 --(3)-- 3 --(1)-- 4
+*/
+        linear.addUndirectedEdge(1, 2, 5);
+        linear.addUndirectedEdge(2, 3, 3);
+        linear.addUndirectedEdge(3, 4, 1);
+
+        disconnected = new Graph();
+        disconnected.addVertex(1, new Graph.Vertex(0, 0));
+        disconnected.addVertex(2, new Graph.Vertex(1, 0));
+/* disconnected:
+        1       2
+ */
     }
 
     @Test
@@ -103,90 +136,83 @@ public class DijkstraTest {
         assertEquals("Distance from a node to itself should be 9", 9, (long) dist.result);
     }
 
-    // @Test
-    // public void shortestPathOnSubgraph_directPath() {
-    //     // Direct path from 1 to 2 has distance 5
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 100);
-    //     assertEquals(5, distance);
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_excludeForceAlternate() {
-    //     // Without exclusion: 1→2 = 5
-    //     // Excluding vertex 2 forces: 1→3→4 (not possible directly to 2)
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, 2, 100);
-    //     assertEquals(9, distance); // 3 + 6 = 9
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_excludeMiddleVertex() {
-    //     // Direct path 1→2→3 = 5 + 3 = 8
-    //     // Excluding 2 forces: 1→3 = 8
-    //     int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, 2, 100);
-    //     assertEquals(8, distance);
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_witnessPathShorter() {
-    //     // Path 1→2→3 = 8, which is shorter than direct 1→3 = 8 (equal actually)
-    //     int distance = Dijkstra.shortestPathOnSubgraph(triangle, 1, 3, -1, 100);
-    //     assertEquals(8, distance); // Both paths are equal
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_maxDistanceBoundRespected() {
-    //     // Path 1→2 = 5, but maxDistance = 4 should stop search
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 4);
-    //     assertEquals(-1, distance);
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_exactlyAtMaxDistance() {
-    //     // Path 1→2 = 5, maxDistance = 5 should succeed
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, -1, 5);
-    //     assertEquals(5, distance);
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_sourceEqualsTarget() {
-    //     // Distance from vertex to itself is 0
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 1, -1, 100);
-    //     assertEquals(0, distance);
-    // }
 
-    // @Test
-    // public void shortestPathOnSubgraph_noPath() {
-    //     Graph disconnected = new Graph();
-    //     disconnected.addVertex(1, new Graph.Vertex(0, 0));
-    //     disconnected.addVertex(2, new Graph.Vertex(1, 0));
-    //     int distance = Dijkstra.shortestPathOnSubgraph(disconnected, 1, 2, -1, 100);
-    //     assertEquals(-1, distance);
-    // }
+    //
+    // Local Search
+    //
+
+
+    @Test
+    public void localSearch_directPath() {
+        // Direct edge exists: 1→2
+        // Since there is a direct path, no shortcut needed (witness path exists)
+        boolean result = Dijkstra.localSearch(square, 1, 2, -1, 100);
+        assertFalse("Direct path exists, shortcut not needed", result);
+    }
+
+    @Test
+    public void localSearch_excludeMiddleVertex() {
+        // Square graph: exclude vertex 2
+        // Original shortest path 1->2->4 = 5 + 4 = 9
+        // Excluding 2: path 1->3->4 = 3 + 6 = 9 (equal)
+        boolean result = Dijkstra.localSearch(square, 1, 4, 2, 100);
+        assertFalse("Alternate path exists with equal length, shortcut not needed", result);
+    }
+
+    @Test
+    public void localSearch_witnessPathShorter() {
+        // Triangle graph: 1->3 direct = 8, 1->2->3 = 5+3=8
+        // Alternate path exists with equal length
+        boolean result = Dijkstra.localSearch(triangle, 1, 3, -1, 100);
+        assertFalse("Alternate path exists with equal length, shortcut not needed", result);
+    }
+
+    @Test
+    public void localSearch_excludeOnlyPath() {
+        // Linear graph: only path from 1->3 through 2
+        boolean result = Dijkstra.localSearch(linear, 1, 3, 2, 100);
+        assertTrue("Excluding the only path vertex, shortcut needed", result);
+    }
+
+    @Test
+    public void localSearch_maxDistanceBoundRespected() {
+        // Square graph: path 1->2 = 5, maxDist = 4 → stop search
+        boolean result = Dijkstra.localSearch(square, 1, 2, -1, 4);
+        assertTrue("Max distance too small, shortcut needed", result);
+    }
+
+
+    @Test
+    public void localSearch_exactlyAtMaxDistance() {
+        // Square graph: path 1->2 = 5, maxDist = 5 → reachable
+        boolean result = Dijkstra.localSearch(square, 1, 2, -1, 5);
+        assertFalse("Path exactly at maxDist, no shortcut needed", result);
+    }
     
-    // @Test
-    // public void shortestPathOnSubgraph_excludeOnlyPath() {
-    //     Graph gr = new Graph();
-    //     gr.addVertex(1, new Graph.Vertex(0, 0));
-    //     gr.addVertex(2, new Graph.Vertex(1, 0));
-    //     gr.addVertex(3, new Graph.Vertex(2, 0));
-    //     gr.addUndirectedEdge(1, 2, 5);
-    //     gr.addUndirectedEdge(2, 3, 5);
-    //     // Only path 1→3 goes through 2
-    //     int distance = Dijkstra.shortestPathOnSubgraph(gr, 1, 3, 2, 100);
-    //     assertEquals(-1, distance);
-    // }
+    @Test
+    public void localSearch_sourceEqualsTarget() {
+        // Distance from a node to itself
+        boolean result = Dijkstra.localSearch(square, 1, 1, -1, 100);
+        assertFalse("Source equals target, shortcut not needed", result);
+    }
+
+    @Test
+    public void localSearch_noPath() {
+        boolean result = Dijkstra.localSearch(disconnected, 1, 2, -1, 100);
+        assertTrue("No path exists, shortcut needed", result);
+    }
     
-    // @Test
-    // public void shortestPathOnSubgraph_excludeSource() {
-    //     // Excluding the source vertex should return -1
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 2, 1, 100);
-    //     assertEquals(-1, distance);
-    // }
-    
-    // @Test
-    // public void shortestPathOnSubgraph_maxDistanceTooSmall() {
-    //     // Path exists but maxDistance too small
-    //     int distance = Dijkstra.shortestPathOnSubgraph(simple, 1, 4, -1, 5);
-    //     assertEquals(-1, distance); // Actual distance is 9 (1→2→4)
-    // }
+    @Test
+    public void localSearch_excludeSource() {
+        // Excluding source vertex.. TODO does this require shortcut?
+        boolean result = Dijkstra.localSearch(square, 1, 2, 1, 100);
+        assertFalse("Excluding source vertex, shortcut needed", result);
+    }
+
+    @Test
+    public void localSearch_maxDistanceTooSmall() {
+        // Square graph: path 1->4 = 1->2->4 = 5+4=9, maxDist = 5 → stop search
+        boolean result = Dijkstra.localSearch(square, 1, 4, -1, 5);
+        assertTrue("Max distance too small, shortcut needed", result);
+    }
 }

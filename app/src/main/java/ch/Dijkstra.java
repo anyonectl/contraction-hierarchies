@@ -73,7 +73,7 @@ public class Dijkstra {
     public static boolean localSearch(Graph g, long u, long w, long v, int maxDist) {
         PriorityQueue<PQElem> pq = new PriorityQueue<>();
         Map<Long, Integer> dists = new HashMap<>();
-        
+
         dists.put(u, 0);
         pq.offer(new PQElem(0, u));
         

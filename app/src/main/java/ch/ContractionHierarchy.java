@@ -1,17 +1,14 @@
 package ch;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 import ch.Graph.Edge;
 import ch.Graph.Vertex;
@@ -32,14 +29,18 @@ public class ContractionHierarchy {
     public ContractionHierarchy(Graph graph) {
         this.augmented = graph;
         this.original = graph.copy();
-        preprocess();
+        preprocessDebug();
     }
-    
+
+    // getters return copies
+    public Graph getAugmented() { return augmented.copy(); }
+    public Graph getOriginal() { return original.copy(); }
+
     /**
      * Performs the preprocessing phase of Contraction Hierarchies.
      * Contracts all vertices in order of their edge difference using lazy updates.
      */
-    public void preprocess() {
+    public void preprocessDebug() {
         // for debugging/reporting on progress
         String title =
             "╔════════════════════════════════════╗\n" +
@@ -118,6 +119,50 @@ public class ContractionHierarchy {
         System.out.printf("Shortcuts added: %d\n", (augmented.getM() - original.getM()) / 2);
         System.out.printf("Total (undirected) edges in final graph: %d\n\n", augmented.getM() / 2);        
     }
+
+    public void preprocess() {   
+        // initialise priority queue with all vertices and their edge differences
+        PriorityQueue<PQElem> pq = new PriorityQueue<>();
+        Map<Long, Integer> edgeDifferences = new HashMap<>();
+        
+        // order vertices by edge difference
+        for (long v : augmented.getVertexIds()) {
+            int edgeDiff = augmented.getEdgeDifference(v);
+            edgeDifferences.put(v, edgeDiff);
+            pq.offer(new PQElem(edgeDiff, v));
+        }
+
+        // contract vertices in order - update edge difference along the way
+        long rank = 0;
+        while (!pq.isEmpty()) {
+
+            // get vertex to be contracted
+            PQElem elem = pq.poll();
+            long v = elem.v;
+            int oldEdgeDiff = elem.key;
+            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
+            
+            // check and update edge difference (lazy updates)
+            int newEdgeDiff = augmented.getEdgeDifference(v);
+            if (newEdgeDiff > oldEdgeDiff) {
+                edgeDifferences.put(v, newEdgeDiff);
+                pq.offer(new PQElem(newEdgeDiff, v));
+                continue; // edge diff was updated, so skip contraction
+            }
+            
+            // contract and set rank
+            augmented.contract(v, rank);
+            rank++;
+        }
+    }
+
+    /**
+     * Run a bidirectional Dijkstra search, but only consider edges leading to nodes with a higher importance.
+     */
+    public Result<Integer> query(long s, long t) {
+        // TODO call bidirectional from here or just bidirectional directly - should this class act as interface for bidirectional?
+        return new Result<Integer>(0, 0, null);
+    }
     
     /**
      * Verifies that all vertices have been assigned a rank during preprocessing.
@@ -129,7 +174,7 @@ public class ContractionHierarchy {
                 unranked++;
             }
         }
-        
+
         if (unranked > 0) {
             System.err.println("WARNING: " + unranked + " vertices were not assigned a rank!");
         } else {
@@ -137,43 +182,7 @@ public class ContractionHierarchy {
         }
     }
 
-    public static Graph readGraph(Scanner sc) {
-        int n = sc.nextInt(); // number of vertices from input
-        int m = sc.nextInt(); // number of edges from input
-
-        Graph g = new Graph(); // create empty graph
-
-        long id;
-        float x, y;
-        long[] ids = new long[n]; // array to store vertex ids
-
-        // read vertices from input
-        // the following n lines each represents a vertex and contains 3 numbers: vertex id (long), vertex longitude (float) and vertex latitude (float)
-        for (int i = 0; i < n; i++) { 
-            id = sc.nextLong(); // vertex id
-
-            ids[i] = id; // store id in the array of vertex ids at the current index
-            x = Float.parseFloat(sc.next()); // longitude of this vertex
-            y = Float.parseFloat(sc.next()); // latitude of this vertex
-
-            g.addVertex(id, new Graph.Vertex(x, y)); // add the vertex from this line of input to the graph
-        }
-
-        long from, to;
-        int weight;
-
-        // read edges from input
-        // the following m lines each represents an edge and contains 3 numbers: id of source vertex (long), id of destination vertex (long) and weight/cost of the edge (integer)
-        for (int i = 0; i < m; i++) {
-            from = sc.nextLong(); // id of source vertex
-            to = sc.nextLong(); // id of destination vertex
-            weight = sc.nextInt(); // weight/cost of the edge
-            g.addUndirectedEdge(from, to, weight); // add the (undirected) edge from this line of input to the graph
-        }
-        return g; // return the built graph
-    }
-
-    public static void storeGraph(Graph g, String fileName) {
+    public void storeGraph(Graph g, String fileName) {
         try {
             BufferedWriter w = new BufferedWriter(new FileWriter(fileName));
             int n = g.getN(), m = g.getM();
@@ -198,44 +207,6 @@ public class ContractionHierarchy {
         catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace(); // Print error details
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            // read graph from file
-            File file = new File("denmark.graph");
-            Scanner sc = new Scanner(file);
-            Graph g = readGraph(sc);
-            sc.close();        
-                        
-            // run contraction hierarchy preprocessing and check all vertices have ranks
-            ContractionHierarchy ch = new ContractionHierarchy(g);
-            ch.verifyRanks();
-                                    
-            // show ranks of first few vertices (for small test graphs)
-            if (g.getN() <= 20) {
-                System.out.println("\nVertex Ranks:");
-                List<Long> vertexIds = new ArrayList<>(g.getVertexIds());
-                Collections.sort(vertexIds);
-                for (long v : vertexIds) {
-                    System.out.println("  Vertex " + v + ": rank = " + g.getVertex(v).getRank());
-                }
-            }
-
-            // store graph
-            if (g.getN() > 100) {
-                System.out.println("\nStoring graph...");
-                storeGraph(g, "output/testDelete.graph");
-                System.out.println("Graph stored!");
-            }
-            
-        } catch (IOException e) {
-            System.err.println("Error reading input: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Error during preprocessing: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }

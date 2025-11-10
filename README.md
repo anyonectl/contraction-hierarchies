@@ -19,8 +19,19 @@ java -jar app/build/libs/app.jar < test.graph
 
 ## Python testing
 
-For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the experiment `dijkstratest`:
+For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the experiment `dijkstratest/main.py`:
 ```
 python3 experiments/dijkstratest/main.py
 ```
 
+Inside the main we have implemented running the preprocess() of the original graph for simplicity, but this can also be done with:
+```
+python3 experiments/dijkstratest/preprocess.py
+```
+
+This generates the CSV files used for the postprocessing:
+```
+python3 experiments/dijkstratest/postprocess.py
+```
+
+All configuration is in the `main.py`. For running smaller experiments, and not overwriting the CSV files see the function `run_terminal_benchmark_test()` in `main.py`.

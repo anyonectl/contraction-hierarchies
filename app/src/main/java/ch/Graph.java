@@ -16,14 +16,21 @@ public class Graph {
     // inner class representing vertices
     public static class Vertex {
         float x, y; // coordinates
-        private long rank;
-        
+        long rank;
+
         public Vertex(float x, float y) {
             this.x = x;
             this.y = y;
             rank = -1;
         }
-        
+
+        // Constructor for reading augmented graph includes setting rank
+        public Vertex(float x, float y, long rank) {
+            this.x = x;
+            this.y = y;
+            this.rank = rank; // TODO check that no rank is -1 after preprocessing
+        }
+
         public void setRank(long rank) {
             this.rank = rank;
         }
