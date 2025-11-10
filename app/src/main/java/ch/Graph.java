@@ -31,14 +31,6 @@ public class Graph {
             this.y = y;
             this.rank = rank; // TODO check that no rank is -1 after preprocessing
         }
-
-        public void setRank(long rank) {
-            this.rank = rank;
-        }
-        
-        public long getRank() {
-            return rank;
-        }
     }
     
     // inner class representing edges
@@ -173,14 +165,14 @@ public class Graph {
         List<Long> inNeighbours = new ArrayList<>();
         if (outEdges != null) {
             for (Edge e : outEdges) {
-                if (getVertex(e.to).getRank() == -1) { // not yet contracted
+                if (getVertex(e.to).rank == -1) { // not yet contracted
                     outNeighbours.add(e.to);
                 }
             }
         }
         if (inEdges != null) {
             for (Edge e : inEdges) {
-                if (getVertex(e.to).getRank() == -1) { // not yet contracted
+                if (getVertex(e.to).rank == -1) { // not yet contracted
                     inNeighbours.add(e.to);
                 }
             }
@@ -220,8 +212,7 @@ public class Graph {
         
         // special case if v has no neighbours 
         if ((outEdges == null || outEdges.isEmpty()) && (inEdges == null || inEdges.isEmpty())) {
-            // getVertex(v).rank = rank;
-            getVertex(v).setRank(rank);
+            getVertex(v).rank = rank;
             return;
         }
         
@@ -230,14 +221,14 @@ public class Graph {
         List<Long> outNeighbours = new ArrayList<>();
         if (outEdges != null) {
             for (Edge e : outEdges) {
-                if (getVertex(e.to).getRank() == -1) { // not yet contracted
+                if (getVertex(e.to).rank == -1) { // not yet contracted
                     outNeighbours.add(e.to);
                 }
             }
         }
         if (inEdges != null) {
             for (Edge e : inEdges) {
-                if (getVertex(e.to).getRank() == -1) { // not yet contracted
+                if (getVertex(e.to).rank == -1) { // not yet contracted
                     inNeighbours.add(e.to);
                 }
             }
@@ -260,7 +251,6 @@ public class Graph {
             }
         }
         // mark v as contracted by setting the rank
-        // getVertex(v).rank = rank;
-        getVertex(v).setRank(rank);
+        getVertex(v).rank = rank;
     }
 }

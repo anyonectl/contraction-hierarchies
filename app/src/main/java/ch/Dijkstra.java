@@ -90,7 +90,7 @@ public class Dijkstra {
             // relax edges
             for (Edge e : neighbours) {
                 if (e.to == v) continue; // exclude the vertex being contracted
-                if (g.getVertex(e.to).getRank() != -1) continue; // exclude vertices that have already been contracted
+                if (g.getVertex(e.to).rank != -1) continue; // exclude vertices that have already been contracted
                 
                 int newDist = dist + e.weight;
                 // only consider paths with dist smaller than maxDistance
