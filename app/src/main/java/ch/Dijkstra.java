@@ -100,13 +100,6 @@ public class Dijkstra {
                     pq.offer(new PQElem(newDist, e.to));
                 }
             }
-
-            //Checks whether further searching can possibly improve the current best distance. If not, break.
-            if (!pq.isEmpty()) {
-                int min = pq.peek().key;
-                if (min >= best)
-                    break;
-            }
         }
         return true; // no witness path found, shortcut needed
     }
