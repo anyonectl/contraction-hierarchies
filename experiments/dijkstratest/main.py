@@ -39,14 +39,11 @@ def build_jar_command(augmented: bool, bidirectional: bool) -> list[str]:
     ]
 
 # --- Experiments... ---
-def run_experiment(augmented: bool, bidirectional: bool) -> Path:
+def run_experiment(augmented: bool, bidirectional: bool, pairs: np.ndarray) -> Path:
     """Run Dijkstra or Bidirectional Dijkstra experiment and return path to CSV."""
     algo = "bidirectional" if bidirectional else "standard"
     print(f"\n=== Running {algo.capitalize()} Dijkstra ===")
-
-    vertex_ids = get_vertex_ids(AUGMENTED_GRAPH_FILE if augmented else ORIGINAL_GRAPH_FILE)
-    pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
-    print(f"Generated {NUM_QUERIES} random (s, t) pairs")
+    print(f"Using pre-generated {len(pairs)} (s, t) pairs")
 
     # Run Java experiment
     jar_command = build_jar_command(augmented, bidirectional)
@@ -71,7 +68,7 @@ def run_terminal_benchmark_test(augmented: bool = False, bidirectional: bool = F
     vertex_ids = get_vertex_ids(AUGMENTED_GRAPH_FILE if augmented else ORIGINAL_GRAPH_FILE)
 
     algo = "bidirectional" if bidirectional else "standard"
-    print(f"\n=== Running {algo.capitalize()} Dijkstra (Benchmark Mode) ===")
+    print(f"\n=== Running {algo.capitalize()} Dijkstra (no CSV) ===")
 
     pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
     results = run_queries(pairs, build_jar_command(augmented, bidirectional))
@@ -90,18 +87,21 @@ def setup() -> None:
 # --- Main entry point ---
 if __name__ == "__main__":
     setup()
+    # Generate pairs (s,t) so all experiments run on same pairs
+    vertex_ids = get_vertex_ids(ORIGINAL_GRAPH_FILE) # should be same vertex ids for both graphs
+    pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
 
     # Standard dijkstra on Original Graph (CSV)
-    # run_experiment(augmented=False, bidirectional=False)
+    run_experiment(augmented=False, bidirectional=False, pairs=pairs)
     
     # Bidirectional Dijkstra on Original Graph (CSV)
-    #run_experiment(augmented=False, bidirectional=True)
+    run_experiment(augmented=False, bidirectional=True, pairs=pairs)
 
     # Takes the original graph and preprocesses it
     run_preprocess()
 
     # Bidirectional Search on Augmented Graph (CSV)
-    # run_experiment(augmented=True, bidirectional=True)
+    run_experiment(augmented=True, bidirectional=True, pairs=pairs)
 
     # "Quick" experimentation can be done in the terminal using this - does not overwrite the csv files
     # Tip: Adjust the NUM_QUERIES in the config to run smaller tests ...
