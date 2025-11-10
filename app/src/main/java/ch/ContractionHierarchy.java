@@ -87,7 +87,7 @@ public class ContractionHierarchy {
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
+            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
             
             // check and update edge difference (lazy updates)
             int newEdgeDiff = augmented.getEdgeDifference(v);
@@ -143,7 +143,7 @@ public class ContractionHierarchy {
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
+            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
             
             // check and update edge difference (lazy updates)
             int newEdgeDiff = augmented.getEdgeDifference(v);
@@ -173,7 +173,7 @@ public class ContractionHierarchy {
             int n = g.getN(), m = g.getM();
             w.write( n + " " + m ); // number of vertices and edges
             for(Map.Entry<Long,Vertex> entry : g.getVertices().entrySet()){
-                long id = entry.getKey(), rank = entry.getValue().getRank();
+                long id = entry.getKey(), rank = entry.getValue().rank;
                 float x = entry.getValue().x, y = entry.getValue().y;
                 w.newLine();
                 w.write(String.format(Locale.US, "%d %f %f %d", id, x, y, rank));
