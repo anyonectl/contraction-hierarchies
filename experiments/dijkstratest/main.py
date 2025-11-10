@@ -92,17 +92,17 @@ if __name__ == "__main__":
     setup()
 
     # Standard dijkstra on Original Graph (CSV)
-    run_experiment(augmented=False, bidirectional=False)
+    # run_experiment(augmented=False, bidirectional=False)
     
     # Bidirectional Dijkstra on Original Graph (CSV)
-    run_experiment(augmented=False, bidirectional=True)
+    #run_experiment(augmented=False, bidirectional=True)
 
     # Takes the original graph and preprocesses it
     run_preprocess()
 
     # Bidirectional Search on Augmented Graph (CSV)
-    run_experiment(augmented=True, bidirectional=True)
+    # run_experiment(augmented=True, bidirectional=True)
 
     # "Quick" experimentation can be done in the terminal using this - does not overwrite the csv files
     # Tip: Adjust the NUM_QUERIES in the config to run smaller tests ...
-    run_terminal_benchmark_test(augmented=True, bidirectional=True)
+    # run_terminal_benchmark_test(augmented=True, bidirectional=True)
