@@ -29,7 +29,7 @@ public class ContractionHierarchy {
     public ContractionHierarchy(Graph graph) {
         this.augmented = graph;
         this.original = graph.copy();
-        preprocess();
+        preprocessDebug();
     }
 
     // getters return copies
