@@ -27,8 +27,8 @@ public class ContractionHierarchy {
      * @param graph the road network graph to preprocess
      */
     public ContractionHierarchy(Graph graph) {
-        this.augmented = graph.copy(); // copy and ready for manipulation 
-        this.original = graph; // original points to passed graph (not manipulated)
+        this.augmented = graph;
+        this.original = graph.copy();
         preprocess();
     }
 
