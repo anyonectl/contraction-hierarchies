@@ -120,6 +120,46 @@ def histogram_runtime(output_path):
     plt.savefig(output_path + ".png", dpi=300)
     plt.close()
 
+def histogram_runtime_aligned(output_path):
+    df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
+    dijkstra_times = df_subset[df_subset["algorithm"] == "Dijkstra"]["time_ns"] / 1e6
+    bidir_times = df_subset[df_subset["algorithm"] == "Bidirectional"]["time_ns"] / 1e6
+    
+    plt.figure(figsize=(7, 5))
+    
+    # Create shared bins based on the combined data range
+    all_times = pd.concat([dijkstra_times, bidir_times])
+    bins = np.linspace(all_times.min(), all_times.max(), 51)
+    
+    plt.hist(
+        dijkstra_times,
+        bins=bins,
+        alpha=0.6,
+        label="Dijkstra",
+        color=colors[0],
+        # edgecolor=colors[-1],
+        linewidth=0.6
+    )
+    
+    plt.hist(
+        bidir_times,
+        bins=bins,
+        alpha=0.6,
+        label="Bidirectional",
+        color=colors[1],
+        # edgecolor=colors[-1],
+        linewidth=0.6
+    )
+    
+    plt.xlabel(r"Runtime (ms)")
+    plt.ylabel(r"Frequency")
+    plt.title("Runtime distribution", pad=12)
+    plt.legend(frameon=False)
+    plt.tight_layout()
+    plt.savefig(output_path + ".pgf")
+    plt.savefig(output_path + ".png", dpi=300)
+    plt.close()
+
 def histogram_runtime_no_overlap(output_path):
     df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
     dijkstra_times = df_subset[df_subset["algorithm"] == "Dijkstra"]["time_ns"] / 1e6
@@ -256,6 +296,7 @@ def boxplot_runtime(output_path):
 output_dir = "plots/"
 scatter_distance_runtime(output_dir + "scatter_all")
 histogram_runtime(output_dir + "histogram_runtime")
+histogram_runtime_aligned(output_dir + "histogram_runtime_aligned")
 histogram_runtime_no_overlap(output_dir + "histogram_runtime_no_overlap")
 scatter_paired(output_dir + "scatter_paired")
 boxplot_runtime(output_dir + "boxplot")
