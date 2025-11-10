@@ -76,7 +76,6 @@ public class Dijkstra {
 
         dists.put(u, 0);
         pq.offer(new PQElem(0, u));
-        int best = Integer.MAX_VALUE; 
         
         while (!pq.isEmpty()) {
             PQElem current = pq.poll();
