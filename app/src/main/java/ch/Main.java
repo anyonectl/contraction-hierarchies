@@ -93,7 +93,7 @@ class Main {
             System.out.println("Finished preprocessing!\n");
 
             System.out.println("\nStoring graph...");
-            ch.storeGraph(g, outputPath);
+            ch.storeGraph(ch.getAugmented(), outputPath);
             System.out.println("Graph stored!");
         } else {
             System.out.println("Argument not recognised.");

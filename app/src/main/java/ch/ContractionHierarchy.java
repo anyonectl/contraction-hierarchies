@@ -30,9 +30,9 @@ public class ContractionHierarchy {
      * @param graph the road network graph to preprocess
      */
     public ContractionHierarchy(Graph graph) {
-        this.augmented = graph;
-        this.original = graph.copy();
-        preprocessDebug();
+        this.augmented = graph.copy();
+        this.original = graph;
+        preprocessInfo();
     }
 
     // getters return copies
@@ -43,7 +43,44 @@ public class ContractionHierarchy {
      * Performs the preprocessing phase of Contraction Hierarchies.
      * Contracts all vertices in order of their edge difference using lazy updates.
      */
-    public void preprocessDebug() {
+    public void preprocess() {   
+        // initialise priority queue with all vertices and their edge differences
+        PriorityQueue<PQElem> pq = new PriorityQueue<>();
+        Map<Long, Integer> edgeDifferences = new HashMap<>();
+        
+        // order vertices by edge difference
+        for (long v : augmented.getVertexIds()) {
+            int edgeDiff = augmented.getEdgeDifference(v);
+            edgeDifferences.put(v, edgeDiff);
+            pq.offer(new PQElem(edgeDiff, v));
+        }
+
+        // contract vertices in order - update edge difference along the way
+        long rank = 0;
+        while (!pq.isEmpty()) {
+
+            // get vertex to be contracted
+            PQElem elem = pq.poll();
+            long v = elem.v;
+            int oldEdgeDiff = elem.key;
+            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
+            
+            // check and update edge difference (lazy updates)
+            int newEdgeDiff = augmented.getEdgeDifference(v);
+            if (newEdgeDiff > oldEdgeDiff) {
+                edgeDifferences.put(v, newEdgeDiff);
+                pq.offer(new PQElem(newEdgeDiff, v));
+                continue; // edge diff was updated, so skip contraction
+            }
+            
+            // contract and set rank
+            augmented.contract(v, rank);
+            rank++;
+        }
+    }
+
+    
+    public void preprocessInfo() {
         // for debugging/reporting on progress
         String title =
             "╔════════════════════════════════════╗\n" +
@@ -121,50 +158,6 @@ public class ContractionHierarchy {
         System.out.printf("Lazy updates: %d\n", lazyUpdates);
         System.out.printf("Shortcuts added: %d\n", (augmented.getM() - original.getM()) / 2);
         System.out.printf("Total (undirected) edges in final graph: %d\n\n", augmented.getM() / 2);        
-    }
-
-    public void preprocessClean() {   
-        // initialise priority queue with all vertices and their edge differences
-        PriorityQueue<PQElem> pq = new PriorityQueue<>();
-        Map<Long, Integer> edgeDifferences = new HashMap<>();
-        
-        // order vertices by edge difference
-        for (long v : augmented.getVertexIds()) {
-            int edgeDiff = augmented.getEdgeDifference(v);
-            edgeDifferences.put(v, edgeDiff);
-            pq.offer(new PQElem(edgeDiff, v));
-        }
-
-        // contract vertices in order - update edge difference along the way
-        long rank = 0;
-        while (!pq.isEmpty()) {
-
-            // get vertex to be contracted
-            PQElem elem = pq.poll();
-            long v = elem.v;
-            int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
-            
-            // check and update edge difference (lazy updates)
-            int newEdgeDiff = augmented.getEdgeDifference(v);
-            if (newEdgeDiff > oldEdgeDiff) {
-                edgeDifferences.put(v, newEdgeDiff);
-                pq.offer(new PQElem(newEdgeDiff, v));
-                continue; // edge diff was updated, so skip contraction
-            }
-            
-            // contract and set rank
-            augmented.contract(v, rank);
-            rank++;
-        }
-    }
-
-    /**
-     * Run a bidirectional Dijkstra search, but only consider edges leading to nodes with a higher importance.
-     */
-    public Result<Integer> query(long s, long t) {
-        // TODO call bidirectional from here or just bidirectional directly - should this class act as interface for bidirectional?
-        return new Result<Integer>(0, 0, null);
     }
 
     public void storeGraph(Graph g, String fileName) {

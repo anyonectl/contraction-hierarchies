@@ -31,13 +31,6 @@ public class GraphReaderTest {
         simple.addVertex(2, new Graph.Vertex(1, 0));
         simple.addVertex(3, new Graph.Vertex(0, 1));
         simple.addVertex(4, new Graph.Vertex(1, 1));
-        /*  simple:
-                1 --(5)-- 2
-                |         |
-                (3)      (4)
-                |         |
-                3 --(6)-- 4 
-        */
         simple.addUndirectedEdge(1, 2, 5);
         simple.addUndirectedEdge(1, 3, 3);
         simple.addUndirectedEdge(2, 4, 4);
@@ -55,13 +48,6 @@ public class GraphReaderTest {
         simple.addVertex(2, new Graph.Vertex(1, 0, 0));
         simple.addVertex(3, new Graph.Vertex(0, 1, 2));
         simple.addVertex(4, new Graph.Vertex(1, 1, 1));
-        /*  simple:
-                1,3 --(5)-- 2,0
-                |            |
-                (3)         (4)
-                |            |
-                3,2 --(6)-- 4,1 
-        */
         simple.addUndirectedEdge(1, 2, 5); // there are no contractions in simple
         simple.addUndirectedEdge(1, 3, 3);
         simple.addUndirectedEdge(2, 4, 4);

@@ -27,5 +27,6 @@ Running: java -jar app/build/libs/app.jar run_queries augmented bidirectional ou
 === Benchmark Summary ===
 Queries:       1000
 Reachable:     1000 / 1000
-Avg time:      0.377 ms
-Avg relaxed:   5354.2
+Avg time:      0.538 ms
+Avg relaxed:   8776.7
+Saved results to /Users/sofiemeta/Courses/apal/contraction-hierarchies/experiments/dijkstratest/results_augmented/bidirectional_1000_results.csv
