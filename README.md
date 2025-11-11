@@ -23,15 +23,20 @@ To generate initial plots, run:
 python3 experiments/dijkstratest/postprocess.py
 ```
 
-To generate the plots (pgf and png) for the report, run:
-```
-python3 experiments/dijkstratest/plots_for_report.py
-```
-
 ## Preprocessing outside of Python
+
 To start the preprocessing phase and build the augmented Denmark graph outside of the Python experiments, run:
 
 ```
 gradle jar
 java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDenmark.graph
 ```
+
+## Plots and tables for the report
+
+To generate the plots (pgf and png) for the report, run:
+```
+python3 experiments/dijkstratest/plots_for_report.py
+```
+
+To see summary statistics of the experiments and generate the Latex tabulars, see the notebook `experiments/dijkstratest/latex_stats.ipynb`.
