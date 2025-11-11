@@ -1,37 +1,37 @@
-# Template Contraction Hierarchies Assignment
-
-This repository presents a Java-based template to start with the contraction hierarchies assignment in Applied algorithms. 
+# Contraction Hierarchies Assignment
 
 ## Build
 
 The project uses gradle. Carry out the tests using `gradle test` and build the jar file using `gradle jar`. 
 
-The graph is read from standard input and a test graph `test.graph` is provided in this repository. 
-
-Basic file reading is already implemented in the Main class. An example run is 
-
-```
-gradle jar
-java -jar app/build/libs/app.jar < test.graph
-```
-
-(Note that we simulate undirected edges by adding directed edges in both directions, so the count that is printed is twice as large as the number in the graph provided.)
-
 ## Python testing
 
-For benchmarking and comparing the implementation of Dijkstra and Bidirectional Dijkstra run the experiment `dijkstratest/main.py`:
+For benchmarking and comparing the implementations of the algorithms, run the experiment `dijkstratest/main.py`:
 ```
 python3 experiments/dijkstratest/main.py
 ```
 
-Inside the main we have implemented running the preprocess() of the original graph for simplicity, but this can also be done with:
+All configuration is in the `main.py`. For running smaller experiments, and not overwriting the CSV files see the function `run_terminal_benchmark_test()` in `main.py`.
+
+If you only want to run the preprocessing of the original graph, run:
 ```
 python3 experiments/dijkstratest/preprocess.py
 ```
 
-This generates the CSV files used for the postprocessing:
+To generate initial plots, run:
 ```
 python3 experiments/dijkstratest/postprocess.py
 ```
 
-All configuration is in the `main.py`. For running smaller experiments, and not overwriting the CSV files see the function `run_terminal_benchmark_test()` in `main.py`.
+To generate the plots (pgf and png) for the report, run:
+```
+python3 experiments/dijkstratest/plots_for_report.py
+```
+
+## Preprocessing outside of Python
+To start the preprocessing phase and build the augmented Denmark graph outside of the Python experiments, run:
+
+```
+gradle jar
+java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDenmark.graph
+```

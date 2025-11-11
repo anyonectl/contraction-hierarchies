@@ -3,8 +3,6 @@ package ch;
 import static org.junit.Assert.*;
 
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.junit.Before;
