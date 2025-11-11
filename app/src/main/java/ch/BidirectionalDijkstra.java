@@ -52,7 +52,7 @@ public class BidirectionalDijkstra extends Dijkstra{
                 if (candidate < best) best = candidate;
             }
 
-            if (!g.hasNeighbours(u)) continue;
+            if (g.getNeighbours(u) == null) continue;
 
             List<Graph.Edge> edges = g.getNeighbours(u); // for debugging)
             for (Graph.Edge e : edges) {
@@ -123,7 +123,7 @@ public class BidirectionalDijkstra extends Dijkstra{
                 if (totalDist < best) best = totalDist;
             }
 
-            if (!g.hasNeighbours(u)) continue; 
+            if (g.getNeighbours(u) == null) continue;
 
             for (Graph.Edge e : g.getNeighbours(u)) {
                 relaxed++;

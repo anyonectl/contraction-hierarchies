@@ -2,6 +2,8 @@ package ch;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 import ch.Graph.Edge;
 import ch.Graph.Vertex;
@@ -84,7 +87,7 @@ public class ContractionHierarchy {
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
+            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
             
             // check and update edge difference (lazy updates)
             int newEdgeDiff = augmented.getEdgeDifference(v);
@@ -120,7 +123,7 @@ public class ContractionHierarchy {
         System.out.printf("Total (undirected) edges in final graph: %d\n\n", augmented.getM() / 2);        
     }
 
-    public void preprocess() {   
+    public void preprocessClean() {   
         // initialise priority queue with all vertices and their edge differences
         PriorityQueue<PQElem> pq = new PriorityQueue<>();
         Map<Long, Integer> edgeDifferences = new HashMap<>();
@@ -140,7 +143,7 @@ public class ContractionHierarchy {
             PQElem elem = pq.poll();
             long v = elem.v;
             int oldEdgeDiff = elem.key;
-            if (augmented.getVertex(v).getRank() != -1) continue; // skip if v has already been contracted
+            if (augmented.getVertex(v).rank != -1) continue; // skip if v has already been contracted
             
             // check and update edge difference (lazy updates)
             int newEdgeDiff = augmented.getEdgeDifference(v);
@@ -163,24 +166,6 @@ public class ContractionHierarchy {
         // TODO call bidirectional from here or just bidirectional directly - should this class act as interface for bidirectional?
         return new Result<Integer>(0, 0, null);
     }
-    
-    /**
-     * Verifies that all vertices have been assigned a rank during preprocessing.
-     */
-    private void verifyRanks() {
-        int unranked = 0;
-        for (long v : augmented.getVertexIds()) {
-            if (augmented.getVertex(v).getRank() == -1) {
-                unranked++;
-            }
-        }
-
-        if (unranked > 0) {
-            System.err.println("WARNING: " + unranked + " vertices were not assigned a rank!");
-        } else {
-            System.out.println("All vertices were successfully ranked.");
-        }
-    }
 
     public void storeGraph(Graph g, String fileName) {
         try {
@@ -188,7 +173,7 @@ public class ContractionHierarchy {
             int n = g.getN(), m = g.getM();
             w.write( n + " " + m ); // number of vertices and edges
             for(Map.Entry<Long,Vertex> entry : g.getVertices().entrySet()){
-                long id = entry.getKey(), rank = entry.getValue().getRank();
+                long id = entry.getKey(), rank = entry.getValue().rank;
                 float x = entry.getValue().x, y = entry.getValue().y;
                 w.newLine();
                 w.write(String.format(Locale.US, "%d %f %f %d", id, x, y, rank));
@@ -208,5 +193,15 @@ public class ContractionHierarchy {
             System.out.println("An error occurred.");
             e.printStackTrace(); // Print error details
         }
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(new File("small.graph"));
+        Graph small = GraphReader.readGraph(sc);
+        sc.close();
+
+        ContractionHierarchy ch = new ContractionHierarchy(small);
+        ch.storeGraph(small, "smallaugmented.graph");
     }
 }

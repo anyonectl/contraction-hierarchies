@@ -42,7 +42,7 @@ class Main {
         for (Map.Entry<Long, Vertex> entry : g.getVertices().entrySet()) {
             long id = entry.getKey();
             Vertex v = entry.getValue();
-            long rank = v.getRank();
+            long rank = v.rank;
             float x = v.x, y = v.y;
 
             w.printf(Locale.US, "%d %f %f %d%n", id, x, y, rank);
@@ -66,8 +66,8 @@ class Main {
         String use = args[0]; // run_queries, process_graph 
         
         if (use.equals("run_queries")) { // Usage: java -jar app.jar <use> <augmented> <bidirectional> <graphfile>
-            boolean augmented = args[1].equals("augmented"); // augmented or not ("original")
-            boolean bidirectional = args[2].equals("bidirectional");
+            boolean augmented = args[1].equals("augmented"); // augmented or original
+            boolean bidirectional = args[2].equals("bidirectional"); // bidirectional or standard
             File graphFile = new File(args[3]);
     
             // Scan graph
