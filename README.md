@@ -44,6 +44,11 @@ For experiments:
 python3 experiments/dijkstratest/main.py > ./experiments/dijkstratest/notes/experimentsNotes.txt 
 ```
 
+For quick comparison between time_ns in result csv files:
+```
+python3 experiments/dijkstratest/compare_csv_times.py ./experiments/dijkstratest/results/bidirectional_1000_results.csv ./experiments/dijkstratest/results/standard_1000_results.csv
+``` 
+
 ## Plots and tables for the report
 
 To generate the plots (pgf and png) for the report, run:
