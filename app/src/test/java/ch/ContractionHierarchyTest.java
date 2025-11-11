@@ -18,19 +18,11 @@ import org.junit.Test;
 public class ContractionHierarchyTest {
 
     private Graph g;
-    private Graph square;
-    private Graph triangle;
-    private Graph linear;
-    private Graph disconnected;
     private Graph test;
 
     @Before
     public void setup() {
         g = readGraphAsInputStream(true, "/ch/g.graph");
-        square = readGraphAsInputStream(true, "/ch/square.graph");
-        triangle = readGraphAsInputStream(true, "/ch/triangle.graph");
-        linear = readGraphAsInputStream(true, "/ch/linear.graph");
-        disconnected = readGraphAsInputStream(true, "/ch/disconnected.graph");
         test = readGraphAsInputStream(false, "/ch/test.graph");
     }
 
