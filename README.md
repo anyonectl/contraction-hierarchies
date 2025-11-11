@@ -33,6 +33,7 @@ java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDen
 ```
 
 ## Pipe the terminal output to a notes file 
+
 For preprocessing:
 ```
 python3 experiments/dijkstratest/preprocess.py > ./experiments/dijkstratest/notes/preprocessingNotes.txt
@@ -44,10 +45,6 @@ For experiments:
 python3 experiments/dijkstratest/main.py > ./experiments/dijkstratest/notes/experimentsNotes.txt 
 ```
 
-For quick comparison between time_ns in result csv files:
-```
-python3 experiments/dijkstratest/compare_csv_times.py ./experiments/dijkstratest/results/bidirectional_1000_results.csv ./experiments/dijkstratest/results/standard_1000_results.csv
-``` 
 
 ## Plots and tables for the report
 
@@ -57,3 +54,10 @@ python3 experiments/dijkstratest/plots_for_report.py
 ```
 
 To see summary statistics of the experiments and generate the Latex tabulars, see the notebook `experiments/dijkstratest/latex_stats.ipynb`.
+
+## Compare Dijkstra and Bidirectional Dijkstra runtimes
+
+For quick comparison between time_ns in result csv files:
+```
+python3 experiments/dijkstratest/compare_csv_times.py ./experiments/dijkstratest/results/bidirectional_1000_results.csv ./experiments/dijkstratest/results/standard_1000_results.csv
+``` 
