@@ -46,7 +46,7 @@ public class ContractionHierarchyTest {
 
     @Test
     public void preprocess_thoughConstructor_resultAugmentedGrapEffected_outSideReadGraphAsInputStream() {
-        ContractionHierarchy ch = new ContractionHierarchy(g);
+        ContractionHierarchy ch = new ContractionHierarchy(g, false);
 
         Graph augmented = ch.getAugmented();
         // Verify all vertices have been ranked (not -1)
@@ -60,7 +60,7 @@ public class ContractionHierarchyTest {
     
     @Test
     public void preprocess_thoughConstructor_resultAugmentedGrapEffected() {
-        ContractionHierarchy ch = new ContractionHierarchy(g);
+        ContractionHierarchy ch = new ContractionHierarchy(g, false);
 
         Graph augmented = ch.getAugmented();
         // Verify all vertices have been ranked (not -1)
@@ -73,7 +73,7 @@ public class ContractionHierarchyTest {
 
     @Test
     public void preprocess_thoughConstructor_resultOriginalGraphNotEffected() {
-        ContractionHierarchy ch = new ContractionHierarchy(g);
+        ContractionHierarchy ch = new ContractionHierarchy(g, false);
 
         Graph original = ch.getOriginal();
         // Verify all vertices have been ranked (not -1)
@@ -86,7 +86,7 @@ public class ContractionHierarchyTest {
 
     @Test
     public void preprocess_thoughConstructor_resultPassedGraphNotEffected() {
-        ContractionHierarchy ch = new ContractionHierarchy(g);
+        ContractionHierarchy ch = new ContractionHierarchy(g, false);
 
         // Assess if passed original graph has been modified
         for (long v : g.getVertexIds()) {
@@ -98,7 +98,7 @@ public class ContractionHierarchyTest {
 
     @Test
     public void storeGraph_createsFile_checkFileExists() throws IOException {
-        ContractionHierarchy ch = new ContractionHierarchy(test);
+        ContractionHierarchy ch = new ContractionHierarchy(test, false);
 
         String fileName = "testAugmented.graph";
         ch.storeGraph(test, fileName);
@@ -111,7 +111,7 @@ public class ContractionHierarchyTest {
 
     @Test
     public void storeGraph_createsFile_checkIfContentCorrect() throws IOException {
-        ContractionHierarchy ch = new ContractionHierarchy(test);
+        ContractionHierarchy ch = new ContractionHierarchy(test, false);
 
         String fileName = "testAugmented.graph";
         ch.storeGraph(test, fileName);

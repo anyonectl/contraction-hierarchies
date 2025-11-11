@@ -35,3 +35,15 @@ To start the preprocessing phase and build the augmented Denmark graph outside o
 gradle jar
 java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDenmark.graph
 ```
+
+## Pipe the terminal output to a notes file 
+For preprocessing:
+```
+python3 experiments/dijkstratest/preprocess.py > ./experiments/dijkstratest/notes/preprocessingNotes.txt
+
+```
+For experiments: 
+
+```
+python3 experiments/dijkstratest/main.py > ./experiments/dijkstratest/notes/experimentsNotes.txt 
+```

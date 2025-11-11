@@ -2,8 +2,6 @@ package ch;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.HashMap;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 import ch.Graph.Edge;
 import ch.Graph.Vertex;
@@ -29,10 +26,14 @@ public class ContractionHierarchy {
      * 
      * @param graph the road network graph to preprocess
      */
-    public ContractionHierarchy(Graph graph) {
+    public ContractionHierarchy(Graph graph, boolean info) {
         this.augmented = graph.copy();
         this.original = graph;
-        preprocessInfo();
+
+        if (info) 
+            preprocessInfo();
+        else 
+            preprocess();
     }
 
     // getters return copies
@@ -186,15 +187,5 @@ public class ContractionHierarchy {
             System.out.println("An error occurred.");
             e.printStackTrace(); // Print error details
         }
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File("small.graph"));
-        Graph small = GraphReader.readGraph(sc);
-        sc.close();
-
-        ContractionHierarchy ch = new ContractionHierarchy(small);
-        ch.storeGraph(small, "smallaugmented.graph");
     }
 }

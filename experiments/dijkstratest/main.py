@@ -90,7 +90,7 @@ if __name__ == "__main__":
     pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
 
     # Takes the original graph and preprocesses it
-    run_preprocess()
+    run_preprocess(info=False)
 
     # Run experiments
     run_experiment(augmented=False, bidirectional=False, pairs=pairs) # Standard dijkstra on Original Graph (CSV)

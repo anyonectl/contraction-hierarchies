@@ -2,7 +2,7 @@ from pathlib import Path
 from config import JAR_FILE, ORIGINAL_GRAPH_FILE, AUGMENTED_GRAPH_FILE
 import subprocess
 
-def build_jar_command() -> list[str]:
+def build_jar_command(info: bool) -> list[str]:
     """
     Construct the Java command for running the preprocessing step.
     Equivalent to: java -jar app.jar process_graph <input> <output>
@@ -13,15 +13,16 @@ def build_jar_command() -> list[str]:
         str(JAR_FILE),
         "process_graph",
         str(ORIGINAL_GRAPH_FILE),
-        str(AUGMENTED_GRAPH_FILE)
+        str(AUGMENTED_GRAPH_FILE),
+        "info" if info else "nothing" 
     ]
 
 
-def run_preprocess() -> None:
+def run_preprocess(info: bool) -> None:
     # Ensure output directory exists
     AUGMENTED_GRAPH_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-    jar_cmd = build_jar_command()
+    jar_cmd = build_jar_command(info)
     print(f"Running: {' '.join(jar_cmd)}")
 
     proc = subprocess.run(
@@ -43,4 +44,4 @@ def run_preprocess() -> None:
 # --- Main entry point ---
 if __name__ == "__main__":
     # Takes the original graph and preprocesses it
-    run_preprocess()
+    run_preprocess(info=True)

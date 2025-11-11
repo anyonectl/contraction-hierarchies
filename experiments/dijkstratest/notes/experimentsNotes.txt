@@ -1,0 +1,42 @@
+Running: java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDenmark.graph nothing
+Java process completed successfully.
+Starting preprocess...
+Finished preprocessing!
+
+
+Storing graph...
+Graph stored!
+
+
+=== Running Standard Dijkstra ===
+Using pre-generated 1000 (s, t) pairs
+Running: java -jar app/build/libs/app.jar run_queries original standard denmark.graph
+
+=== Benchmark Summary ===
+Queries:       1000
+Reachable:     1000 / 1000
+Avg time:      157.954 ms
+Avg relaxed:   593374.0
+Saved results to /Users/sofiemeta/Courses/apal/contraction-hierarchies/experiments/dijkstratest/results/standard_1000_results.csv
+
+=== Running Bidirectional Dijkstra ===
+Using pre-generated 1000 (s, t) pairs
+Running: java -jar app/build/libs/app.jar run_queries original bidirectional denmark.graph
+
+=== Benchmark Summary ===
+Queries:       1000
+Reachable:     1000 / 1000
+Avg time:      128.730 ms
+Avg relaxed:   467543.2
+Saved results to /Users/sofiemeta/Courses/apal/contraction-hierarchies/experiments/dijkstratest/results/bidirectional_1000_results.csv
+
+=== Running Bidirectional Dijkstra ===
+Using pre-generated 1000 (s, t) pairs
+Running: java -jar app/build/libs/app.jar run_queries augmented bidirectional output/augmentedDenmark.graph
+
+=== Benchmark Summary ===
+Queries:       1000
+Reachable:     1000 / 1000
+Avg time:      0.525 ms
+Avg relaxed:   8776.7
+Saved results to /Users/sofiemeta/Courses/apal/contraction-hierarchies/experiments/dijkstratest/results_augmented/bidirectional_1000_results.csv
