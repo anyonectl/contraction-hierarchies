@@ -9,7 +9,7 @@ import java.util.Set;
 public class Graph {
     private int n; // number of vertices
     private int m; // number of edges
-    private int shortcuts; // number of contractions made
+    private int shortcuts; // total number of shortcuts added
     private Map<Long, Vertex> vertices; // maps vertex id to Vertex object
     private Map<Long, List<Edge>> outEdges; // maps vertex id to all its outgoing edges
     private Map<Long, List<Edge>> inEdges; // maps vertex id to all its incoming edges
@@ -29,7 +29,7 @@ public class Graph {
         public Vertex(float x, float y, long rank) {
             this.x = x;
             this.y = y;
-            this.rank = rank; // TODO check that no rank is -1 after preprocessing
+            this.rank = rank;
         }
     }
     
