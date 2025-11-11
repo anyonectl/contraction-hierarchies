@@ -1,0 +1,8 @@
+- [ ] Fix setup for test.graph and update README.md accordingly
+- [x] Create LaTeX table
+- [x] Clean up comments and add more tests in ContractionHierarchyTest (?)
+- [ ] Integrate plots_for_report.py in postprocess.py
+- [ ] Clean up code structure if needed
+    - [ ] Delete preprocessingNotes.md from tracking
+    - [ ] Delete/update notes.md in results/ with correct runs
+- [ ] Write report
