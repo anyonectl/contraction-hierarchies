@@ -61,7 +61,7 @@ df_all = pd.concat(dfs, ignore_index=True)
 #   4. Plots
 # ==============================
 
-def scatter_distance_runtime(output_path):
+def scatter_distance_runtime_wide(path, filename):
     plt.figure(figsize=(7, 5))
     algorithms = list(files.keys())
     for i, algo in enumerate(algorithms):
@@ -82,11 +82,36 @@ def scatter_distance_runtime(output_path):
     plt.title("Algorithm performance on 1000 shortest path queries", pad=12)
     plt.legend(frameon=False)
     plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
     plt.close()
 
-def histogram_runtime(output_path):
+def scatter_distance_runtime_square(path, filename):
+    plt.figure(figsize=(7, 7))
+    algorithms = list(files.keys())
+    for i, algo in enumerate(algorithms):
+        subset = df_all[df_all["algorithm"] == algo]
+        plt.scatter(
+            subset["distance"], subset["time_ns"],
+            label=algo,
+            s=40,
+            alpha=0.6,
+            edgecolor=colors[-1],
+            linewidths=0.6,
+            c=colors[i]
+        )
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.xlabel(r"Path distance")
+    plt.ylabel(r"Runtime (ns)")
+    plt.title("Algorithm performance on 1000 shortest path queries", pad=12)
+    plt.legend(frameon=False)
+    plt.tight_layout()
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
+    plt.close()
+
+def histogram_runtime(path, filename):
     df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
     dijkstra_times = df_subset[df_subset["algorithm"] == "Dijkstra"]["time_ns"] / 1e6
     bidir_times = df_subset[df_subset["algorithm"] == "Bidirectional"]["time_ns"] / 1e6
@@ -116,11 +141,11 @@ def histogram_runtime(output_path):
     plt.title("Runtime distribution", pad=12)
     plt.legend(frameon=False)
     plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
     plt.close()
 
-def histogram_runtime_aligned(output_path):
+def histogram_runtime_aligned(path, filename):
     df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
     dijkstra_times = df_subset[df_subset["algorithm"] == "Dijkstra"]["time_ns"] / 1e6
     bidir_times = df_subset[df_subset["algorithm"] == "Bidirectional"]["time_ns"] / 1e6
@@ -156,60 +181,11 @@ def histogram_runtime_aligned(output_path):
     plt.title("Runtime distribution", pad=12)
     plt.legend(frameon=False)
     plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
     plt.close()
 
-def histogram_runtime_no_overlap(output_path):
-    df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
-    dijkstra_times = df_subset[df_subset["algorithm"] == "Dijkstra"]["time_ns"] / 1e6
-    bidir_times = df_subset[df_subset["algorithm"] == "Bidirectional"]["time_ns"] / 1e6
-    
-    plt.figure(figsize=(7, 5))
-    
-    # Create shared bins based on the combined data range
-    all_times = pd.concat([dijkstra_times, bidir_times])
-    bins = np.linspace(all_times.min(), all_times.max(), 51)
-    
-    # Plot both histograms with histtype='step' for outlines only, then fill
-    # Use a bar plot approach for better control
-    counts_dijkstra, bin_edges = np.histogram(dijkstra_times, bins=bins)
-    counts_bidir, _ = np.histogram(bidir_times, bins=bins)
-    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-    bin_width = bin_edges[1] - bin_edges[0]
-    
-    # Plot all Dijkstra bars
-    plt.bar(bin_centers, counts_dijkstra, width=bin_width, 
-            alpha=1, label="Dijkstra", color=colors[0],
-            linewidth=0.6, align='center')
-    
-    # Plot all Bidirectional bars on top
-    plt.bar(bin_centers, counts_bidir, width=bin_width,
-            alpha=1, label="Bidirectional", color=colors[1],
-            linewidth=0.6, align='center')
-    
-    # Now overlay with the minimum of both to show shorter bars on top
-    min_counts = np.minimum(counts_dijkstra, counts_bidir)
-    for i, (d, b) in enumerate(zip(counts_dijkstra, counts_bidir)):
-        if d < b:
-            plt.bar(bin_centers[i], d, width=bin_width,
-                   alpha=1, color=colors[0], 
-                   linewidth=0.6, align='center')
-        elif b < d:
-            plt.bar(bin_centers[i], b, width=bin_width,
-                   alpha=1, color=colors[1],
-                   linewidth=0.6, align='center')
-    
-    plt.xlabel(r"Runtime (ms)")
-    plt.ylabel(r"Frequency")
-    plt.title("Runtime distribution", pad=12)
-    plt.legend(frameon=False)
-    plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
-    plt.close()
-
-def scatter_paired(output_path):
+def scatter_paired(path, filename):
     # merge datasets on start and target to get paired comparisons
     dijkstra_df = df_all[df_all["algorithm"] == "Dijkstra"][["start", "target", "time_ns"]].rename(columns={"time_ns": "dijkstra_time"})
     bidir_df = df_all[df_all["algorithm"] == "Bidirectional"][["start", "target", "time_ns"]].rename(columns={"time_ns": "bidir_time"})
@@ -246,11 +222,11 @@ def scatter_paired(output_path):
     plt.legend(frameon=False,loc='upper left')
     plt.axis('equal')
     plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
     plt.close()
 
-def boxplot_runtime(output_path):
+def boxplot_runtime(path, filename):
     df_subset = df_all[df_all["algorithm"].isin(["Dijkstra", "Bidirectional"])]
     df_subset = df_subset.copy()
     df_subset["time_ms"] = df_subset["time_ns"] / 1e6
@@ -282,10 +258,10 @@ def boxplot_runtime(output_path):
         median.set_color(colors[-1])
         median.set_linewidth(1.5)
     plt.ylabel(r"Runtime (ms)")
-    plt.title("Runtime distribution by algorithm", pad=12)
+    plt.title("Runtime distribution (boxplot)", pad=12)
     plt.tight_layout()
-    plt.savefig(output_path + ".pgf")
-    plt.savefig(output_path + ".png", dpi=300)
+    plt.savefig(f'{path}latex/{filename}.pgf')
+    plt.savefig(f'{path}plots/{filename}.png', dpi=300)
     plt.close()
 
 
@@ -293,11 +269,11 @@ def boxplot_runtime(output_path):
 # 4. Save as PGF
 # =========================================
 
-output_dir = "plots/"
-scatter_distance_runtime(output_dir + "scatter_all")
-histogram_runtime(output_dir + "histogram_runtime")
-histogram_runtime_aligned(output_dir + "histogram_runtime_aligned")
-histogram_runtime_no_overlap(output_dir + "histogram_runtime_no_overlap")
-scatter_paired(output_dir + "scatter_paired")
-boxplot_runtime(output_dir + "boxplot")
+output_dir = "report/"
+scatter_distance_runtime_wide(output_dir, "scatter_all_wide")
+scatter_distance_runtime_square(output_dir, "scatter_all_square")
+histogram_runtime(output_dir, "histogram_runtime")
+histogram_runtime_aligned(output_dir, "histogram_runtime_aligned")
+scatter_paired(output_dir, "scatter_paired")
+boxplot_runtime(output_dir, "boxplot")
 print(f"Plots saved as PNG and PGF under {output_dir}")
