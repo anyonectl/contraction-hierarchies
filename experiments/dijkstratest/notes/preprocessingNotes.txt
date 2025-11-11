@@ -1,0 +1,658 @@
+Running: java -jar app/build/libs/app.jar process_graph denmark.graph output/augmentedDenmark.graph info
+Java process completed successfully.
+Starting preprocess...
+
+╔════════════════════════════════════╗
+║         PREPROCESSING PHASE        ║
+╚════════════════════════════════════╝
+Input graph has 569586 vertices and 1175286 edges
+
+Processing...
+  Computed edge differences for 10000/569586 vertices
+  Computed edge differences for 20000/569586 vertices
+  Computed edge differences for 30000/569586 vertices
+  Computed edge differences for 40000/569586 vertices
+  Computed edge differences for 50000/569586 vertices
+  Computed edge differences for 60000/569586 vertices
+  Computed edge differences for 70000/569586 vertices
+  Computed edge differences for 80000/569586 vertices
+  Computed edge differences for 90000/569586 vertices
+  Computed edge differences for 100000/569586 vertices
+  Computed edge differences for 110000/569586 vertices
+  Computed edge differences for 120000/569586 vertices
+  Computed edge differences for 130000/569586 vertices
+  Computed edge differences for 140000/569586 vertices
+  Computed edge differences for 150000/569586 vertices
+  Computed edge differences for 160000/569586 vertices
+  Computed edge differences for 170000/569586 vertices
+  Computed edge differences for 180000/569586 vertices
+  Computed edge differences for 190000/569586 vertices
+  Computed edge differences for 200000/569586 vertices
+  Computed edge differences for 210000/569586 vertices
+  Computed edge differences for 220000/569586 vertices
+  Computed edge differences for 230000/569586 vertices
+  Computed edge differences for 240000/569586 vertices
+  Computed edge differences for 250000/569586 vertices
+  Computed edge differences for 260000/569586 vertices
+  Computed edge differences for 270000/569586 vertices
+  Computed edge differences for 280000/569586 vertices
+  Computed edge differences for 290000/569586 vertices
+  Computed edge differences for 300000/569586 vertices
+  Computed edge differences for 310000/569586 vertices
+  Computed edge differences for 320000/569586 vertices
+  Computed edge differences for 330000/569586 vertices
+  Computed edge differences for 340000/569586 vertices
+  Computed edge differences for 350000/569586 vertices
+  Computed edge differences for 360000/569586 vertices
+  Computed edge differences for 370000/569586 vertices
+  Computed edge differences for 380000/569586 vertices
+  Computed edge differences for 390000/569586 vertices
+  Computed edge differences for 400000/569586 vertices
+  Computed edge differences for 410000/569586 vertices
+  Computed edge differences for 420000/569586 vertices
+  Computed edge differences for 430000/569586 vertices
+  Computed edge differences for 440000/569586 vertices
+  Computed edge differences for 450000/569586 vertices
+  Computed edge differences for 460000/569586 vertices
+  Computed edge differences for 470000/569586 vertices
+  Computed edge differences for 480000/569586 vertices
+  Computed edge differences for 490000/569586 vertices
+  Computed edge differences for 500000/569586 vertices
+  Computed edge differences for 510000/569586 vertices
+  Computed edge differences for 520000/569586 vertices
+  Computed edge differences for 530000/569586 vertices
+  Computed edge differences for 540000/569586 vertices
+  Computed edge differences for 550000/569586 vertices
+  Computed edge differences for 560000/569586 vertices
+
+Initial ordering complete! Time spent: 1,822000
+
+=== CONTRACTING VERTICES ===
+
+Processing...
+
+Progress: 1000/569586 (0,2%) | Time: 1,89s | Queue size: 568586 | Shortcuts added: 10 | Current edgediff: -4
+Progress: 2000/569586 (0,4%) | Time: 1,92s | Queue size: 567586 | Shortcuts added: 16 | Current edgediff: -4
+Progress: 3000/569586 (0,5%) | Time: 1,95s | Queue size: 566586 | Shortcuts added: 25 | Current edgediff: -4
+Progress: 4000/569586 (0,7%) | Time: 2,00s | Queue size: 565586 | Shortcuts added: 42 | Current edgediff: -4
+Progress: 5000/569586 (0,9%) | Time: 2,02s | Queue size: 564586 | Shortcuts added: 766 | Current edgediff: -2
+Progress: 6000/569586 (1,1%) | Time: 2,03s | Queue size: 563586 | Shortcuts added: 1765 | Current edgediff: -2
+Progress: 7000/569586 (1,2%) | Time: 2,03s | Queue size: 562586 | Shortcuts added: 2759 | Current edgediff: -2
+Progress: 8000/569586 (1,4%) | Time: 2,04s | Queue size: 561586 | Shortcuts added: 3756 | Current edgediff: -2
+Progress: 9000/569586 (1,6%) | Time: 2,04s | Queue size: 560586 | Shortcuts added: 4747 | Current edgediff: -2
+Progress: 10000/569586 (1,8%) | Time: 2,05s | Queue size: 559586 | Shortcuts added: 5733 | Current edgediff: -2
+Progress: 11000/569586 (1,9%) | Time: 2,05s | Queue size: 558586 | Shortcuts added: 6728 | Current edgediff: -2
+Progress: 12000/569586 (2,1%) | Time: 2,06s | Queue size: 557586 | Shortcuts added: 7727 | Current edgediff: -2
+Progress: 13000/569586 (2,3%) | Time: 2,06s | Queue size: 556586 | Shortcuts added: 8730 | Current edgediff: -2
+Progress: 14000/569586 (2,5%) | Time: 2,07s | Queue size: 555586 | Shortcuts added: 9722 | Current edgediff: -2
+Progress: 15000/569586 (2,6%) | Time: 2,07s | Queue size: 554586 | Shortcuts added: 10712 | Current edgediff: -2
+Progress: 16000/569586 (2,8%) | Time: 2,08s | Queue size: 553586 | Shortcuts added: 11703 | Current edgediff: -2
+Progress: 17000/569586 (3,0%) | Time: 2,09s | Queue size: 552586 | Shortcuts added: 12688 | Current edgediff: -2
+Progress: 18000/569586 (3,2%) | Time: 2,09s | Queue size: 551586 | Shortcuts added: 13677 | Current edgediff: -2
+Progress: 19000/569586 (3,3%) | Time: 2,10s | Queue size: 550586 | Shortcuts added: 14668 | Current edgediff: -2
+Progress: 20000/569586 (3,5%) | Time: 2,10s | Queue size: 549586 | Shortcuts added: 15645 | Current edgediff: -2
+Progress: 21000/569586 (3,7%) | Time: 2,11s | Queue size: 548586 | Shortcuts added: 16629 | Current edgediff: -2
+Progress: 22000/569586 (3,9%) | Time: 2,11s | Queue size: 547586 | Shortcuts added: 17624 | Current edgediff: -2
+Progress: 23000/569586 (4,0%) | Time: 2,12s | Queue size: 546586 | Shortcuts added: 18623 | Current edgediff: -2
+Progress: 24000/569586 (4,2%) | Time: 2,12s | Queue size: 545586 | Shortcuts added: 19623 | Current edgediff: -2
+Progress: 25000/569586 (4,4%) | Time: 2,13s | Queue size: 544586 | Shortcuts added: 20617 | Current edgediff: -2
+Progress: 26000/569586 (4,6%) | Time: 2,13s | Queue size: 543586 | Shortcuts added: 21615 | Current edgediff: -2
+Progress: 27000/569586 (4,7%) | Time: 2,14s | Queue size: 542586 | Shortcuts added: 22611 | Current edgediff: -2
+Progress: 28000/569586 (4,9%) | Time: 2,14s | Queue size: 541586 | Shortcuts added: 23605 | Current edgediff: -2
+Progress: 29000/569586 (5,1%) | Time: 2,15s | Queue size: 540586 | Shortcuts added: 24597 | Current edgediff: -2
+Progress: 30000/569586 (5,3%) | Time: 2,15s | Queue size: 539586 | Shortcuts added: 25592 | Current edgediff: -2
+Progress: 31000/569586 (5,4%) | Time: 2,16s | Queue size: 538586 | Shortcuts added: 26585 | Current edgediff: -2
+Progress: 32000/569586 (5,6%) | Time: 2,16s | Queue size: 537586 | Shortcuts added: 27582 | Current edgediff: -2
+Progress: 33000/569586 (5,8%) | Time: 2,17s | Queue size: 536586 | Shortcuts added: 28580 | Current edgediff: -2
+Progress: 34000/569586 (6,0%) | Time: 2,17s | Queue size: 535586 | Shortcuts added: 29578 | Current edgediff: -2
+Progress: 35000/569586 (6,1%) | Time: 2,18s | Queue size: 534586 | Shortcuts added: 30570 | Current edgediff: -2
+Progress: 36000/569586 (6,3%) | Time: 2,19s | Queue size: 533586 | Shortcuts added: 31555 | Current edgediff: -2
+Progress: 37000/569586 (6,5%) | Time: 2,19s | Queue size: 532586 | Shortcuts added: 32537 | Current edgediff: -2
+Progress: 38000/569586 (6,7%) | Time: 2,20s | Queue size: 531586 | Shortcuts added: 33535 | Current edgediff: -2
+Progress: 39000/569586 (6,8%) | Time: 2,20s | Queue size: 530586 | Shortcuts added: 34521 | Current edgediff: -2
+Progress: 40000/569586 (7,0%) | Time: 2,21s | Queue size: 529586 | Shortcuts added: 35512 | Current edgediff: -2
+Progress: 41000/569586 (7,2%) | Time: 2,21s | Queue size: 528586 | Shortcuts added: 36502 | Current edgediff: -2
+Progress: 42000/569586 (7,4%) | Time: 2,22s | Queue size: 527586 | Shortcuts added: 37490 | Current edgediff: -2
+Progress: 43000/569586 (7,5%) | Time: 2,22s | Queue size: 526586 | Shortcuts added: 38475 | Current edgediff: -2
+Progress: 44000/569586 (7,7%) | Time: 2,23s | Queue size: 525586 | Shortcuts added: 39463 | Current edgediff: -2
+Progress: 45000/569586 (7,9%) | Time: 2,23s | Queue size: 524586 | Shortcuts added: 40453 | Current edgediff: -2
+Progress: 46000/569586 (8,1%) | Time: 2,24s | Queue size: 523586 | Shortcuts added: 41451 | Current edgediff: -2
+Progress: 47000/569586 (8,3%) | Time: 2,25s | Queue size: 522586 | Shortcuts added: 42445 | Current edgediff: -2
+Progress: 48000/569586 (8,4%) | Time: 2,25s | Queue size: 521586 | Shortcuts added: 43433 | Current edgediff: -2
+Progress: 49000/569586 (8,6%) | Time: 2,26s | Queue size: 520586 | Shortcuts added: 44437 | Current edgediff: -2
+Progress: 50000/569586 (8,8%) | Time: 2,26s | Queue size: 519586 | Shortcuts added: 45421 | Current edgediff: -2
+Progress: 51000/569586 (9,0%) | Time: 2,27s | Queue size: 518586 | Shortcuts added: 46403 | Current edgediff: -2
+Progress: 52000/569586 (9,1%) | Time: 2,27s | Queue size: 517586 | Shortcuts added: 47398 | Current edgediff: -2
+Progress: 53000/569586 (9,3%) | Time: 2,28s | Queue size: 516586 | Shortcuts added: 48389 | Current edgediff: -2
+Progress: 54000/569586 (9,5%) | Time: 2,28s | Queue size: 515586 | Shortcuts added: 49390 | Current edgediff: -2
+Progress: 55000/569586 (9,7%) | Time: 2,29s | Queue size: 514586 | Shortcuts added: 50389 | Current edgediff: -2
+Progress: 56000/569586 (9,8%) | Time: 2,29s | Queue size: 513586 | Shortcuts added: 51373 | Current edgediff: -2
+Progress: 57000/569586 (10,0%) | Time: 2,30s | Queue size: 512586 | Shortcuts added: 52356 | Current edgediff: -2
+Progress: 58000/569586 (10,2%) | Time: 2,30s | Queue size: 511586 | Shortcuts added: 53357 | Current edgediff: -2
+Progress: 59000/569586 (10,4%) | Time: 2,31s | Queue size: 510586 | Shortcuts added: 54349 | Current edgediff: -2
+Progress: 60000/569586 (10,5%) | Time: 2,31s | Queue size: 509586 | Shortcuts added: 55339 | Current edgediff: -2
+Progress: 61000/569586 (10,7%) | Time: 2,32s | Queue size: 508586 | Shortcuts added: 56323 | Current edgediff: -2
+Progress: 62000/569586 (10,9%) | Time: 2,32s | Queue size: 507586 | Shortcuts added: 57308 | Current edgediff: -2
+Progress: 63000/569586 (11,1%) | Time: 2,33s | Queue size: 506586 | Shortcuts added: 58301 | Current edgediff: -2
+Progress: 64000/569586 (11,2%) | Time: 2,33s | Queue size: 505586 | Shortcuts added: 59296 | Current edgediff: -2
+Progress: 65000/569586 (11,4%) | Time: 2,34s | Queue size: 504586 | Shortcuts added: 60292 | Current edgediff: -2
+Progress: 66000/569586 (11,6%) | Time: 2,35s | Queue size: 503586 | Shortcuts added: 61289 | Current edgediff: -2
+Progress: 67000/569586 (11,8%) | Time: 2,35s | Queue size: 502586 | Shortcuts added: 62282 | Current edgediff: -2
+Progress: 68000/569586 (11,9%) | Time: 2,36s | Queue size: 501586 | Shortcuts added: 63270 | Current edgediff: -2
+Progress: 69000/569586 (12,1%) | Time: 2,36s | Queue size: 500586 | Shortcuts added: 64264 | Current edgediff: -2
+Progress: 70000/569586 (12,3%) | Time: 2,37s | Queue size: 499586 | Shortcuts added: 65257 | Current edgediff: -2
+Progress: 71000/569586 (12,5%) | Time: 2,37s | Queue size: 498586 | Shortcuts added: 66251 | Current edgediff: -2
+Progress: 72000/569586 (12,6%) | Time: 2,38s | Queue size: 497586 | Shortcuts added: 67247 | Current edgediff: -2
+Progress: 73000/569586 (12,8%) | Time: 2,38s | Queue size: 496586 | Shortcuts added: 68237 | Current edgediff: -2
+Progress: 74000/569586 (13,0%) | Time: 2,39s | Queue size: 495586 | Shortcuts added: 69234 | Current edgediff: -2
+Progress: 75000/569586 (13,2%) | Time: 2,39s | Queue size: 494586 | Shortcuts added: 70228 | Current edgediff: -2
+Progress: 76000/569586 (13,3%) | Time: 2,40s | Queue size: 493586 | Shortcuts added: 71216 | Current edgediff: -2
+Progress: 77000/569586 (13,5%) | Time: 2,41s | Queue size: 492586 | Shortcuts added: 72206 | Current edgediff: -2
+Progress: 78000/569586 (13,7%) | Time: 2,41s | Queue size: 491586 | Shortcuts added: 73193 | Current edgediff: -2
+Progress: 79000/569586 (13,9%) | Time: 2,42s | Queue size: 490586 | Shortcuts added: 74178 | Current edgediff: -2
+Progress: 80000/569586 (14,0%) | Time: 2,42s | Queue size: 489586 | Shortcuts added: 75171 | Current edgediff: -2
+Progress: 81000/569586 (14,2%) | Time: 2,43s | Queue size: 488586 | Shortcuts added: 76166 | Current edgediff: -2
+Progress: 82000/569586 (14,4%) | Time: 2,43s | Queue size: 487586 | Shortcuts added: 77150 | Current edgediff: -2
+Progress: 83000/569586 (14,6%) | Time: 2,44s | Queue size: 486586 | Shortcuts added: 78131 | Current edgediff: -2
+Progress: 84000/569586 (14,7%) | Time: 2,46s | Queue size: 485586 | Shortcuts added: 79115 | Current edgediff: -2
+Progress: 85000/569586 (14,9%) | Time: 2,46s | Queue size: 484586 | Shortcuts added: 80112 | Current edgediff: -2
+Progress: 86000/569586 (15,1%) | Time: 2,47s | Queue size: 483586 | Shortcuts added: 81107 | Current edgediff: -2
+Progress: 87000/569586 (15,3%) | Time: 2,48s | Queue size: 482586 | Shortcuts added: 82108 | Current edgediff: -2
+Progress: 88000/569586 (15,4%) | Time: 2,48s | Queue size: 481586 | Shortcuts added: 83099 | Current edgediff: -2
+Progress: 89000/569586 (15,6%) | Time: 2,49s | Queue size: 480586 | Shortcuts added: 84088 | Current edgediff: -2
+Progress: 90000/569586 (15,8%) | Time: 2,50s | Queue size: 479586 | Shortcuts added: 85082 | Current edgediff: -2
+Progress: 91000/569586 (16,0%) | Time: 2,50s | Queue size: 478586 | Shortcuts added: 86076 | Current edgediff: -2
+Progress: 92000/569586 (16,2%) | Time: 2,51s | Queue size: 477586 | Shortcuts added: 87067 | Current edgediff: -2
+Progress: 93000/569586 (16,3%) | Time: 2,51s | Queue size: 476586 | Shortcuts added: 88054 | Current edgediff: -2
+Progress: 94000/569586 (16,5%) | Time: 2,52s | Queue size: 475586 | Shortcuts added: 89047 | Current edgediff: -2
+Progress: 95000/569586 (16,7%) | Time: 2,52s | Queue size: 474586 | Shortcuts added: 90044 | Current edgediff: -2
+Progress: 96000/569586 (16,9%) | Time: 2,53s | Queue size: 473586 | Shortcuts added: 91037 | Current edgediff: -2
+Progress: 97000/569586 (17,0%) | Time: 2,53s | Queue size: 472586 | Shortcuts added: 92026 | Current edgediff: -2
+Progress: 98000/569586 (17,2%) | Time: 2,54s | Queue size: 471586 | Shortcuts added: 93011 | Current edgediff: -2
+Progress: 99000/569586 (17,4%) | Time: 2,54s | Queue size: 470586 | Shortcuts added: 94009 | Current edgediff: -2
+Progress: 100000/569586 (17,6%) | Time: 2,55s | Queue size: 469586 | Shortcuts added: 95001 | Current edgediff: -2
+Progress: 101000/569586 (17,7%) | Time: 2,56s | Queue size: 468586 | Shortcuts added: 95987 | Current edgediff: -2
+Progress: 102000/569586 (17,9%) | Time: 2,56s | Queue size: 467586 | Shortcuts added: 96973 | Current edgediff: -2
+Progress: 103000/569586 (18,1%) | Time: 2,57s | Queue size: 466586 | Shortcuts added: 97959 | Current edgediff: -2
+Progress: 104000/569586 (18,3%) | Time: 2,57s | Queue size: 465586 | Shortcuts added: 98940 | Current edgediff: -2
+Progress: 105000/569586 (18,4%) | Time: 2,58s | Queue size: 464586 | Shortcuts added: 99934 | Current edgediff: -2
+Progress: 106000/569586 (18,6%) | Time: 2,58s | Queue size: 463586 | Shortcuts added: 100931 | Current edgediff: -2
+Progress: 107000/569586 (18,8%) | Time: 2,59s | Queue size: 462586 | Shortcuts added: 101927 | Current edgediff: -2
+Progress: 108000/569586 (19,0%) | Time: 2,59s | Queue size: 461586 | Shortcuts added: 102917 | Current edgediff: -2
+Progress: 109000/569586 (19,1%) | Time: 2,60s | Queue size: 460586 | Shortcuts added: 103908 | Current edgediff: -2
+Progress: 110000/569586 (19,3%) | Time: 2,61s | Queue size: 459586 | Shortcuts added: 104896 | Current edgediff: -2
+Progress: 111000/569586 (19,5%) | Time: 2,61s | Queue size: 458586 | Shortcuts added: 105891 | Current edgediff: -2
+Progress: 112000/569586 (19,7%) | Time: 2,62s | Queue size: 457586 | Shortcuts added: 106878 | Current edgediff: -2
+Progress: 113000/569586 (19,8%) | Time: 2,62s | Queue size: 456586 | Shortcuts added: 107875 | Current edgediff: -2
+Progress: 114000/569586 (20,0%) | Time: 2,63s | Queue size: 455586 | Shortcuts added: 108867 | Current edgediff: -2
+Progress: 115000/569586 (20,2%) | Time: 2,63s | Queue size: 454586 | Shortcuts added: 109856 | Current edgediff: -2
+Progress: 116000/569586 (20,4%) | Time: 2,64s | Queue size: 453586 | Shortcuts added: 110838 | Current edgediff: -2
+Progress: 117000/569586 (20,5%) | Time: 2,64s | Queue size: 452586 | Shortcuts added: 111830 | Current edgediff: -2
+Progress: 118000/569586 (20,7%) | Time: 2,65s | Queue size: 451586 | Shortcuts added: 112811 | Current edgediff: -2
+Progress: 119000/569586 (20,9%) | Time: 2,65s | Queue size: 450586 | Shortcuts added: 113798 | Current edgediff: -2
+Progress: 120000/569586 (21,1%) | Time: 2,66s | Queue size: 449586 | Shortcuts added: 114793 | Current edgediff: -2
+Progress: 121000/569586 (21,2%) | Time: 2,66s | Queue size: 448586 | Shortcuts added: 115795 | Current edgediff: -2
+Progress: 122000/569586 (21,4%) | Time: 2,67s | Queue size: 447586 | Shortcuts added: 116786 | Current edgediff: -2
+Progress: 123000/569586 (21,6%) | Time: 2,67s | Queue size: 446586 | Shortcuts added: 117778 | Current edgediff: -2
+Progress: 124000/569586 (21,8%) | Time: 2,68s | Queue size: 445586 | Shortcuts added: 118768 | Current edgediff: -2
+Progress: 125000/569586 (21,9%) | Time: 2,68s | Queue size: 444586 | Shortcuts added: 119760 | Current edgediff: -2
+Progress: 126000/569586 (22,1%) | Time: 2,69s | Queue size: 443586 | Shortcuts added: 120748 | Current edgediff: -2
+Progress: 127000/569586 (22,3%) | Time: 2,70s | Queue size: 442586 | Shortcuts added: 121743 | Current edgediff: -2
+Progress: 128000/569586 (22,5%) | Time: 2,70s | Queue size: 441586 | Shortcuts added: 122738 | Current edgediff: -2
+Progress: 129000/569586 (22,6%) | Time: 2,71s | Queue size: 440586 | Shortcuts added: 123734 | Current edgediff: -2
+Progress: 130000/569586 (22,8%) | Time: 2,71s | Queue size: 439586 | Shortcuts added: 124720 | Current edgediff: -2
+Progress: 131000/569586 (23,0%) | Time: 2,72s | Queue size: 438586 | Shortcuts added: 125697 | Current edgediff: -2
+Progress: 132000/569586 (23,2%) | Time: 2,72s | Queue size: 437586 | Shortcuts added: 126684 | Current edgediff: -2
+Progress: 133000/569586 (23,4%) | Time: 2,73s | Queue size: 436586 | Shortcuts added: 127679 | Current edgediff: -2
+Progress: 134000/569586 (23,5%) | Time: 2,73s | Queue size: 435586 | Shortcuts added: 128672 | Current edgediff: -2
+Progress: 135000/569586 (23,7%) | Time: 2,74s | Queue size: 434586 | Shortcuts added: 129667 | Current edgediff: -2
+Progress: 136000/569586 (23,9%) | Time: 2,75s | Queue size: 433586 | Shortcuts added: 130667 | Current edgediff: -2
+Progress: 137000/569586 (24,1%) | Time: 2,75s | Queue size: 432586 | Shortcuts added: 131650 | Current edgediff: -2
+Progress: 138000/569586 (24,2%) | Time: 2,76s | Queue size: 431586 | Shortcuts added: 132645 | Current edgediff: -2
+Progress: 139000/569586 (24,4%) | Time: 2,77s | Queue size: 430586 | Shortcuts added: 133620 | Current edgediff: -2
+Progress: 140000/569586 (24,6%) | Time: 2,77s | Queue size: 429586 | Shortcuts added: 134611 | Current edgediff: -2
+Progress: 141000/569586 (24,8%) | Time: 2,78s | Queue size: 428586 | Shortcuts added: 135595 | Current edgediff: -2
+Progress: 142000/569586 (24,9%) | Time: 2,78s | Queue size: 427586 | Shortcuts added: 136578 | Current edgediff: -2
+Progress: 143000/569586 (25,1%) | Time: 2,79s | Queue size: 426586 | Shortcuts added: 137567 | Current edgediff: -2
+Progress: 144000/569586 (25,3%) | Time: 2,80s | Queue size: 425586 | Shortcuts added: 138557 | Current edgediff: -2
+Progress: 145000/569586 (25,5%) | Time: 2,80s | Queue size: 424586 | Shortcuts added: 139548 | Current edgediff: -2
+Progress: 146000/569586 (25,6%) | Time: 2,81s | Queue size: 423586 | Shortcuts added: 140539 | Current edgediff: -2
+Progress: 147000/569586 (25,8%) | Time: 2,82s | Queue size: 422586 | Shortcuts added: 141532 | Current edgediff: -2
+Progress: 148000/569586 (26,0%) | Time: 2,82s | Queue size: 421586 | Shortcuts added: 142523 | Current edgediff: -2
+Progress: 149000/569586 (26,2%) | Time: 2,83s | Queue size: 420586 | Shortcuts added: 143509 | Current edgediff: -2
+Progress: 150000/569586 (26,3%) | Time: 2,83s | Queue size: 419586 | Shortcuts added: 144492 | Current edgediff: -2
+Progress: 151000/569586 (26,5%) | Time: 2,84s | Queue size: 418586 | Shortcuts added: 145491 | Current edgediff: -2
+Progress: 152000/569586 (26,7%) | Time: 2,85s | Queue size: 417586 | Shortcuts added: 146484 | Current edgediff: -2
+Progress: 153000/569586 (26,9%) | Time: 2,85s | Queue size: 416586 | Shortcuts added: 147481 | Current edgediff: -2
+Progress: 154000/569586 (27,0%) | Time: 2,86s | Queue size: 415586 | Shortcuts added: 148467 | Current edgediff: -2
+Progress: 155000/569586 (27,2%) | Time: 2,87s | Queue size: 414586 | Shortcuts added: 149446 | Current edgediff: -2
+Progress: 156000/569586 (27,4%) | Time: 2,87s | Queue size: 413586 | Shortcuts added: 150434 | Current edgediff: -2
+Progress: 157000/569586 (27,6%) | Time: 2,88s | Queue size: 412586 | Shortcuts added: 151421 | Current edgediff: -2
+Progress: 158000/569586 (27,7%) | Time: 2,88s | Queue size: 411586 | Shortcuts added: 152409 | Current edgediff: -2
+Progress: 159000/569586 (27,9%) | Time: 2,89s | Queue size: 410586 | Shortcuts added: 153407 | Current edgediff: -2
+Progress: 160000/569586 (28,1%) | Time: 2,90s | Queue size: 409586 | Shortcuts added: 154392 | Current edgediff: -2
+Progress: 161000/569586 (28,3%) | Time: 2,90s | Queue size: 408586 | Shortcuts added: 155391 | Current edgediff: -2
+Progress: 162000/569586 (28,4%) | Time: 2,91s | Queue size: 407586 | Shortcuts added: 156367 | Current edgediff: -2
+Progress: 163000/569586 (28,6%) | Time: 2,91s | Queue size: 406586 | Shortcuts added: 157356 | Current edgediff: -2
+Progress: 164000/569586 (28,8%) | Time: 2,92s | Queue size: 405586 | Shortcuts added: 158334 | Current edgediff: -2
+Progress: 165000/569586 (29,0%) | Time: 2,93s | Queue size: 404586 | Shortcuts added: 159326 | Current edgediff: -2
+Progress: 166000/569586 (29,1%) | Time: 2,93s | Queue size: 403586 | Shortcuts added: 160316 | Current edgediff: -2
+Progress: 167000/569586 (29,3%) | Time: 2,94s | Queue size: 402586 | Shortcuts added: 161310 | Current edgediff: -2
+Progress: 168000/569586 (29,5%) | Time: 2,94s | Queue size: 401586 | Shortcuts added: 162297 | Current edgediff: -2
+Progress: 169000/569586 (29,7%) | Time: 2,95s | Queue size: 400586 | Shortcuts added: 163280 | Current edgediff: -2
+Progress: 170000/569586 (29,8%) | Time: 2,96s | Queue size: 399586 | Shortcuts added: 164271 | Current edgediff: -2
+Progress: 171000/569586 (30,0%) | Time: 2,96s | Queue size: 398586 | Shortcuts added: 165258 | Current edgediff: -2
+Progress: 172000/569586 (30,2%) | Time: 2,97s | Queue size: 397586 | Shortcuts added: 166244 | Current edgediff: -2
+Progress: 173000/569586 (30,4%) | Time: 2,98s | Queue size: 396586 | Shortcuts added: 167233 | Current edgediff: -2
+Progress: 174000/569586 (30,5%) | Time: 2,98s | Queue size: 395586 | Shortcuts added: 168229 | Current edgediff: -2
+Progress: 175000/569586 (30,7%) | Time: 2,99s | Queue size: 394586 | Shortcuts added: 169199 | Current edgediff: -2
+Progress: 176000/569586 (30,9%) | Time: 2,99s | Queue size: 393586 | Shortcuts added: 170185 | Current edgediff: -2
+Progress: 177000/569586 (31,1%) | Time: 3,02s | Queue size: 392586 | Shortcuts added: 171181 | Current edgediff: -2
+Progress: 178000/569586 (31,3%) | Time: 3,02s | Queue size: 391586 | Shortcuts added: 172168 | Current edgediff: -2
+Progress: 179000/569586 (31,4%) | Time: 3,03s | Queue size: 390586 | Shortcuts added: 173156 | Current edgediff: -2
+Progress: 180000/569586 (31,6%) | Time: 3,04s | Queue size: 389586 | Shortcuts added: 174143 | Current edgediff: -2
+Progress: 181000/569586 (31,8%) | Time: 3,04s | Queue size: 388586 | Shortcuts added: 175133 | Current edgediff: -2
+Progress: 182000/569586 (32,0%) | Time: 3,05s | Queue size: 387586 | Shortcuts added: 176121 | Current edgediff: -2
+Progress: 183000/569586 (32,1%) | Time: 3,05s | Queue size: 386586 | Shortcuts added: 177108 | Current edgediff: -2
+Progress: 184000/569586 (32,3%) | Time: 3,06s | Queue size: 385586 | Shortcuts added: 178096 | Current edgediff: -2
+Progress: 185000/569586 (32,5%) | Time: 3,07s | Queue size: 384586 | Shortcuts added: 179093 | Current edgediff: -2
+Progress: 186000/569586 (32,7%) | Time: 3,07s | Queue size: 383586 | Shortcuts added: 180091 | Current edgediff: -2
+Progress: 187000/569586 (32,8%) | Time: 3,08s | Queue size: 382586 | Shortcuts added: 181083 | Current edgediff: -2
+Progress: 188000/569586 (33,0%) | Time: 3,09s | Queue size: 381586 | Shortcuts added: 182081 | Current edgediff: -2
+Progress: 189000/569586 (33,2%) | Time: 3,09s | Queue size: 380586 | Shortcuts added: 183080 | Current edgediff: -2
+Progress: 190000/569586 (33,4%) | Time: 3,10s | Queue size: 379586 | Shortcuts added: 184068 | Current edgediff: -2
+Progress: 191000/569586 (33,5%) | Time: 3,11s | Queue size: 378586 | Shortcuts added: 185059 | Current edgediff: -2
+Progress: 192000/569586 (33,7%) | Time: 3,11s | Queue size: 377586 | Shortcuts added: 186050 | Current edgediff: -2
+Progress: 193000/569586 (33,9%) | Time: 3,12s | Queue size: 376586 | Shortcuts added: 187050 | Current edgediff: -2
+Progress: 194000/569586 (34,1%) | Time: 3,13s | Queue size: 375586 | Shortcuts added: 188042 | Current edgediff: -2
+Progress: 195000/569586 (34,2%) | Time: 3,13s | Queue size: 374586 | Shortcuts added: 189041 | Current edgediff: -2
+Progress: 196000/569586 (34,4%) | Time: 3,14s | Queue size: 373586 | Shortcuts added: 190030 | Current edgediff: -2
+Progress: 197000/569586 (34,6%) | Time: 3,15s | Queue size: 372586 | Shortcuts added: 191014 | Current edgediff: -2
+Progress: 198000/569586 (34,8%) | Time: 3,15s | Queue size: 371586 | Shortcuts added: 192010 | Current edgediff: -2
+Progress: 199000/569586 (34,9%) | Time: 3,16s | Queue size: 370586 | Shortcuts added: 193003 | Current edgediff: -2
+Progress: 200000/569586 (35,1%) | Time: 3,17s | Queue size: 369586 | Shortcuts added: 193998 | Current edgediff: -2
+Progress: 201000/569586 (35,3%) | Time: 3,17s | Queue size: 368586 | Shortcuts added: 194977 | Current edgediff: -2
+Progress: 202000/569586 (35,5%) | Time: 3,18s | Queue size: 367586 | Shortcuts added: 195966 | Current edgediff: -2
+Progress: 203000/569586 (35,6%) | Time: 3,19s | Queue size: 366586 | Shortcuts added: 196957 | Current edgediff: -2
+Progress: 204000/569586 (35,8%) | Time: 3,19s | Queue size: 365586 | Shortcuts added: 197937 | Current edgediff: -2
+Progress: 205000/569586 (36,0%) | Time: 3,20s | Queue size: 364586 | Shortcuts added: 198928 | Current edgediff: -2
+Progress: 206000/569586 (36,2%) | Time: 3,20s | Queue size: 363586 | Shortcuts added: 199918 | Current edgediff: -2
+Progress: 207000/569586 (36,3%) | Time: 3,21s | Queue size: 362586 | Shortcuts added: 200908 | Current edgediff: -2
+Progress: 208000/569586 (36,5%) | Time: 3,22s | Queue size: 361586 | Shortcuts added: 201893 | Current edgediff: -2
+Progress: 209000/569586 (36,7%) | Time: 3,22s | Queue size: 360586 | Shortcuts added: 202887 | Current edgediff: -2
+Progress: 210000/569586 (36,9%) | Time: 3,23s | Queue size: 359586 | Shortcuts added: 203880 | Current edgediff: -2
+Progress: 211000/569586 (37,0%) | Time: 3,24s | Queue size: 358586 | Shortcuts added: 204871 | Current edgediff: -2
+Progress: 212000/569586 (37,2%) | Time: 3,24s | Queue size: 357586 | Shortcuts added: 205861 | Current edgediff: -2
+Progress: 213000/569586 (37,4%) | Time: 3,25s | Queue size: 356586 | Shortcuts added: 206853 | Current edgediff: -2
+Progress: 214000/569586 (37,6%) | Time: 3,26s | Queue size: 355586 | Shortcuts added: 207838 | Current edgediff: -2
+Progress: 215000/569586 (37,7%) | Time: 3,26s | Queue size: 354586 | Shortcuts added: 208816 | Current edgediff: -2
+Progress: 216000/569586 (37,9%) | Time: 3,27s | Queue size: 353586 | Shortcuts added: 209800 | Current edgediff: -2
+Progress: 217000/569586 (38,1%) | Time: 3,28s | Queue size: 352586 | Shortcuts added: 210791 | Current edgediff: -2
+Progress: 218000/569586 (38,3%) | Time: 3,28s | Queue size: 351586 | Shortcuts added: 211761 | Current edgediff: -2
+Progress: 219000/569586 (38,4%) | Time: 3,29s | Queue size: 350586 | Shortcuts added: 212747 | Current edgediff: -2
+Progress: 220000/569586 (38,6%) | Time: 3,30s | Queue size: 349586 | Shortcuts added: 213726 | Current edgediff: -2
+Progress: 221000/569586 (38,8%) | Time: 3,30s | Queue size: 348586 | Shortcuts added: 214718 | Current edgediff: -2
+Progress: 222000/569586 (39,0%) | Time: 3,31s | Queue size: 347586 | Shortcuts added: 215706 | Current edgediff: -2
+Progress: 223000/569586 (39,2%) | Time: 3,31s | Queue size: 346586 | Shortcuts added: 216681 | Current edgediff: -2
+Progress: 224000/569586 (39,3%) | Time: 3,32s | Queue size: 345586 | Shortcuts added: 217679 | Current edgediff: -2
+Progress: 225000/569586 (39,5%) | Time: 3,33s | Queue size: 344586 | Shortcuts added: 218671 | Current edgediff: -2
+Progress: 226000/569586 (39,7%) | Time: 3,33s | Queue size: 343586 | Shortcuts added: 219651 | Current edgediff: -2
+Progress: 227000/569586 (39,9%) | Time: 3,34s | Queue size: 342586 | Shortcuts added: 220630 | Current edgediff: -2
+Progress: 228000/569586 (40,0%) | Time: 3,35s | Queue size: 341586 | Shortcuts added: 221615 | Current edgediff: -2
+Progress: 229000/569586 (40,2%) | Time: 3,35s | Queue size: 340586 | Shortcuts added: 222604 | Current edgediff: -2
+Progress: 230000/569586 (40,4%) | Time: 3,36s | Queue size: 339586 | Shortcuts added: 223594 | Current edgediff: -2
+Progress: 231000/569586 (40,6%) | Time: 3,37s | Queue size: 338586 | Shortcuts added: 224575 | Current edgediff: -2
+Progress: 232000/569586 (40,7%) | Time: 3,37s | Queue size: 337586 | Shortcuts added: 225562 | Current edgediff: -2
+Progress: 233000/569586 (40,9%) | Time: 3,38s | Queue size: 336586 | Shortcuts added: 226550 | Current edgediff: -2
+Progress: 234000/569586 (41,1%) | Time: 3,39s | Queue size: 335586 | Shortcuts added: 227528 | Current edgediff: -2
+Progress: 235000/569586 (41,3%) | Time: 3,39s | Queue size: 334586 | Shortcuts added: 228516 | Current edgediff: -2
+Progress: 236000/569586 (41,4%) | Time: 3,40s | Queue size: 333586 | Shortcuts added: 229493 | Current edgediff: -2
+Progress: 237000/569586 (41,6%) | Time: 3,41s | Queue size: 332586 | Shortcuts added: 230482 | Current edgediff: -4
+Progress: 238000/569586 (41,8%) | Time: 3,41s | Queue size: 331586 | Shortcuts added: 231469 | Current edgediff: -2
+Progress: 239000/569586 (42,0%) | Time: 3,42s | Queue size: 330586 | Shortcuts added: 232465 | Current edgediff: -2
+Progress: 240000/569586 (42,1%) | Time: 3,43s | Queue size: 329586 | Shortcuts added: 233444 | Current edgediff: -2
+Progress: 241000/569586 (42,3%) | Time: 3,43s | Queue size: 328586 | Shortcuts added: 234433 | Current edgediff: -2
+Progress: 242000/569586 (42,5%) | Time: 3,44s | Queue size: 327586 | Shortcuts added: 235428 | Current edgediff: -2
+Progress: 243000/569586 (42,7%) | Time: 3,45s | Queue size: 326586 | Shortcuts added: 236415 | Current edgediff: -2
+Progress: 244000/569586 (42,8%) | Time: 3,45s | Queue size: 325586 | Shortcuts added: 237397 | Current edgediff: -2
+Progress: 245000/569586 (43,0%) | Time: 3,46s | Queue size: 324586 | Shortcuts added: 238386 | Current edgediff: -2
+Progress: 246000/569586 (43,2%) | Time: 3,47s | Queue size: 323586 | Shortcuts added: 239354 | Current edgediff: -2
+Progress: 247000/569586 (43,4%) | Time: 3,47s | Queue size: 322586 | Shortcuts added: 240333 | Current edgediff: -2
+Progress: 248000/569586 (43,5%) | Time: 3,48s | Queue size: 321586 | Shortcuts added: 241315 | Current edgediff: -2
+Progress: 249000/569586 (43,7%) | Time: 3,49s | Queue size: 320586 | Shortcuts added: 242298 | Current edgediff: -2
+Progress: 250000/569586 (43,9%) | Time: 3,49s | Queue size: 319586 | Shortcuts added: 243275 | Current edgediff: -2
+Progress: 251000/569586 (44,1%) | Time: 3,50s | Queue size: 318586 | Shortcuts added: 244258 | Current edgediff: -2
+Progress: 252000/569586 (44,2%) | Time: 3,51s | Queue size: 317586 | Shortcuts added: 245240 | Current edgediff: -2
+Progress: 253000/569586 (44,4%) | Time: 3,52s | Queue size: 316586 | Shortcuts added: 246225 | Current edgediff: -2
+Progress: 254000/569586 (44,6%) | Time: 3,52s | Queue size: 315586 | Shortcuts added: 247206 | Current edgediff: -2
+Progress: 255000/569586 (44,8%) | Time: 3,53s | Queue size: 314586 | Shortcuts added: 248194 | Current edgediff: -2
+Progress: 256000/569586 (44,9%) | Time: 3,54s | Queue size: 313586 | Shortcuts added: 249181 | Current edgediff: -2
+Progress: 257000/569586 (45,1%) | Time: 3,54s | Queue size: 312586 | Shortcuts added: 250169 | Current edgediff: -2
+Progress: 258000/569586 (45,3%) | Time: 3,55s | Queue size: 311586 | Shortcuts added: 251159 | Current edgediff: -2
+Progress: 259000/569586 (45,5%) | Time: 3,56s | Queue size: 310586 | Shortcuts added: 252143 | Current edgediff: -2
+Progress: 260000/569586 (45,6%) | Time: 3,57s | Queue size: 309586 | Shortcuts added: 253133 | Current edgediff: -2
+Progress: 261000/569586 (45,8%) | Time: 3,57s | Queue size: 308586 | Shortcuts added: 254125 | Current edgediff: -2
+Progress: 262000/569586 (46,0%) | Time: 3,60s | Queue size: 307586 | Shortcuts added: 255105 | Current edgediff: -2
+Progress: 263000/569586 (46,2%) | Time: 3,61s | Queue size: 306586 | Shortcuts added: 256107 | Current edgediff: -2
+Progress: 264000/569586 (46,3%) | Time: 3,61s | Queue size: 305586 | Shortcuts added: 257091 | Current edgediff: -2
+Progress: 265000/569586 (46,5%) | Time: 3,62s | Queue size: 304586 | Shortcuts added: 258070 | Current edgediff: -2
+Progress: 266000/569586 (46,7%) | Time: 3,63s | Queue size: 303586 | Shortcuts added: 259053 | Current edgediff: -2
+Progress: 267000/569586 (46,9%) | Time: 3,63s | Queue size: 302586 | Shortcuts added: 260022 | Current edgediff: -2
+Progress: 268000/569586 (47,1%) | Time: 3,64s | Queue size: 301586 | Shortcuts added: 261012 | Current edgediff: -2
+Progress: 269000/569586 (47,2%) | Time: 3,65s | Queue size: 300586 | Shortcuts added: 261999 | Current edgediff: -2
+Progress: 270000/569586 (47,4%) | Time: 3,66s | Queue size: 299586 | Shortcuts added: 262987 | Current edgediff: -2
+Progress: 271000/569586 (47,6%) | Time: 3,66s | Queue size: 298586 | Shortcuts added: 263969 | Current edgediff: -2
+Progress: 272000/569586 (47,8%) | Time: 3,67s | Queue size: 297586 | Shortcuts added: 264955 | Current edgediff: -2
+Progress: 273000/569586 (47,9%) | Time: 3,68s | Queue size: 296586 | Shortcuts added: 265941 | Current edgediff: -2
+Progress: 274000/569586 (48,1%) | Time: 3,69s | Queue size: 295586 | Shortcuts added: 266924 | Current edgediff: -2
+Progress: 275000/569586 (48,3%) | Time: 3,70s | Queue size: 294586 | Shortcuts added: 267908 | Current edgediff: -2
+Progress: 276000/569586 (48,5%) | Time: 3,70s | Queue size: 293586 | Shortcuts added: 268895 | Current edgediff: -2
+Progress: 277000/569586 (48,6%) | Time: 3,71s | Queue size: 292586 | Shortcuts added: 269883 | Current edgediff: -2
+Progress: 278000/569586 (48,8%) | Time: 3,72s | Queue size: 291586 | Shortcuts added: 270864 | Current edgediff: -2
+Progress: 279000/569586 (49,0%) | Time: 3,73s | Queue size: 290586 | Shortcuts added: 271854 | Current edgediff: -2
+Progress: 280000/569586 (49,2%) | Time: 3,73s | Queue size: 289586 | Shortcuts added: 272844 | Current edgediff: -2
+Progress: 281000/569586 (49,3%) | Time: 3,74s | Queue size: 288586 | Shortcuts added: 273823 | Current edgediff: -2
+Progress: 282000/569586 (49,5%) | Time: 3,75s | Queue size: 287586 | Shortcuts added: 274808 | Current edgediff: -2
+Progress: 283000/569586 (49,7%) | Time: 3,76s | Queue size: 286586 | Shortcuts added: 275794 | Current edgediff: -2
+Progress: 284000/569586 (49,9%) | Time: 3,77s | Queue size: 285586 | Shortcuts added: 276780 | Current edgediff: -2
+Progress: 285000/569586 (50,0%) | Time: 3,77s | Queue size: 284586 | Shortcuts added: 277762 | Current edgediff: -2
+Progress: 286000/569586 (50,2%) | Time: 3,78s | Queue size: 283586 | Shortcuts added: 278756 | Current edgediff: -2
+Progress: 287000/569586 (50,4%) | Time: 3,79s | Queue size: 282586 | Shortcuts added: 279748 | Current edgediff: -2
+Progress: 288000/569586 (50,6%) | Time: 3,80s | Queue size: 281586 | Shortcuts added: 280739 | Current edgediff: -2
+Progress: 289000/569586 (50,7%) | Time: 3,81s | Queue size: 280586 | Shortcuts added: 281724 | Current edgediff: -2
+Progress: 290000/569586 (50,9%) | Time: 3,82s | Queue size: 279586 | Shortcuts added: 282713 | Current edgediff: -2
+Progress: 291000/569586 (51,1%) | Time: 3,82s | Queue size: 278586 | Shortcuts added: 283709 | Current edgediff: -2
+Progress: 292000/569586 (51,3%) | Time: 3,83s | Queue size: 277586 | Shortcuts added: 284697 | Current edgediff: -2
+Progress: 293000/569586 (51,4%) | Time: 3,84s | Queue size: 276586 | Shortcuts added: 285681 | Current edgediff: -2
+Progress: 294000/569586 (51,6%) | Time: 3,85s | Queue size: 275586 | Shortcuts added: 286673 | Current edgediff: -2
+Progress: 295000/569586 (51,8%) | Time: 3,86s | Queue size: 274586 | Shortcuts added: 287660 | Current edgediff: -2
+Progress: 296000/569586 (52,0%) | Time: 3,87s | Queue size: 273586 | Shortcuts added: 288624 | Current edgediff: -2
+Progress: 297000/569586 (52,1%) | Time: 3,88s | Queue size: 272586 | Shortcuts added: 289589 | Current edgediff: -2
+Progress: 298000/569586 (52,3%) | Time: 3,88s | Queue size: 271586 | Shortcuts added: 290551 | Current edgediff: -2
+Progress: 299000/569586 (52,5%) | Time: 3,89s | Queue size: 270586 | Shortcuts added: 291518 | Current edgediff: -2
+Progress: 300000/569586 (52,7%) | Time: 3,90s | Queue size: 269586 | Shortcuts added: 292468 | Current edgediff: -2
+Progress: 301000/569586 (52,8%) | Time: 3,91s | Queue size: 268586 | Shortcuts added: 293423 | Current edgediff: -2
+Progress: 302000/569586 (53,0%) | Time: 3,92s | Queue size: 267586 | Shortcuts added: 294387 | Current edgediff: -2
+Progress: 303000/569586 (53,2%) | Time: 3,93s | Queue size: 266586 | Shortcuts added: 295357 | Current edgediff: -2
+Progress: 304000/569586 (53,4%) | Time: 3,94s | Queue size: 265586 | Shortcuts added: 296305 | Current edgediff: -2
+Progress: 305000/569586 (53,5%) | Time: 3,94s | Queue size: 264586 | Shortcuts added: 297258 | Current edgediff: -2
+Progress: 306000/569586 (53,7%) | Time: 3,95s | Queue size: 263586 | Shortcuts added: 298212 | Current edgediff: -2
+Progress: 307000/569586 (53,9%) | Time: 3,96s | Queue size: 262586 | Shortcuts added: 299177 | Current edgediff: -2
+Progress: 308000/569586 (54,1%) | Time: 3,97s | Queue size: 261586 | Shortcuts added: 300159 | Current edgediff: -2
+Progress: 309000/569586 (54,2%) | Time: 3,98s | Queue size: 260586 | Shortcuts added: 301147 | Current edgediff: -2
+Progress: 310000/569586 (54,4%) | Time: 3,99s | Queue size: 259586 | Shortcuts added: 302118 | Current edgediff: -2
+Progress: 311000/569586 (54,6%) | Time: 3,99s | Queue size: 258586 | Shortcuts added: 303108 | Current edgediff: -2
+Progress: 312000/569586 (54,8%) | Time: 4,00s | Queue size: 257586 | Shortcuts added: 304093 | Current edgediff: -2
+Progress: 313000/569586 (55,0%) | Time: 4,01s | Queue size: 256586 | Shortcuts added: 305081 | Current edgediff: -2
+Progress: 314000/569586 (55,1%) | Time: 4,02s | Queue size: 255586 | Shortcuts added: 306066 | Current edgediff: -2
+Progress: 315000/569586 (55,3%) | Time: 4,03s | Queue size: 254586 | Shortcuts added: 307053 | Current edgediff: -2
+Progress: 316000/569586 (55,5%) | Time: 4,04s | Queue size: 253586 | Shortcuts added: 308035 | Current edgediff: -2
+Progress: 317000/569586 (55,7%) | Time: 4,05s | Queue size: 252586 | Shortcuts added: 309026 | Current edgediff: -2
+Progress: 318000/569586 (55,8%) | Time: 4,05s | Queue size: 251586 | Shortcuts added: 310017 | Current edgediff: -2
+Progress: 319000/569586 (56,0%) | Time: 4,06s | Queue size: 250586 | Shortcuts added: 311005 | Current edgediff: -2
+Progress: 320000/569586 (56,2%) | Time: 4,07s | Queue size: 249586 | Shortcuts added: 311991 | Current edgediff: -2
+Progress: 321000/569586 (56,4%) | Time: 4,08s | Queue size: 248586 | Shortcuts added: 312981 | Current edgediff: -2
+Progress: 322000/569586 (56,5%) | Time: 4,09s | Queue size: 247586 | Shortcuts added: 313963 | Current edgediff: -2
+Progress: 323000/569586 (56,7%) | Time: 4,10s | Queue size: 246586 | Shortcuts added: 314946 | Current edgediff: -2
+Progress: 324000/569586 (56,9%) | Time: 4,10s | Queue size: 245586 | Shortcuts added: 315937 | Current edgediff: -2
+Progress: 325000/569586 (57,1%) | Time: 4,11s | Queue size: 244586 | Shortcuts added: 316930 | Current edgediff: -2
+Progress: 326000/569586 (57,2%) | Time: 4,12s | Queue size: 243586 | Shortcuts added: 317912 | Current edgediff: -2
+Progress: 327000/569586 (57,4%) | Time: 4,13s | Queue size: 242586 | Shortcuts added: 318909 | Current edgediff: -2
+Progress: 328000/569586 (57,6%) | Time: 4,14s | Queue size: 241586 | Shortcuts added: 319904 | Current edgediff: -2
+Progress: 329000/569586 (57,8%) | Time: 4,15s | Queue size: 240586 | Shortcuts added: 320878 | Current edgediff: -2
+Progress: 330000/569586 (57,9%) | Time: 4,16s | Queue size: 239586 | Shortcuts added: 321876 | Current edgediff: -2
+Progress: 331000/569586 (58,1%) | Time: 4,16s | Queue size: 238586 | Shortcuts added: 322861 | Current edgediff: -2
+Progress: 332000/569586 (58,3%) | Time: 4,17s | Queue size: 237586 | Shortcuts added: 323834 | Current edgediff: -2
+Progress: 333000/569586 (58,5%) | Time: 4,18s | Queue size: 236586 | Shortcuts added: 324807 | Current edgediff: -2
+Progress: 334000/569586 (58,6%) | Time: 4,19s | Queue size: 235586 | Shortcuts added: 325777 | Current edgediff: -2
+Progress: 335000/569586 (58,8%) | Time: 4,20s | Queue size: 234586 | Shortcuts added: 326762 | Current edgediff: -2
+Progress: 336000/569586 (59,0%) | Time: 4,21s | Queue size: 233586 | Shortcuts added: 327743 | Current edgediff: -2
+Progress: 337000/569586 (59,2%) | Time: 4,22s | Queue size: 232586 | Shortcuts added: 328707 | Current edgediff: -2
+Progress: 338000/569586 (59,3%) | Time: 4,23s | Queue size: 231586 | Shortcuts added: 329673 | Current edgediff: -2
+Progress: 339000/569586 (59,5%) | Time: 4,24s | Queue size: 230586 | Shortcuts added: 330642 | Current edgediff: -2
+Progress: 340000/569586 (59,7%) | Time: 4,26s | Queue size: 229586 | Shortcuts added: 331628 | Current edgediff: -2
+Progress: 341000/569586 (59,9%) | Time: 4,27s | Queue size: 228586 | Shortcuts added: 332612 | Current edgediff: -2
+Progress: 342000/569586 (60,0%) | Time: 4,28s | Queue size: 227586 | Shortcuts added: 333599 | Current edgediff: -2
+Progress: 343000/569586 (60,2%) | Time: 4,29s | Queue size: 226586 | Shortcuts added: 334596 | Current edgediff: -2
+Progress: 344000/569586 (60,4%) | Time: 4,30s | Queue size: 225586 | Shortcuts added: 335577 | Current edgediff: -2
+Progress: 345000/569586 (60,6%) | Time: 4,31s | Queue size: 224586 | Shortcuts added: 336561 | Current edgediff: -2
+Progress: 346000/569586 (60,7%) | Time: 4,32s | Queue size: 223586 | Shortcuts added: 337556 | Current edgediff: -2
+Progress: 347000/569586 (60,9%) | Time: 4,32s | Queue size: 222586 | Shortcuts added: 338536 | Current edgediff: -2
+Progress: 348000/569586 (61,1%) | Time: 4,33s | Queue size: 221586 | Shortcuts added: 339525 | Current edgediff: -2
+Progress: 349000/569586 (61,3%) | Time: 4,34s | Queue size: 220586 | Shortcuts added: 340504 | Current edgediff: -2
+Progress: 350000/569586 (61,4%) | Time: 4,35s | Queue size: 219586 | Shortcuts added: 341475 | Current edgediff: -2
+Progress: 351000/569586 (61,6%) | Time: 4,36s | Queue size: 218586 | Shortcuts added: 342458 | Current edgediff: -2
+Progress: 352000/569586 (61,8%) | Time: 4,37s | Queue size: 217586 | Shortcuts added: 343443 | Current edgediff: -2
+Progress: 353000/569586 (62,0%) | Time: 4,38s | Queue size: 216586 | Shortcuts added: 344412 | Current edgediff: -2
+Progress: 354000/569586 (62,2%) | Time: 4,39s | Queue size: 215586 | Shortcuts added: 345388 | Current edgediff: -2
+Progress: 355000/569586 (62,3%) | Time: 4,40s | Queue size: 214586 | Shortcuts added: 346373 | Current edgediff: -2
+Progress: 356000/569586 (62,5%) | Time: 4,41s | Queue size: 213586 | Shortcuts added: 347352 | Current edgediff: -2
+Progress: 357000/569586 (62,7%) | Time: 4,42s | Queue size: 212586 | Shortcuts added: 348333 | Current edgediff: -2
+Progress: 358000/569586 (62,9%) | Time: 4,43s | Queue size: 211586 | Shortcuts added: 349316 | Current edgediff: -2
+Progress: 359000/569586 (63,0%) | Time: 4,44s | Queue size: 210586 | Shortcuts added: 350284 | Current edgediff: -2
+Progress: 360000/569586 (63,2%) | Time: 4,45s | Queue size: 209586 | Shortcuts added: 351264 | Current edgediff: -2
+Progress: 361000/569586 (63,4%) | Time: 4,45s | Queue size: 208586 | Shortcuts added: 352231 | Current edgediff: -2
+Progress: 362000/569586 (63,6%) | Time: 4,47s | Queue size: 207586 | Shortcuts added: 353211 | Current edgediff: -2
+Progress: 363000/569586 (63,7%) | Time: 4,47s | Queue size: 206586 | Shortcuts added: 354183 | Current edgediff: -2
+Progress: 364000/569586 (63,9%) | Time: 4,48s | Queue size: 205586 | Shortcuts added: 355166 | Current edgediff: -2
+Progress: 365000/569586 (64,1%) | Time: 4,49s | Queue size: 204586 | Shortcuts added: 356150 | Current edgediff: -2
+Progress: 366000/569586 (64,3%) | Time: 4,50s | Queue size: 203586 | Shortcuts added: 357126 | Current edgediff: -2
+Progress: 367000/569586 (64,4%) | Time: 4,51s | Queue size: 202586 | Shortcuts added: 358099 | Current edgediff: -2
+Progress: 368000/569586 (64,6%) | Time: 4,52s | Queue size: 201586 | Shortcuts added: 359075 | Current edgediff: -2
+Progress: 369000/569586 (64,8%) | Time: 4,53s | Queue size: 200586 | Shortcuts added: 360054 | Current edgediff: -2
+Progress: 370000/569586 (65,0%) | Time: 4,54s | Queue size: 199586 | Shortcuts added: 361040 | Current edgediff: -2
+Progress: 371000/569586 (65,1%) | Time: 4,55s | Queue size: 198586 | Shortcuts added: 362022 | Current edgediff: -2
+Progress: 372000/569586 (65,3%) | Time: 4,56s | Queue size: 197586 | Shortcuts added: 363002 | Current edgediff: -2
+Progress: 373000/569586 (65,5%) | Time: 4,57s | Queue size: 196586 | Shortcuts added: 363975 | Current edgediff: -2
+Progress: 374000/569586 (65,7%) | Time: 4,58s | Queue size: 195586 | Shortcuts added: 364964 | Current edgediff: -2
+Progress: 375000/569586 (65,8%) | Time: 4,59s | Queue size: 194586 | Shortcuts added: 365951 | Current edgediff: -2
+Progress: 376000/569586 (66,0%) | Time: 4,60s | Queue size: 193586 | Shortcuts added: 366937 | Current edgediff: -2
+Progress: 377000/569586 (66,2%) | Time: 4,61s | Queue size: 192586 | Shortcuts added: 367920 | Current edgediff: -2
+Progress: 378000/569586 (66,4%) | Time: 4,62s | Queue size: 191586 | Shortcuts added: 368894 | Current edgediff: -2
+Progress: 379000/569586 (66,5%) | Time: 4,63s | Queue size: 190586 | Shortcuts added: 369873 | Current edgediff: -2
+Progress: 380000/569586 (66,7%) | Time: 4,64s | Queue size: 189586 | Shortcuts added: 370851 | Current edgediff: -2
+Progress: 381000/569586 (66,9%) | Time: 4,65s | Queue size: 188586 | Shortcuts added: 371825 | Current edgediff: -2
+Progress: 382000/569586 (67,1%) | Time: 4,65s | Queue size: 187586 | Shortcuts added: 372819 | Current edgediff: -2
+Progress: 383000/569586 (67,2%) | Time: 4,67s | Queue size: 186586 | Shortcuts added: 373803 | Current edgediff: -2
+Progress: 384000/569586 (67,4%) | Time: 4,68s | Queue size: 185586 | Shortcuts added: 374787 | Current edgediff: -2
+Progress: 385000/569586 (67,6%) | Time: 4,69s | Queue size: 184586 | Shortcuts added: 375762 | Current edgediff: -2
+Progress: 386000/569586 (67,8%) | Time: 4,70s | Queue size: 183586 | Shortcuts added: 376752 | Current edgediff: -2
+Progress: 387000/569586 (67,9%) | Time: 4,71s | Queue size: 182586 | Shortcuts added: 377728 | Current edgediff: -2
+Progress: 388000/569586 (68,1%) | Time: 4,72s | Queue size: 181586 | Shortcuts added: 378711 | Current edgediff: -2
+Progress: 389000/569586 (68,3%) | Time: 4,73s | Queue size: 180586 | Shortcuts added: 379690 | Current edgediff: -2
+Progress: 390000/569586 (68,5%) | Time: 4,74s | Queue size: 179586 | Shortcuts added: 380680 | Current edgediff: -2
+Progress: 391000/569586 (68,6%) | Time: 4,75s | Queue size: 178586 | Shortcuts added: 381667 | Current edgediff: -2
+Progress: 392000/569586 (68,8%) | Time: 4,76s | Queue size: 177586 | Shortcuts added: 382642 | Current edgediff: -2
+Progress: 393000/569586 (69,0%) | Time: 4,77s | Queue size: 176586 | Shortcuts added: 383622 | Current edgediff: -2
+Progress: 394000/569586 (69,2%) | Time: 4,78s | Queue size: 175586 | Shortcuts added: 384599 | Current edgediff: -2
+Progress: 395000/569586 (69,3%) | Time: 4,79s | Queue size: 174586 | Shortcuts added: 385569 | Current edgediff: -2
+Progress: 396000/569586 (69,5%) | Time: 4,80s | Queue size: 173586 | Shortcuts added: 386540 | Current edgediff: -2
+Progress: 397000/569586 (69,7%) | Time: 4,82s | Queue size: 172586 | Shortcuts added: 387523 | Current edgediff: -2
+Progress: 398000/569586 (69,9%) | Time: 4,83s | Queue size: 171586 | Shortcuts added: 388502 | Current edgediff: -2
+Progress: 399000/569586 (70,1%) | Time: 4,83s | Queue size: 170586 | Shortcuts added: 389474 | Current edgediff: -2
+Progress: 400000/569586 (70,2%) | Time: 4,84s | Queue size: 169586 | Shortcuts added: 390444 | Current edgediff: -4
+Progress: 401000/569586 (70,4%) | Time: 4,85s | Queue size: 168586 | Shortcuts added: 391413 | Current edgediff: -2
+Progress: 402000/569586 (70,6%) | Time: 4,87s | Queue size: 167586 | Shortcuts added: 392404 | Current edgediff: -2
+Progress: 403000/569586 (70,8%) | Time: 4,88s | Queue size: 166586 | Shortcuts added: 393385 | Current edgediff: -2
+Progress: 404000/569586 (70,9%) | Time: 4,89s | Queue size: 165586 | Shortcuts added: 394355 | Current edgediff: -2
+Progress: 405000/569586 (71,1%) | Time: 4,91s | Queue size: 164586 | Shortcuts added: 395340 | Current edgediff: -2
+Progress: 406000/569586 (71,3%) | Time: 4,93s | Queue size: 163586 | Shortcuts added: 396313 | Current edgediff: -2
+Progress: 407000/569586 (71,5%) | Time: 4,94s | Queue size: 162586 | Shortcuts added: 397271 | Current edgediff: -2
+Progress: 408000/569586 (71,6%) | Time: 4,94s | Queue size: 161586 | Shortcuts added: 398245 | Current edgediff: -2
+Progress: 409000/569586 (71,8%) | Time: 4,95s | Queue size: 160586 | Shortcuts added: 399225 | Current edgediff: -2
+Progress: 410000/569586 (72,0%) | Time: 4,96s | Queue size: 159586 | Shortcuts added: 400210 | Current edgediff: -2
+Progress: 411000/569586 (72,2%) | Time: 4,97s | Queue size: 158586 | Shortcuts added: 401179 | Current edgediff: -2
+Progress: 412000/569586 (72,3%) | Time: 4,99s | Queue size: 157586 | Shortcuts added: 402144 | Current edgediff: -2
+Progress: 413000/569586 (72,5%) | Time: 5,00s | Queue size: 156586 | Shortcuts added: 403124 | Current edgediff: -2
+Progress: 414000/569586 (72,7%) | Time: 5,01s | Queue size: 155586 | Shortcuts added: 404101 | Current edgediff: -2
+Progress: 415000/569586 (72,9%) | Time: 5,02s | Queue size: 154586 | Shortcuts added: 405071 | Current edgediff: -2
+Progress: 416000/569586 (73,0%) | Time: 5,03s | Queue size: 153586 | Shortcuts added: 406048 | Current edgediff: -2
+Progress: 417000/569586 (73,2%) | Time: 5,04s | Queue size: 152586 | Shortcuts added: 407012 | Current edgediff: -2
+Progress: 418000/569586 (73,4%) | Time: 5,05s | Queue size: 151586 | Shortcuts added: 407992 | Current edgediff: -2
+Progress: 419000/569586 (73,6%) | Time: 5,06s | Queue size: 150586 | Shortcuts added: 408949 | Current edgediff: -2
+Progress: 420000/569586 (73,7%) | Time: 5,08s | Queue size: 149586 | Shortcuts added: 409917 | Current edgediff: -2
+Progress: 421000/569586 (73,9%) | Time: 5,09s | Queue size: 148586 | Shortcuts added: 410900 | Current edgediff: -2
+Progress: 422000/569586 (74,1%) | Time: 5,10s | Queue size: 147586 | Shortcuts added: 411882 | Current edgediff: -2
+Progress: 423000/569586 (74,3%) | Time: 5,11s | Queue size: 146586 | Shortcuts added: 412849 | Current edgediff: -2
+Progress: 424000/569586 (74,4%) | Time: 5,12s | Queue size: 145586 | Shortcuts added: 413826 | Current edgediff: -2
+Progress: 425000/569586 (74,6%) | Time: 5,13s | Queue size: 144586 | Shortcuts added: 414806 | Current edgediff: -2
+Progress: 426000/569586 (74,8%) | Time: 5,14s | Queue size: 143586 | Shortcuts added: 415758 | Current edgediff: -2
+Progress: 427000/569586 (75,0%) | Time: 5,15s | Queue size: 142586 | Shortcuts added: 416727 | Current edgediff: -2
+Progress: 428000/569586 (75,1%) | Time: 5,16s | Queue size: 141586 | Shortcuts added: 417685 | Current edgediff: -2
+Progress: 429000/569586 (75,3%) | Time: 5,18s | Queue size: 140586 | Shortcuts added: 418648 | Current edgediff: -2
+Progress: 430000/569586 (75,5%) | Time: 5,19s | Queue size: 139586 | Shortcuts added: 419607 | Current edgediff: -2
+Progress: 431000/569586 (75,7%) | Time: 5,20s | Queue size: 138586 | Shortcuts added: 420573 | Current edgediff: -2
+Progress: 432000/569586 (75,8%) | Time: 5,21s | Queue size: 137586 | Shortcuts added: 421526 | Current edgediff: -2
+Progress: 433000/569586 (76,0%) | Time: 5,22s | Queue size: 136586 | Shortcuts added: 422479 | Current edgediff: -2
+Progress: 434000/569586 (76,2%) | Time: 5,23s | Queue size: 135586 | Shortcuts added: 423436 | Current edgediff: -2
+Progress: 435000/569586 (76,4%) | Time: 5,24s | Queue size: 134586 | Shortcuts added: 424407 | Current edgediff: -2
+Progress: 436000/569586 (76,5%) | Time: 5,25s | Queue size: 133586 | Shortcuts added: 425347 | Current edgediff: -2
+Progress: 437000/569586 (76,7%) | Time: 5,26s | Queue size: 132586 | Shortcuts added: 426296 | Current edgediff: -2
+Progress: 438000/569586 (76,9%) | Time: 5,27s | Queue size: 131586 | Shortcuts added: 427221 | Current edgediff: -2
+Progress: 439000/569586 (77,1%) | Time: 5,28s | Queue size: 130586 | Shortcuts added: 428184 | Current edgediff: -2
+Progress: 440000/569586 (77,2%) | Time: 5,30s | Queue size: 129586 | Shortcuts added: 429141 | Current edgediff: -2
+Progress: 441000/569586 (77,4%) | Time: 5,31s | Queue size: 128586 | Shortcuts added: 430114 | Current edgediff: -2
+Progress: 442000/569586 (77,6%) | Time: 5,32s | Queue size: 127586 | Shortcuts added: 431090 | Current edgediff: -2
+Progress: 443000/569586 (77,8%) | Time: 5,33s | Queue size: 126586 | Shortcuts added: 432066 | Current edgediff: -2
+Progress: 444000/569586 (78,0%) | Time: 5,34s | Queue size: 125586 | Shortcuts added: 433047 | Current edgediff: -2
+Progress: 445000/569586 (78,1%) | Time: 5,35s | Queue size: 124586 | Shortcuts added: 434007 | Current edgediff: -2
+Progress: 446000/569586 (78,3%) | Time: 5,37s | Queue size: 123586 | Shortcuts added: 434979 | Current edgediff: -2
+Progress: 447000/569586 (78,5%) | Time: 5,38s | Queue size: 122586 | Shortcuts added: 435954 | Current edgediff: -2
+Progress: 448000/569586 (78,7%) | Time: 5,39s | Queue size: 121586 | Shortcuts added: 436918 | Current edgediff: -2
+Progress: 449000/569586 (78,8%) | Time: 5,40s | Queue size: 120586 | Shortcuts added: 437889 | Current edgediff: -2
+Progress: 450000/569586 (79,0%) | Time: 5,41s | Queue size: 119586 | Shortcuts added: 438890 | Current edgediff: -2
+Progress: 451000/569586 (79,2%) | Time: 5,42s | Queue size: 118586 | Shortcuts added: 439851 | Current edgediff: -2
+Progress: 452000/569586 (79,4%) | Time: 5,44s | Queue size: 117586 | Shortcuts added: 440807 | Current edgediff: -2
+Progress: 453000/569586 (79,5%) | Time: 5,45s | Queue size: 116586 | Shortcuts added: 441768 | Current edgediff: -2
+Progress: 454000/569586 (79,7%) | Time: 5,46s | Queue size: 115586 | Shortcuts added: 442730 | Current edgediff: -2
+Progress: 455000/569586 (79,9%) | Time: 5,47s | Queue size: 114586 | Shortcuts added: 443706 | Current edgediff: -2
+Progress: 456000/569586 (80,1%) | Time: 5,49s | Queue size: 113586 | Shortcuts added: 444668 | Current edgediff: -2
+Progress: 457000/569586 (80,2%) | Time: 5,50s | Queue size: 112586 | Shortcuts added: 445637 | Current edgediff: -2
+Progress: 458000/569586 (80,4%) | Time: 5,51s | Queue size: 111586 | Shortcuts added: 446609 | Current edgediff: -2
+Progress: 459000/569586 (80,6%) | Time: 5,53s | Queue size: 110586 | Shortcuts added: 447565 | Current edgediff: -2
+Progress: 460000/569586 (80,8%) | Time: 5,54s | Queue size: 109586 | Shortcuts added: 448529 | Current edgediff: -2
+Progress: 461000/569586 (80,9%) | Time: 5,55s | Queue size: 108586 | Shortcuts added: 449479 | Current edgediff: -2
+Progress: 462000/569586 (81,1%) | Time: 5,58s | Queue size: 107586 | Shortcuts added: 450443 | Current edgediff: -2
+Progress: 463000/569586 (81,3%) | Time: 5,59s | Queue size: 106586 | Shortcuts added: 451397 | Current edgediff: -2
+Progress: 464000/569586 (81,5%) | Time: 5,60s | Queue size: 105586 | Shortcuts added: 452363 | Current edgediff: -2
+Progress: 465000/569586 (81,6%) | Time: 5,62s | Queue size: 104586 | Shortcuts added: 453333 | Current edgediff: -2
+Progress: 466000/569586 (81,8%) | Time: 5,63s | Queue size: 103586 | Shortcuts added: 454301 | Current edgediff: -2
+Progress: 467000/569586 (82,0%) | Time: 5,64s | Queue size: 102586 | Shortcuts added: 455259 | Current edgediff: -2
+Progress: 468000/569586 (82,2%) | Time: 5,66s | Queue size: 101586 | Shortcuts added: 456205 | Current edgediff: -2
+Progress: 469000/569586 (82,3%) | Time: 5,67s | Queue size: 100586 | Shortcuts added: 457181 | Current edgediff: -2
+Progress: 470000/569586 (82,5%) | Time: 5,68s | Queue size: 99586 | Shortcuts added: 458144 | Current edgediff: -2
+Progress: 471000/569586 (82,7%) | Time: 5,70s | Queue size: 98586 | Shortcuts added: 459084 | Current edgediff: -2
+Progress: 472000/569586 (82,9%) | Time: 5,71s | Queue size: 97586 | Shortcuts added: 460057 | Current edgediff: -2
+Progress: 473000/569586 (83,0%) | Time: 5,72s | Queue size: 96586 | Shortcuts added: 461014 | Current edgediff: -2
+Progress: 474000/569586 (83,2%) | Time: 5,73s | Queue size: 95586 | Shortcuts added: 461984 | Current edgediff: -2
+Progress: 475000/569586 (83,4%) | Time: 5,75s | Queue size: 94586 | Shortcuts added: 462951 | Current edgediff: -2
+Progress: 476000/569586 (83,6%) | Time: 5,76s | Queue size: 93586 | Shortcuts added: 463901 | Current edgediff: -2
+Progress: 477000/569586 (83,7%) | Time: 5,77s | Queue size: 92586 | Shortcuts added: 464862 | Current edgediff: -2
+Progress: 478000/569586 (83,9%) | Time: 5,79s | Queue size: 91586 | Shortcuts added: 465815 | Current edgediff: -2
+Progress: 479000/569586 (84,1%) | Time: 5,80s | Queue size: 90586 | Shortcuts added: 466762 | Current edgediff: -2
+Progress: 480000/569586 (84,3%) | Time: 5,81s | Queue size: 89586 | Shortcuts added: 467719 | Current edgediff: -2
+Progress: 481000/569586 (84,4%) | Time: 5,82s | Queue size: 88586 | Shortcuts added: 468689 | Current edgediff: -2
+Progress: 482000/569586 (84,6%) | Time: 5,84s | Queue size: 87586 | Shortcuts added: 469661 | Current edgediff: -2
+Progress: 483000/569586 (84,8%) | Time: 5,85s | Queue size: 86586 | Shortcuts added: 470623 | Current edgediff: -2
+Progress: 484000/569586 (85,0%) | Time: 5,87s | Queue size: 85586 | Shortcuts added: 471586 | Current edgediff: -2
+Progress: 485000/569586 (85,1%) | Time: 5,88s | Queue size: 84586 | Shortcuts added: 472555 | Current edgediff: -2
+Progress: 486000/569586 (85,3%) | Time: 5,90s | Queue size: 83586 | Shortcuts added: 473517 | Current edgediff: -2
+Progress: 487000/569586 (85,5%) | Time: 5,91s | Queue size: 82586 | Shortcuts added: 474485 | Current edgediff: -2
+Progress: 488000/569586 (85,7%) | Time: 5,93s | Queue size: 81586 | Shortcuts added: 475443 | Current edgediff: -2
+Progress: 489000/569586 (85,9%) | Time: 5,94s | Queue size: 80586 | Shortcuts added: 476393 | Current edgediff: -2
+Progress: 490000/569586 (86,0%) | Time: 5,95s | Queue size: 79586 | Shortcuts added: 477385 | Current edgediff: -2
+Progress: 491000/569586 (86,2%) | Time: 5,97s | Queue size: 78586 | Shortcuts added: 478342 | Current edgediff: -2
+Progress: 492000/569586 (86,4%) | Time: 5,98s | Queue size: 77586 | Shortcuts added: 479261 | Current edgediff: -2
+Progress: 493000/569586 (86,6%) | Time: 6,00s | Queue size: 76586 | Shortcuts added: 480170 | Current edgediff: -2
+Progress: 494000/569586 (86,7%) | Time: 6,01s | Queue size: 75586 | Shortcuts added: 481070 | Current edgediff: -2
+Progress: 495000/569586 (86,9%) | Time: 6,02s | Queue size: 74586 | Shortcuts added: 481977 | Current edgediff: -2
+Progress: 496000/569586 (87,1%) | Time: 6,04s | Queue size: 73586 | Shortcuts added: 482873 | Current edgediff: -2
+Progress: 497000/569586 (87,3%) | Time: 6,05s | Queue size: 72586 | Shortcuts added: 483786 | Current edgediff: -2
+Progress: 498000/569586 (87,4%) | Time: 6,06s | Queue size: 71586 | Shortcuts added: 484709 | Current edgediff: -2
+Progress: 499000/569586 (87,6%) | Time: 6,07s | Queue size: 70586 | Shortcuts added: 485630 | Current edgediff: -2
+Progress: 500000/569586 (87,8%) | Time: 6,09s | Queue size: 69586 | Shortcuts added: 486539 | Current edgediff: -2
+Progress: 501000/569586 (88,0%) | Time: 6,10s | Queue size: 68586 | Shortcuts added: 487443 | Current edgediff: -2
+Progress: 502000/569586 (88,1%) | Time: 6,11s | Queue size: 67586 | Shortcuts added: 488342 | Current edgediff: -2
+Progress: 503000/569586 (88,3%) | Time: 6,12s | Queue size: 66586 | Shortcuts added: 489272 | Current edgediff: -2
+Progress: 504000/569586 (88,5%) | Time: 6,14s | Queue size: 65586 | Shortcuts added: 490193 | Current edgediff: -2
+Progress: 505000/569586 (88,7%) | Time: 6,15s | Queue size: 64586 | Shortcuts added: 491134 | Current edgediff: -2
+Progress: 506000/569586 (88,8%) | Time: 6,16s | Queue size: 63586 | Shortcuts added: 492079 | Current edgediff: -2
+Progress: 507000/569586 (89,0%) | Time: 6,18s | Queue size: 62586 | Shortcuts added: 493017 | Current edgediff: -2
+Progress: 508000/569586 (89,2%) | Time: 6,19s | Queue size: 61586 | Shortcuts added: 493974 | Current edgediff: -2
+Progress: 509000/569586 (89,4%) | Time: 6,21s | Queue size: 60586 | Shortcuts added: 494906 | Current edgediff: -2
+Progress: 510000/569586 (89,5%) | Time: 6,22s | Queue size: 59586 | Shortcuts added: 495834 | Current edgediff: -2
+Progress: 511000/569586 (89,7%) | Time: 6,25s | Queue size: 58586 | Shortcuts added: 496781 | Current edgediff: -2
+Progress: 512000/569586 (89,9%) | Time: 6,27s | Queue size: 57586 | Shortcuts added: 497713 | Current edgediff: -2
+Progress: 513000/569586 (90,1%) | Time: 6,28s | Queue size: 56586 | Shortcuts added: 498629 | Current edgediff: -2
+Progress: 514000/569586 (90,2%) | Time: 6,30s | Queue size: 55586 | Shortcuts added: 499553 | Current edgediff: -2
+Progress: 515000/569586 (90,4%) | Time: 6,31s | Queue size: 54586 | Shortcuts added: 500494 | Current edgediff: -2
+Progress: 516000/569586 (90,6%) | Time: 6,32s | Queue size: 53586 | Shortcuts added: 501416 | Current edgediff: -2
+Progress: 517000/569586 (90,8%) | Time: 6,34s | Queue size: 52586 | Shortcuts added: 502357 | Current edgediff: -2
+Progress: 518000/569586 (90,9%) | Time: 6,35s | Queue size: 51586 | Shortcuts added: 503293 | Current edgediff: -2
+Progress: 519000/569586 (91,1%) | Time: 6,37s | Queue size: 50586 | Shortcuts added: 504219 | Current edgediff: -2
+Progress: 520000/569586 (91,3%) | Time: 6,38s | Queue size: 49586 | Shortcuts added: 505143 | Current edgediff: -2
+Progress: 521000/569586 (91,5%) | Time: 6,40s | Queue size: 48586 | Shortcuts added: 506070 | Current edgediff: -2
+Progress: 522000/569586 (91,6%) | Time: 6,41s | Queue size: 47586 | Shortcuts added: 506998 | Current edgediff: -2
+Progress: 523000/569586 (91,8%) | Time: 6,42s | Queue size: 46586 | Shortcuts added: 507926 | Current edgediff: -2
+Progress: 524000/569586 (92,0%) | Time: 6,44s | Queue size: 45586 | Shortcuts added: 508843 | Current edgediff: -2
+Progress: 525000/569586 (92,2%) | Time: 6,45s | Queue size: 44586 | Shortcuts added: 509732 | Current edgediff: -2
+Progress: 526000/569586 (92,3%) | Time: 6,46s | Queue size: 43586 | Shortcuts added: 510587 | Current edgediff: -2
+Progress: 527000/569586 (92,5%) | Time: 6,47s | Queue size: 42586 | Shortcuts added: 511442 | Current edgediff: -2
+Progress: 528000/569586 (92,7%) | Time: 6,48s | Queue size: 41586 | Shortcuts added: 512278 | Current edgediff: -2
+Progress: 529000/569586 (92,9%) | Time: 6,49s | Queue size: 40586 | Shortcuts added: 513117 | Current edgediff: -2
+Progress: 530000/569586 (93,1%) | Time: 6,50s | Queue size: 39586 | Shortcuts added: 513953 | Current edgediff: -2
+Progress: 531000/569586 (93,2%) | Time: 6,52s | Queue size: 38586 | Shortcuts added: 514803 | Current edgediff: -2
+Progress: 532000/569586 (93,4%) | Time: 6,53s | Queue size: 37586 | Shortcuts added: 515642 | Current edgediff: -2
+Progress: 533000/569586 (93,6%) | Time: 6,54s | Queue size: 36586 | Shortcuts added: 516490 | Current edgediff: -2
+Progress: 534000/569586 (93,8%) | Time: 6,56s | Queue size: 35586 | Shortcuts added: 517351 | Current edgediff: -2
+Progress: 535000/569586 (93,9%) | Time: 6,57s | Queue size: 34586 | Shortcuts added: 518182 | Current edgediff: -2
+Progress: 536000/569586 (94,1%) | Time: 6,58s | Queue size: 33586 | Shortcuts added: 519009 | Current edgediff: -2
+Progress: 537000/569586 (94,3%) | Time: 6,60s | Queue size: 32586 | Shortcuts added: 519864 | Current edgediff: -2
+Progress: 538000/569586 (94,5%) | Time: 6,61s | Queue size: 31586 | Shortcuts added: 520764 | Current edgediff: -2
+Progress: 539000/569586 (94,6%) | Time: 6,63s | Queue size: 30586 | Shortcuts added: 521653 | Current edgediff: -2
+Progress: 540000/569586 (94,8%) | Time: 6,64s | Queue size: 29586 | Shortcuts added: 522517 | Current edgediff: -2
+Progress: 541000/569586 (95,0%) | Time: 6,65s | Queue size: 28586 | Shortcuts added: 523311 | Current edgediff: -2
+Progress: 542000/569586 (95,2%) | Time: 6,67s | Queue size: 27586 | Shortcuts added: 524092 | Current edgediff: -2
+Progress: 543000/569586 (95,3%) | Time: 6,68s | Queue size: 26586 | Shortcuts added: 524941 | Current edgediff: -3
+Progress: 544000/569586 (95,5%) | Time: 6,74s | Queue size: 25586 | Shortcuts added: 526682 | Current edgediff: -2
+Progress: 545000/569586 (95,7%) | Time: 6,82s | Queue size: 24586 | Shortcuts added: 528489 | Current edgediff: -2
+Progress: 546000/569586 (95,9%) | Time: 6,90s | Queue size: 23586 | Shortcuts added: 530271 | Current edgediff: -2
+Progress: 547000/569586 (96,0%) | Time: 7,00s | Queue size: 22586 | Shortcuts added: 532041 | Current edgediff: 0
+Progress: 548000/569586 (96,2%) | Time: 7,09s | Queue size: 21586 | Shortcuts added: 533883 | Current edgediff: 0
+Progress: 549000/569586 (96,4%) | Time: 7,19s | Queue size: 20586 | Shortcuts added: 535701 | Current edgediff: 0
+Progress: 550000/569586 (96,6%) | Time: 7,31s | Queue size: 19586 | Shortcuts added: 537541 | Current edgediff: 0
+Progress: 551000/569586 (96,7%) | Time: 7,43s | Queue size: 18586 | Shortcuts added: 539427 | Current edgediff: -4
+Progress: 552000/569586 (96,9%) | Time: 7,55s | Queue size: 17586 | Shortcuts added: 541219 | Current edgediff: -2
+Progress: 553000/569586 (97,1%) | Time: 7,73s | Queue size: 16586 | Shortcuts added: 543063 | Current edgediff: -2
+Progress: 554000/569586 (97,3%) | Time: 7,92s | Queue size: 15586 | Shortcuts added: 545001 | Current edgediff: 0
+Progress: 555000/569586 (97,4%) | Time: 8,12s | Queue size: 14586 | Shortcuts added: 546933 | Current edgediff: -2
+Progress: 556000/569586 (97,6%) | Time: 8,32s | Queue size: 13586 | Shortcuts added: 548857 | Current edgediff: -2
+Progress: 557000/569586 (97,8%) | Time: 8,56s | Queue size: 12586 | Shortcuts added: 550813 | Current edgediff: -2
+Progress: 558000/569586 (98,0%) | Time: 8,81s | Queue size: 11586 | Shortcuts added: 552755 | Current edgediff: -2
+Progress: 559000/569586 (98,1%) | Time: 9,09s | Queue size: 10586 | Shortcuts added: 554603 | Current edgediff: -2
+Progress: 560000/569586 (98,3%) | Time: 9,36s | Queue size: 9586 | Shortcuts added: 556539 | Current edgediff: -2
+Progress: 561000/569586 (98,5%) | Time: 9,73s | Queue size: 8586 | Shortcuts added: 558527 | Current edgediff: -6
+Progress: 562000/569586 (98,7%) | Time: 10,15s | Queue size: 7586 | Shortcuts added: 560432 | Current edgediff: -2
+Progress: 563000/569586 (98,8%) | Time: 10,59s | Queue size: 6586 | Shortcuts added: 562277 | Current edgediff: -4
+Progress: 564000/569586 (99,0%) | Time: 11,04s | Queue size: 5586 | Shortcuts added: 564276 | Current edgediff: 0
+Progress: 565000/569586 (99,2%) | Time: 11,68s | Queue size: 4586 | Shortcuts added: 567144 | Current edgediff: 2
+Progress: 566000/569586 (99,4%) | Time: 12,50s | Queue size: 3586 | Shortcuts added: 570166 | Current edgediff: -4
+Progress: 567000/569586 (99,5%) | Time: 13,64s | Queue size: 2586 | Shortcuts added: 573426 | Current edgediff: -10
+Progress: 568000/569586 (99,7%) | Time: 15,08s | Queue size: 1586 | Shortcuts added: 576398 | Current edgediff: -10
+Progress: 569000/569586 (99,9%) | Time: 16,80s | Queue size: 586 | Shortcuts added: 579818 | Current edgediff: -2
+Progress: 569585/569586 (100,0%) | Time: 18,48s | Queue size: 1 | Shortcuts added: 582241 | Current edgediff: -2
+
+=== PREPROCESSING COMPLETE ===
+
+Total time: 18,48 seconds
+Vertices contracted: 569586
+Lazy updates: 32087
+Shortcuts added: 582241
+Total (undirected) edges in final graph: 1169884
+
+Finished preprocessing!
+
+
+Storing graph...
+Graph stored!
+

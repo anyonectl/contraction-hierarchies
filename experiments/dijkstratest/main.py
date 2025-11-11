@@ -62,15 +62,13 @@ def run_experiment(augmented: bool, bidirectional: bool, pairs: np.ndarray) -> P
     return csv_path
 
 # --- Mock test (simple summary in terminal, no csv) ---
-def run_terminal_benchmark_test(augmented: bool = False, bidirectional: bool = False) -> None:
+def run_terminal_benchmark_test(pairs: np.ndarray, augmented: bool = False, bidirectional: bool = False) -> None:
     """Run a simplified terminal benchmark (no file output)."""
     print(f"Loading vertex IDs from {AUGMENTED_GRAPH_FILE if augmented else ORIGINAL_GRAPH_FILE} ...")
-    vertex_ids = get_vertex_ids(AUGMENTED_GRAPH_FILE if augmented else ORIGINAL_GRAPH_FILE)
 
     algo = "bidirectional" if bidirectional else "standard"
     print(f"\n=== Running {algo.capitalize()} Dijkstra (no CSV) ===")
 
-    pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
     results = run_queries(pairs, build_jar_command(augmented, bidirectional))
 
     summary = summarize_results(results)
@@ -88,21 +86,19 @@ def setup() -> None:
 if __name__ == "__main__":
     setup()
     # Generate pairs (s,t) so all experiments run on same pairs
-    vertex_ids = get_vertex_ids(ORIGINAL_GRAPH_FILE) # should be same vertex ids for both graphs
+    vertex_ids = get_vertex_ids(ORIGINAL_GRAPH_FILE) # same vertex ids for both graphs
     pairs = generate_random_pairs(vertex_ids, NUM_QUERIES)
 
-    # Standard dijkstra on Original Graph (CSV)
-    run_experiment(augmented=False, bidirectional=False, pairs=pairs)
-    
-    # Bidirectional Dijkstra on Original Graph (CSV)
-    run_experiment(augmented=False, bidirectional=True, pairs=pairs)
-
     # Takes the original graph and preprocesses it
-    run_preprocess()
+    run_preprocess(info=False)
 
-    # Bidirectional Search on Augmented Graph (CSV)
-    run_experiment(augmented=True, bidirectional=True, pairs=pairs)
+    # Run experiments
+    run_experiment(augmented=False, bidirectional=False, pairs=pairs) # Standard dijkstra on Original Graph (CSV)
+    run_experiment(augmented=False, bidirectional=True, pairs=pairs) # Bidirectional Dijkstra on Original Graph (CSV)
+    run_experiment(augmented=True, bidirectional=True, pairs=pairs) # CH: Bidirectional Search on Augmented Graph (CSV)
 
     # "Quick" experimentation can be done in the terminal using this - does not overwrite the csv files
     # Tip: Adjust the NUM_QUERIES in the config to run smaller tests ...
-    # run_terminal_benchmark_test(augmented=True, bidirectional=True)
+    # run_terminal_benchmark_test(pairs=pairs, augmented=False, bidirectional=False) # Standard
+    # run_terminal_benchmark_test(pairs=pairs, augmented=False, bidirectional=True) # Bidirectional
+    # run_terminal_benchmark_test(pairs=pairs, augmented=True, bidirectional=True) # CH
