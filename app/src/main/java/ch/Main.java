@@ -80,20 +80,21 @@ class Main {
             query(queryScanner, bidirectional, augmented, g);
             queryScanner.close();
         } 
-        else if (use.equals("process_graph")) { // Usage: java -jar app.jar <use> <graphfile> <outputpath>
+        else if (use.equals("process_graph")) { // Usage: java -jar app.jar <use> <graphfile> <outputpath> <info>
             File graphFile = new File(args[1]);
             String outputPath = args[2];
+            boolean printInfo = args[3].equals("info");
 
             Scanner graphScanner = new Scanner(graphFile);
             Graph g = GraphReader.readGraph(graphScanner);
             graphScanner.close();
 
             System.out.println("Starting preprocess...");
-            ContractionHierarchy ch = new ContractionHierarchy(g);
+            ContractionHierarchy ch = printInfo ? new ContractionHierarchy(g, true) : new ContractionHierarchy(g, false);
             System.out.println("Finished preprocessing!\n");
 
             System.out.println("\nStoring graph...");
-            ch.storeGraph(g, outputPath);
+            ch.storeGraph(ch.getAugmented(), outputPath);
             System.out.println("Graph stored!");
         } else {
             System.out.println("Argument not recognised.");
